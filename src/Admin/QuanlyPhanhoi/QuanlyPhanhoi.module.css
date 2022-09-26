@@ -1,0 +1,19 @@
+.input {
+    width: 30%;
+}
+
+.top-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn {
+    border: none !important;
+    outline: none !important;
+    min-width: 150px;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}

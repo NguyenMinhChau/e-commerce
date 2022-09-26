@@ -1,0 +1,54 @@
+.container {
+    position: absolute;
+    top: 105%;
+    left: 0;
+    right: 65px;
+    max-height: 200px;
+    background-color: var(--white-color);
+    border-radius: 2px;
+    box-shadow: 0 1px 5px #999;
+    overflow: hidden;
+    z-index: 5;
+    animation: fadeIn 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.search-history-list {
+    max-height: 216px;
+    overflow-y: auto;
+}
+
+.search-history-list::-webkit-scrollbar {
+    display: none;
+}
+
+.search-history-heading {
+    margin: 6px 12px;
+    font-size: 1.4rem;
+    color: #999;
+    font-weight: 400;
+}
+
+.search-history-item {
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+}
+
+.search-history-item:hover {
+    background-color: #fafafa;
+}

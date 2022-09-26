@@ -1,0 +1,9 @@
+.popular-item {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--white-color);
+}
+
+.popular-item+.popular-item {
+    margin-left: 10px;
+}

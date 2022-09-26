@@ -1,0 +1,17 @@
+.category-list {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+.category-item {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 12px;
+    transition: all .3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.category-item:hover {
+    background-color: rgba(0, 0, 0, 0.01);
+    color: var(--primary-color);
+}

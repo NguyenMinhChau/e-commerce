@@ -1,0 +1,24 @@
+.select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.select:hover {
+    box-shadow: 0 0 0 1px lightsalmon;
+}
+
+.select:focus {
+    border-color: var(--primary-color);
+}
+
+.select+.select {
+    margin-left: 8px;
+}

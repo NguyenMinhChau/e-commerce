@@ -1,0 +1,156 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #333;
+    --primary-color: #ee4d2d;
+    --border-color: #dbdbdb;
+    --facebook-color: #3867d6;
+    --start-gold-color: goldenrod;
+    --header-height: 130px;
+
+    --table-status-confirm-color: #007aff;
+    --table-status-confirm-bgc: #e6f5ff;
+    --table-status-complete-color: #4CAF50;
+    --table-status-complete-bgc: #edf7ee;
+    --table-status-onhold-color: #ffab00;
+    --table-status-onhold-bgc: #fff7e6;
+    --table-status-cancel-color: #d50000;
+    --table-status-cancel-bgc: #ffebea;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+}
+
+.alert {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 14px !important;
+    margin-bottom: 8px;
+}
+
+.ml8 {
+    margin-left: 8px;
+}
+
+.ml8+.ml8 {
+    margin-left: 8px;
+}
+
+.ml12 {
+    margin-left: 12px;
+}
+
+.ml2 {
+    margin-left: 2px;
+}
+
+.ml4 {
+    margin-left: 4px;
+}
+
+.mb12 {
+    margin-bottom: 12px;
+}
+
+.mr8 {
+    margin-right: 8px;
+}
+
+.mr12 {
+    margin-right: 12px;
+}
+
+.mt12 {
+    margin-top: 12px;
+}
+
+.mt0 {
+    margin-top: 0;
+}
+
+.mr2 {
+    margin-right: 2px;
+}
+
+.mr4 {
+    margin-right: 4px;
+}
+
+.mb8 {
+    margin-bottom: 8px;
+}
+
+.fz16 {
+    font-size: 16px;
+}
+
+.fz14 {
+    font-size: 14px;
+}
+
+.fz22 {
+    font-size: 22px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.flex-start {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.ps-relative {
+    position: relative;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.divider {
+    height: 15px;
+    width: 1px;
+    background-color: #ccc;
+}
+
+.label {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    height: 22px;
+    line-height: 22px;
+    margin-bottom: 0;
+    text-transform: capitalize;
+}

@@ -1,0 +1,142 @@
+.container {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 404px;
+    background-color: var(--white-color);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    z-index: 10;
+    user-select: none;
+    -webkit-user-select: none;
+    will-change: opacity, transform;
+    transform-origin: calc(100% - 3.2rem) top;
+    animation: headerNotifyGrowth ease-in .2s;
+    /* SAFARI */
+    -webkit-animation: headerNotifyGrowth ease-in .2s;
+    /* MICROSOFT IE */
+    -ms-zoom-animation: headerNotifyGrowth ease-in .2s;
+    /* OPERA MINI */
+    -o-animation: headerNotifyGrowth ease-in .2s;
+    /* MOLIZA */
+    -moz-animation: headerNotifyGrowth ease-in .2s;
+}
+
+@keyframes headerNotifyGrowth {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.container::before {
+    content: "";
+    border-width: 20px 26px;
+    border-style: solid;
+    border-color: transparent transparent var(--white-color) transparent;
+    position: absolute;
+    right: 0rem;
+    top: -2.6rem;
+    cursor: pointer;
+}
+
+.notify-header {
+    height: 40px;
+    background-color: var(--white-color);
+}
+
+.notify-header h3 {
+    color: #999;
+    margin: 0 0 0 12px;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-size: 1.4rem;
+    line-height: 40px;
+}
+
+.notify-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.notify-list::-webkit-scrollbar {
+    display: none;
+}
+
+.notify-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.notify-item:hover {
+    background-color: #f7f7f7;
+}
+
+.notify-image {
+    width: 48px;
+    height: 47px;
+    margin-right: 6px;
+}
+
+.notify-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.notify-name {
+    display: block;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    font-weight: 400;
+    line-height: 1.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.notify-desc {
+    display: block;
+    font-size: 1.2rem;
+    color: #756F6E;
+    line-height: 1.6rem;
+    margin-top: 0.7rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.notify-footer {
+    transition: all .3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.notify-footer:hover {
+    background-color: rgb(241, 241, 241);
+    cursor: pointer;
+}
+
+.notify-footer-btn {
+    text-decoration: none;
+    color: var(--text-color);
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+    font-weight: 400;
+    font-size: 1.4rem;
+}

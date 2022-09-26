@@ -1,0 +1,13 @@
+.content {
+    display: flex;
+    padding: 10px 32px;
+    min-height: 300px;
+}
+
+.main {
+    flex: 3;
+    padding: 12px;
+    margin-left: 12px;
+    border-radius: 5px;
+    background-color: var(--white-color);
+}
