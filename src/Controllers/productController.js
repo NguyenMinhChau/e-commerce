@@ -36,9 +36,24 @@ const ProductController = {
         }
     },
     // [GET] /api/v1/product/:id
-    getProduct: async (req, res) => {
+    getProductById: async (req, res) => {
         try {
             const product = await Product.findById(req.params.id).populate(
+                'shop',
+                'name address phone email image website product _id'
+            );
+            res.status(200).json({ product });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Server Error' });
+        }
+    },
+    // [GET] /api/v1/product/:id
+    getProductBySlug: async (req, res) => {
+        try {
+            const product = await Product.findOne({
+                slug: req.params.slug,
+            }).populate(
                 'shop',
                 'name address phone email image website product _id'
             );

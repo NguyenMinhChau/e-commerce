@@ -27,7 +27,8 @@ router.post(
     ProductController.addProduct
 );
 router.get('/getall', ProductController.getProducts);
-router.get('/:id', ProductController.getProduct);
+router.get('/:slug', ProductController.getProductBySlug);
+// router.get('/:id', ProductController.getProductById);
 router.put(
     '/:id',
     checkToken,
