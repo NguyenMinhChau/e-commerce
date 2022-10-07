@@ -12,8 +12,15 @@ export const getAllProduct = async (props = {}) => {
     props.dispatch(props.ACgetalls.getAllProduct(resGet));
 };
 // GET PRODUCT BY ID
-export const getByIdProduct = async (props = {}) => {
-    const resGet = await api.productGet(`/${props.id}`, {
+// export const getByIdProduct = async (props = {}) => {
+//     const resGet = await api.productGet(`/${props.id}`, {
+//         token: props?.data?.token,
+//     });
+//     props.dispatch(props.ACgetones.getAProduct(resGet));
+// };
+// GET PRODUCT BY SLUG
+export const getBySlugProduct = async (props = {}) => {
+    const resGet = await api.productGet(`/${props.slug}`, {
         token: props?.data?.token,
     });
     props.dispatch(props.ACgetones.getAProduct(resGet));

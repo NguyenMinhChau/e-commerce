@@ -55,7 +55,7 @@ function SingleUpload({ width }) {
                                 key={name}
                                 isInvalid={fileRejection != null}
                                 name={
-                                    dataById?.thumbnail.replace(
+                                    dataById?.thumbnail?.replace(
                                         '/images/products/',
                                         ''
                                     ) || name

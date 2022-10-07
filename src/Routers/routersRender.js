@@ -46,9 +46,13 @@ const adminRouter = [
         component: Home,
     },
     {
-        path: `${routers.products}/${routers.productDetail}/:id`,
+        path: `${routers.products}/${routers.productDetail}/:slug`,
         component: DetailProduct,
     },
+    // {
+    //     path: `${routers.products}/${routers.productDetail}/:id`,
+    //     component: DetailProduct,
+    // },
     { path: routers.tkdt, component: ThongkeDoanhthu },
     { path: routers.tksp, component: ThongkeSanpham },
     { path: routers.qlsp, component: QuanlySanpham },

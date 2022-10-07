@@ -85,6 +85,10 @@ html {
     margin-right: 4px;
 }
 
+.mr10 {
+    margin-right: 10px;
+}
+
 .mb8 {
     margin-bottom: 8px;
 }
@@ -109,6 +113,12 @@ html {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+}
+
+.flex-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .flex-center {
@@ -137,6 +147,10 @@ html {
 
 .w100 {
     width: 100%;
+}
+
+.fwb {
+    font-weight: bold;
 }
 
 .divider {

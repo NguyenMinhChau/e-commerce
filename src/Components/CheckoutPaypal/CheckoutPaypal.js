@@ -20,23 +20,23 @@ function CheckoutPaypal({ dataCartList, label }) {
     };
     const totalBills = () => {
         return dataCartList.reduce((total, item) => {
-            return total + item.price * item.quantity;
+            return total + item?.price * item?.quantity;
         }, 0);
     };
     const inventorySold = dataCartList.map((item) => {
         return {
-            id: item.id,
-            inventory: parseInt(item.inventory) - parseInt(item.quantity),
-            sold: parseInt(item.sold) + parseInt(item.quantity),
+            id: item?._id || item?.id,
+            inventory: parseInt(item?.inventory) - parseInt(item?.quantity),
+            sold: parseInt(item?.sold) + parseInt(item?.quantity),
         };
     });
     const updateInventoryAPI = (data, id) => {
         inventorySold.map((item) => {
             products.updateProduct({
                 token: data?.token,
-                inventory: item.inventory,
-                sold: item.sold,
-                id: item.id,
+                inventory: item?.inventory,
+                sold: item?.sold,
+                id: item?.id,
             });
         });
     };

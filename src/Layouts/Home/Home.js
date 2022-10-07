@@ -56,7 +56,7 @@ function Home() {
                                     }}
                                 ></div>
                                 <Link
-                                    to={`${routers.products}/${routers.productDetail}/${item._id}`}
+                                    to={`${routers.products}/${routers.productDetail}/${item.slug}`}
                                     className={`${cx('item-title')}`}
                                     title={item.description}
                                 >

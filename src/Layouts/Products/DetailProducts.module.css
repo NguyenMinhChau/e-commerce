@@ -3,7 +3,7 @@
     --spacing: 8px;
     display: flex;
     flex-wrap: nowrap;
-    height: 100%;
+    /* height: 100%; */
 }
 
 .detail-left-container,
@@ -211,6 +211,13 @@
     align-items: center;
 }
 
+.actions-product-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 .color-lists {
     display: flex;
     align-items: center;
@@ -288,4 +295,40 @@
 .secure-logo {
     width: 20px;
     height: 20px;
+}
+
+.detail-desc-conatiner {
+    margin-bottom: 20px;
+}
+
+.detail-desc-title,
+.detail-feedback-title,
+.detail-list-feedback-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.detail-desc-item {
+    line-height: 1.5;
+    font-size: 15px;
+}
+
+.btn_feedback {
+    margin-top: 12px;
+    border: none !important;
+    outline: none !important;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.btn_feedback:hover {
+    cursor: pointer;
+}
+
+.btn_feedback_disabled {
+    cursor: default !important;
+    user-select: none;
+    opacity: 0.6;
 }
