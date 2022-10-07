@@ -5,10 +5,10 @@ const ProductController = {
     // [POST] /api/v1/product/add
     addProduct: async (req, res) => {
         try {
-            const thumbnail = req.files.thumbnail[0].path
+            const thumbnail = req?.files?.thumbnail[0].path
                 .replace('src\\uploads\\', '/')
                 .replace(/\\/g, '/');
-            const imagesList = req.files.imagesList.reduce((acc, file) => {
+            const imagesList = req?.files?.imagesList?.reduce((acc, file) => {
                 acc.push(
                     file.path.replace('src\\uploads\\', '/').replace(/\\/g, '/')
                 );
@@ -20,12 +20,6 @@ const ProductController = {
                 imagesList,
             });
             const newProduct = await product.save();
-            if (req.body.feedback) {
-                const feedback = FeedBack.findById(req.body.feedback);
-                await feedback.updateOne({
-                    $push: { product: newProduct._id },
-                });
-            }
             if (req.body.shop) {
                 const shop = Shop.findById(req.body.shop);
                 await shop.updateOne({
@@ -46,7 +40,7 @@ const ProductController = {
         try {
             const product = await Product.findById(req.params.id).populate(
                 'shop',
-                'name address phone email image website product -_id'
+                'name address phone email image website product _id'
             );
             res.status(200).json({ product });
         } catch (error) {
@@ -61,7 +55,7 @@ const ProductController = {
             if (!page) {
                 const products = await Product.find().populate(
                     'shop',
-                    'name address phone email image website product -_id'
+                    'name address phone email image website product _id'
                 );
                 const totalData = await Product.countDocuments();
                 res.status(200).json({
@@ -75,7 +69,7 @@ const ProductController = {
                 } else {
                     const products = await Product.find().populate(
                         'shop',
-                        'name address phone email image website product -_id'
+                        'name address phone email image website product _id'
                     );
                     const totalData = await Product.countDocuments();
                     res.status(200).json({
@@ -97,12 +91,12 @@ const ProductController = {
             if (product) {
                 if (req.files) {
                     if (req.files.thumbnail) {
-                        const thumbnail = req.files.thumbnail[0].path
+                        const thumbnail = req?.files?.thumbnail[0]?.path
                             .replace('src\\uploads\\', '/')
                             .replace(/\\/g, '/');
                         req.body.thumbnail = thumbnail;
                     } else if (req.files.imagesList) {
-                        const imagesList = req.files.imagesList.reduce(
+                        const imagesList = req?.files?.imagesList?.reduce(
                             (acc, file) => {
                                 acc.push(
                                     file.path
@@ -118,9 +112,12 @@ const ProductController = {
                         req.body.thumbnail = product.thumbnail;
                         req.body.imagesList = product.imagesList;
                     }
-                    await product.updateOne({
-                        $set: req.body,
-                    });
+                    await product.updateOne(
+                        { _id: req.params.id },
+                        {
+                            $set: req.body,
+                        }
+                    );
                     const newProduct = await Product.findById(req.params.id);
                     res.status(200).json({
                         message: 'Update product successfully',

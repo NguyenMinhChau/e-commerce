@@ -16,7 +16,7 @@ let uploadMultiple = multer({
     storage: storage,
 }).fields([
     { name: 'thumbnail', maxCount: 1 },
-    { name: 'imagesList', maxCount: 10 },
+    { name: 'imagesList', maxCount: 5 },
 ]);
 
 router.post(
@@ -26,8 +26,8 @@ router.post(
     uploadMultiple,
     ProductController.addProduct
 );
-router.get('/:id', checkToken, checkRole, ProductController.getProduct);
-router.get('/', checkToken, checkRole, ProductController.getProducts);
+router.get('/getall', ProductController.getProducts);
+router.get('/:id', ProductController.getProduct);
 router.put(
     '/:id',
     checkToken,

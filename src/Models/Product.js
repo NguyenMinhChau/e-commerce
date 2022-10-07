@@ -47,15 +47,17 @@ const productModel = new Schema(
         },
         likesStatus: {
             type: Boolean,
-            required: true,
+            default: false,
+            // required: true,
         },
         likesCount: {
             type: Number,
-            required: true,
+            default: 0,
+            // required: true,
         },
         rating: {
-            type: Number,
-            default: 0,
+            type: String,
+            default: '0',
         },
         sold: {
             type: Number,
@@ -64,6 +66,14 @@ const productModel = new Schema(
         inventory: {
             type: Number,
             default: 0,
+        },
+        trending: {
+            type: Boolean,
+            default: false,
+        },
+        bigSales: {
+            type: Boolean,
+            default: false,
         },
         feedback: [
             {

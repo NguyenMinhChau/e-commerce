@@ -23,8 +23,8 @@ router.post(
     uploadMultiple,
     FeedbackController.addFeedBack
 );
-router.get('/:id', checkToken, checkRole, FeedbackController.getFeedBack);
-router.get('/', checkToken, checkRole, FeedbackController.getFeedBacks);
+router.get('/getall', FeedbackController.getFeedBacks);
+router.get('/:id', FeedbackController.getFeedBack);
 router.put(
     '/:id',
     checkToken,

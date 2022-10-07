@@ -6,19 +6,22 @@ const feedbackController = {
     // [POST] api/v1/feedback/add
     addFeedBack: async (req, res) => {
         try {
-            const imageList = req.files.imageList.reduce((acc, file) => {
+            const imageList = req?.files?.imageList?.reduce((acc, file) => {
                 acc.push(
-                    file.path.replace('src\\uploads\\', '/').replace(/\\/g, '/')
+                    file.path
+                        .replace('src\\uploads\\', '/')
+                        ?.replace(/\\/g, '/')
                 );
                 return acc;
             }, []);
             const feedback = new Feedback({
                 ...req.body,
                 imageList,
+                user: req.user.id,
             });
             const newFeedback = await feedback.save();
-            if (req.body.user) {
-                const user = User.findById(req.body.user);
+            if (req.user.id) {
+                const user = User.findById(req.user.id);
                 await user.updateOne({
                     $push: { feedback: newFeedback._id },
                 });

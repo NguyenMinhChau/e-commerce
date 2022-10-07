@@ -11,7 +11,7 @@ const feedbackModel = new Schema(
             type: [String],
         },
         rating: {
-            type: Number,
+            type: String,
             required: true,
         },
         user: {

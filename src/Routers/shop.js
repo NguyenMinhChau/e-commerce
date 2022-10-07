@@ -23,8 +23,8 @@ router.post(
     uploadSingle,
     ShopController.addShop
 );
-router.get('/:id', checkToken, checkRole, ShopController.getShop);
-router.get('/', checkToken, checkRole, ShopController.getAll);
+router.get('/getall', ShopController.getAll);
+router.get('/:id', ShopController.getShop);
 router.put(
     '/:id',
     checkToken,

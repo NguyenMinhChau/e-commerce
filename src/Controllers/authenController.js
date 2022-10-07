@@ -43,10 +43,10 @@ const authenController = {
             const refresh_token = authenController.createRefreshToken(user);
             res.cookie('refreshtoken', refresh_token, {
                 httpOnly: true,
-                sameSite: 'none',
+                sameSite: 'strict',
                 secure: false,
                 path: '/',
-                maxAge: 1 * 60 * 60 * 1000, // 1 day
+                maxAge: 7 * 60 * 60 * 1000,
             });
             const { password: _, ...data } = user._doc;
             res.status(200).json({
@@ -121,10 +121,10 @@ const authenController = {
                         authenController.createRefreshToken(user);
                     res.cookie('refreshtoken', refresh_token, {
                         httpOnly: true,
-                        sameSite: 'none',
+                        sameSite: 'strict',
                         secure: false,
                         path: '/',
-                        maxAge: 1 * 60 * 60 * 1000, // 1 day
+                        maxAge: 7 * 60 * 60 * 1000, // 1 day
                     });
                     res.status(200).json({
                         message: 'Access token has been refreshed',

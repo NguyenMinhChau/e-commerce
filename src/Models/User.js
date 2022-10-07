@@ -32,10 +32,12 @@ const userModel = new Schema(
                 ref: 'Feedback',
             },
         ],
-        shop: {
-            type: Schema.Types.ObjectId,
-            ref: 'Shop',
-        },
+        shop: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Shop',
+            },
+        ],
         product: [
             {
                 type: Schema.Types.ObjectId,

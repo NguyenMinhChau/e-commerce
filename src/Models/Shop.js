@@ -27,8 +27,8 @@ const shopModel = new Schema(
             required: true,
         },
         rating: {
-            type: Number,
-            default: 0,
+            type: String,
+            default: '0',
         },
         product: [
             {

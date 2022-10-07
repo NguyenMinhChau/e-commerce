@@ -7,16 +7,17 @@ const ShopController = {
     // [POST] /api/v1/shop/add
     addShop: async (req, res) => {
         try {
-            const image = req.file.path
+            const image = req?.file?.path
                 .replace('src\\uploads\\', '/')
                 .replace(/\\/g, '/');
             const shop = new Shop({
                 ...req.body,
                 image,
+                user: req.user.id,
             });
             const newShop = await shop.save();
-            if (req.body.user) {
-                const user = User.findById(req.body.user);
+            if (req.user.id) {
+                const user = User.findById(req.user.id);
                 await user.updateOne({
                     $push: { shop: newShop._id },
                 });
