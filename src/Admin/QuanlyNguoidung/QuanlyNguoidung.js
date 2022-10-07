@@ -2,8 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import { FormInput, Icons, ModalConfirm, TableData } from '../../Components';
-import { qlnd, useAppContext, texts, indexTable, dates } from '../../utils';
-import { ACtoogles, ACgetalls } from '../../app/';
+import {
+    qlnd,
+    useAppContext,
+    texts,
+    indexTable,
+    dates,
+    requestRefreshToken,
+} from '../../utils';
+import { ACtoogles, ACgetalls, ACusers } from '../../app/';
 import { users } from '../../services';
 import styles from './QuanlyNguoidung.module.css';
 
@@ -14,15 +21,21 @@ function QuanlyNguoidung() {
     const [searchVal, setSearchVal] = useState('');
     const { state, dispatch } = useAppContext();
     const {
+        currentUser,
         toogleConfirm,
         pagination: { page, limit },
-        data: { dataUser },
+        data: { dataUsers },
     } = state;
     useEffect(() => {
-        users.getAll({ page, limit, dispatch, state, ACgetalls });
+        users.getAll({
+            page,
+            limit,
+            dispatch,
+            state,
+            ACgetalls,
+        });
     }, [page, limit]);
-
-    let DATA_FLAG = users.searchUser({ dataUser, searchVal, texts });
+    let DATA_FLAG = users.searchUser({ dataUsers, searchVal, texts });
 
     const modalConfirmTrue = (e, id) => {
         e.stopPropagation();
@@ -36,10 +49,23 @@ function QuanlyNguoidung() {
     const handleChangeSearch = (e) => {
         setSearchVal(e.target.value);
     };
-    const deleteAction = async (id) => {
+    const deleteUserAPI = (data, id) => {
+        users.deleteUser({
+            token: data?.token,
+            id,
+        });
+    };
+    const handleDeleteUser = async (id) => {
         try {
             await 1;
-            alert('DeleteI id: ' + id);
+            requestRefreshToken(
+                currentUser,
+                deleteUserAPI,
+                state,
+                dispatch,
+                ACusers,
+                id
+            );
             dispatch(ACtoogles.toogleConfirm(false));
         } catch (err) {
             console.log(err);
@@ -102,7 +128,7 @@ function QuanlyNguoidung() {
                 <TableData
                     headers={qlnd.headers}
                     data={DATA_FLAG}
-                    totalData={dataUser.dataUser?.total}
+                    totalData={dataUsers?.total}
                 >
                     <RenderBodyTable data={DATA_FLAG} />
                 </TableData>
@@ -112,7 +138,7 @@ function QuanlyNguoidung() {
                     titleModal='Delete Confirm'
                     open={modalConfirmTrue}
                     close={modalConfirmFalse}
-                    onClick={() => deleteAction(idDelete)}
+                    onClick={() => handleDeleteUser(idDelete)}
                 >
                     <p className='fz14'>You're sure delete this actions?</p>
                 </ModalConfirm>

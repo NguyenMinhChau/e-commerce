@@ -20,8 +20,14 @@ const cx = className.bind(styles);
 
 function Header() {
     const { state, dispatch } = useAppContext();
-    const { toogleQrCode, toogleNotify, search, toogleCartList, currentUser } =
-        state;
+    const {
+        toogleQrCode,
+        toogleNotify,
+        search,
+        toogleCartList,
+        currentUser,
+        data: { dataCartList },
+    } = state;
     const handleChange = (e) => {
         if (e.target.value.charAt(0) === ' ') {
             return;
@@ -161,11 +167,14 @@ function Header() {
                                 to={routers.cart}
                                 className={`${cx('content-middle-right-cart')}`}
                             >
-                                <Badge badgeContent={5} color='primary'>
+                                <Badge
+                                    badgeContent={dataCartList?.length}
+                                    color='primary'
+                                >
                                     <Icons.CartIcon />
                                 </Badge>
                             </Link>
-                            {toogleCartList && <CartList />}
+                            {toogleCartList && <CartList data={dataCartList} />}
                         </div>
                     </div>
                 </div>

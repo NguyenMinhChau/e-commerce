@@ -1,0 +1,22 @@
+.top {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.image {
+    width: 30px;
+    height: 30px;
+}
+
+.paypal-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

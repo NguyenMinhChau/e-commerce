@@ -8,3 +8,6 @@ export * as ACforms from './payloads/payloadForm';
 export * as ACmessages from './payloads/payloadMessage';
 export * as ACgetalls from './payloads/payloadGetall';
 export * as ACpaginations from './payloads/payloadPagination';
+export * as ACfiles from './payloads/payloadFile';
+export * as ACgetones from './payloads/payloadGetOne';
+export * as ACcarts from './payloads/payloadCart';

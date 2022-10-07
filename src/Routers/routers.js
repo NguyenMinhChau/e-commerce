@@ -4,6 +4,7 @@ const routers = {
     register: '/register',
     login: '/login',
     cart: '/cart',
+    checkout: '/checkout',
     products: '/products',
     productType: 'type',
     productDetail: 'detail',

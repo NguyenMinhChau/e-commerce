@@ -21,6 +21,7 @@ function Login() {
                 password,
             });
             store.setStore({
+                id: res.user._id,
                 username: res.user.username,
                 role: res.user.role,
                 token: res.user.token,

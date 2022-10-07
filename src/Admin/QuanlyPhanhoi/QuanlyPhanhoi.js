@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import Rating from '@mui/material/Rating';
 import { FormInput, Icons, ModalConfirm, TableData } from '../../Components';
-import { qlph, useAppContext } from '../../utils';
-import { ACtoogles } from '../../app/';
+import { qlph, useAppContext, indexTable, dates } from '../../utils';
+import { ACtoogles, ACgetalls } from '../../app/';
+import { feedbacks, products, users } from '../../services';
 import styles from './QuanlyPhanhoi.module.css';
 
 const cx = className.bind(styles);
@@ -11,7 +14,59 @@ const cx = className.bind(styles);
 function QuanlyPhanhoi() {
     const [idDelete, setIdDelete] = useState(null);
     const { state, dispatch } = useAppContext();
-    const { toogleConfirm } = state;
+    const {
+        toogleConfirm,
+        currentUser,
+        pagination: { page, limit },
+        data: { dataFeedBacks, dataProducts, dataUsers },
+    } = state;
+    useEffect(() => {
+        feedbacks.getAllFeedback({
+            data: currentUser,
+            page,
+            limit,
+            dispatch,
+            ACgetalls,
+        });
+        products.getAllProduct({
+            data: currentUser,
+            page,
+            limit,
+            dispatch,
+            ACgetalls,
+        });
+        users.getAll({
+            data: currentUser,
+            page,
+            limit,
+            dispatch,
+            ACgetalls,
+        });
+    }, []);
+    const data = dataFeedBacks?.feedbacks || [];
+    const dataProduct = dataProducts?.products || [];
+    const dataUser = dataUsers?.users || [];
+    // get product from array product id in feedbacks
+    const getProduct = (id) => {
+        const product = dataProduct.find((item) => item._id === id);
+        return product?.name;
+    };
+    // get name product
+    const x = [];
+    data.map((item) => {
+        item.product.map((y) => {
+            x.push({
+                _id: item._id,
+                nameProduct: getProduct(y),
+                createdAt: item?.createdAt,
+                rating: item?.rating,
+                content: item?.content,
+                username: dataUser.find((u) => u?._id === item?.user)?.username,
+            });
+        });
+        return x;
+    });
+
     const modalConfirmTrue = (e, id) => {
         e.stopPropagation();
         setIdDelete(id);
@@ -36,18 +91,21 @@ function QuanlyPhanhoi() {
                 {data.map((item, index) => {
                     return (
                         <tr key={index}>
-                            <td>{item.stt}</td>
-                            <td>{item.sanpham}</td>
-                            <td>{item.ngay}</td>
-                            <td>{item.tennguoidung}</td>
+                            <td>{indexTable(page, limit, index)}</td>
+                            <td>{item.nameProduct}</td>
+                            <td>
+                                {dates.formatDate(item.createdAt, 'DD/MM/YYYY')}
+                            </td>
+                            <td>{item.username}</td>
                             <td>
                                 <Rating
                                     name='read-only'
-                                    value={item.danhgia}
+                                    value={parseFloat(item.rating)}
+                                    precision={0.5}
                                     readOnly
                                 />
                             </td>
-                            <td>{item.noidung}</td>
+                            <td>{item.content}</td>
                             <td>
                                 <button className='btn-table completebgc'>
                                     <Icons.ViewIcons />
@@ -55,7 +113,7 @@ function QuanlyPhanhoi() {
                                 <button
                                     className='btn-table cancelbgc'
                                     onClick={(e) =>
-                                        modalConfirmTrue(e, item.stt)
+                                        modalConfirmTrue(e, item._id)
                                     }
                                 >
                                     <Icons.DeleteIcons />
@@ -81,10 +139,10 @@ function QuanlyPhanhoi() {
                 </div>
                 <TableData
                     headers={qlph.headers}
-                    data={qlph.data}
-                    totalData={qlph.data.length}
+                    data={data}
+                    totalData={dataFeedBacks.total}
                 >
-                    <RenderBodyTable data={qlph.data} />
+                    <RenderBodyTable data={x} />
                 </TableData>
             </div>
             {toogleConfirm && (

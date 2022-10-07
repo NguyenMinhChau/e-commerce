@@ -1,19 +1,15 @@
+/* eslint-disable no-unused-vars */
 import { api } from '../utils';
 // GET ALL USERS
 export const getAll = async (props = {}) => {
     const resGet = await api.userGet(
         `getall?page=${props.page}&limit=${props.limit}`
     );
-    props.dispatch(
-        props.ACgetalls.getalluser({
-            ...props.state.data,
-            dataUser: resGet,
-        })
-    );
+    props.dispatch(props.ACgetalls.getAllUser(resGet));
 };
 // SEARCH USERS
 export const searchUser = (props = {}) => {
-    let DATA_FLAG = props.dataUser?.dataUser?.users;
+    let DATA_FLAG = props.dataUsers?.users;
     if (props.searchVal) {
         DATA_FLAG = DATA_FLAG.filter((user) => {
             return (
@@ -33,4 +29,13 @@ export const searchUser = (props = {}) => {
         });
     }
     return DATA_FLAG;
+};
+// DELETE USER
+export const deleteUser = async (props = {}) => {
+    const resDel = await api.userDelete(`/${props.id}`, {
+        headers: {
+            token: props?.token,
+        },
+    });
+    window.location.reload();
 };

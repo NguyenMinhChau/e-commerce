@@ -6,4 +6,6 @@ export { default as Login } from './Login/Login';
 export { default as Register } from './Register/Register';
 export { default as DetailProduct } from './Products/DetailProduct';
 export { default as CreateProduct } from './Products/CreateProduct';
+export { default as CartDetail } from './CartDetail/CartDetail';
+export { default as Checkout } from './Checkout/Checkout';
 export { default as Footer } from './Footer/Footer';

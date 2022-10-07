@@ -5,12 +5,21 @@ import {
     SET_ERROR_MESSAGE,
     SET_SUCCESS_MESSAGE,
     SET_PAGINATION,
+    SET_SINGLE_FILE_UPLOAD,
+    SET_MULTIPLE_FILE_UPLOAD,
+    SET_FORM_CREATE_PRODUCT,
+    SET_QUANTITY_PRODUCT,
+    SET_CART_LIST,
     TOOGLE_QR_CODE,
     TOOGLE_NOTIFY,
     TOOGLE_CART_LIST,
     TOOGLE_CONFIRM,
     TOOGLE_CREATE_PRODUCT,
     GET_ALL_USER,
+    GET_ALL_PRODUCT,
+    GET_ALL_SHOP,
+    GET_ALL_FEEDBACK,
+    GET_A_PRODUCT,
 } from './actions';
 import { store } from '../utils';
 
@@ -20,21 +29,43 @@ const initialState = {
     toogleNotify: false,
     toogleCartList: false,
     toogleConfirm: false,
+    singleFile: null,
+    multipleFile: null,
     toogleCreateProduct: false,
     search: '',
     errorMessage: '',
     successMessage: '',
+    quantityProduct: 1,
     form: {
         username: '',
         email: '',
         password: '',
+    },
+    formCreateProduct: {
+        name: '',
+        price: '',
+        description: '',
+        reducedPrice: '',
+        category: '',
+        brand: '',
+        percentReduced: '',
+        rating: '',
+        inventory: '',
+        priceImport: '',
+        dateImport: new Date().toISOString(),
+        shop: '',
     },
     pagination: {
         page: 1,
         limit: 10,
     },
     data: {
-        dataUser: [],
+        dataProducts: [],
+        dataShops: [],
+        dataUsers: [],
+        dataFeedBacks: [],
+        dataCartList: [],
+        dataById: null,
     },
 };
 const reducer = (state, action) => {
@@ -59,6 +90,14 @@ const reducer = (state, action) => {
                 ...state,
                 search: action.payload,
             };
+        case SET_CART_LIST:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataCartList: action.payload,
+                },
+            };
         case TOOGLE_CART_LIST:
             return {
                 ...state,
@@ -77,6 +116,14 @@ const reducer = (state, action) => {
                     ...action.payload,
                 },
             };
+        case SET_FORM_CREATE_PRODUCT:
+            return {
+                ...state,
+                formCreateProduct: {
+                    ...state.formCreateProduct,
+                    ...action.payload,
+                },
+            };
         case SET_ERROR_MESSAGE:
             return {
                 ...state,
@@ -86,6 +133,16 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 successMessage: action.payload,
+            };
+        case SET_SINGLE_FILE_UPLOAD:
+            return {
+                ...state,
+                singleFile: action.payload,
+            };
+        case SET_MULTIPLE_FILE_UPLOAD:
+            return {
+                ...state,
+                multipleFile: action.payload,
             };
         case TOOGLE_CONFIRM:
             return {
@@ -97,7 +154,39 @@ const reducer = (state, action) => {
                 ...state,
                 data: {
                     ...state.data,
-                    dataUser: action.payload,
+                    dataUsers: action.payload,
+                },
+            };
+        case GET_ALL_PRODUCT:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataProducts: action.payload,
+                },
+            };
+        case GET_ALL_SHOP:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataShops: action.payload,
+                },
+            };
+        case GET_ALL_FEEDBACK:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataFeedBacks: action.payload,
+                },
+            };
+        case GET_A_PRODUCT:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataById: action.payload,
                 },
             };
         case SET_PAGINATION:
@@ -107,6 +196,11 @@ const reducer = (state, action) => {
                     ...state.pagination,
                     ...action.payload,
                 },
+            };
+        case SET_QUANTITY_PRODUCT:
+            return {
+                ...state,
+                quantityProduct: action.payload,
             };
         default:
             return state;

@@ -30,8 +30,8 @@ export const userPut = async (path, options = {}) => {
     const res = await userInstance.put(path, options);
     return res.data;
 };
-export const userDelete = async (path, options = {}) => {
-    const res = await userInstance.delete(path, options);
+export const userDelete = async (path, options = {}, others = {}) => {
+    const res = await userInstance.delete(path, options, others);
     return res.data;
 };
 // PRODUCT
@@ -43,16 +43,16 @@ export const productGet = async (path, options = {}) => {
     const res = await productInstance.get(path, options);
     return res.data;
 };
-export const productPost = async (path, options = {}) => {
-    const res = await productInstance.post(path, options);
+export const productPost = async (path, options = {}, others = {}) => {
+    const res = await productInstance.post(path, options, others);
     return res.data;
 };
-export const productPut = async (path, options = {}) => {
-    const res = await productInstance.put(path, options);
+export const productPut = async (path, options = {}, others = {}) => {
+    const res = await productInstance.put(path, options, others);
     return res.data;
 };
-export const productDelete = async (path, options = {}) => {
-    const res = await productInstance.delete(path, options);
+export const productDelete = async (path, options = {}, others = {}) => {
+    const res = await productInstance.delete(path, options, others);
     return res.data;
 };
 // SHOP
@@ -95,5 +95,14 @@ export const feedbackPut = async (path, options = {}) => {
 };
 export const feedbackDelete = async (path, options = {}) => {
     const res = await feedbackInstance.delete(path, options);
+    return res.data;
+};
+// STRIPE
+const stripeInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/stripe/`,
+    withCredentials: true,
+});
+export const stripePost = async (path, options = {}) => {
+    const res = await stripeInstance.post(path, options);
     return res.data;
 };

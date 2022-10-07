@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect } from 'react';
 import { useNavigate, Routes, Route } from 'react-router-dom';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import {
     adminRouter,
     publicRouter,
@@ -9,6 +10,7 @@ import {
 import { DefaultLayout } from './Layouts';
 import routers from './Routers/routers';
 import { useAppContext, store } from './utils';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 function App() {
     const { state } = useAppContext();
@@ -28,7 +30,11 @@ function App() {
         }
     }, []);
     return (
-        <>
+        <PayPalScriptProvider
+            options={{
+                'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID,
+            }}
+        >
             <div className='app'>
                 <Routes>
                     {Routers.map((route, index) => {
@@ -52,7 +58,11 @@ function App() {
                     })}
                 </Routes>
             </div>
-        </>
+            <MessengerCustomerChat
+                pageId='104145032476041'
+                appId='468033418602915'
+            />
+        </PayPalScriptProvider>
     );
 }
 

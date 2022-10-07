@@ -1,23 +1,124 @@
-import React from 'react';
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef } from 'react';
 import className from 'classnames/bind';
+import { useParams } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Icons, Image } from '../../Components';
+import { products } from '../../services';
+import { moneys, useAppContext } from '../../utils';
+import { ACgetones, ACcarts } from '../../app/';
+import { setCartList } from '../../app/payloads/payloadCart';
+import { CheckoutPaypal, Icons, Image } from '../../Components';
 import styles from './DetailProducts.module.css';
 
 const cx = className.bind(styles);
 
 function DetailProduct() {
+    const { id } = useParams();
+    const { state, dispatch } = useAppContext();
+    const {
+        currentUser,
+        quantityProduct,
+        data: { dataById, dataCartList },
+    } = state;
+    const inputRef = useRef();
+    useEffect(() => {
+        products.getByIdProduct({
+            data: currentUser,
+            id,
+            dispatch,
+            ACgetones,
+        });
+    }, []);
+    const data = dataById?.product || [];
+    const handleChangeQuantity = (e) => {
+        dispatch(ACcarts.setQuantityProduct(e.target.value));
+    };
+    const handlePlusQuantity = (inventory) => {
+        if (parseInt(inputRef.current.value) < parseInt(inventory)) {
+            dispatch(
+                ACcarts.setQuantityProduct(parseInt(inputRef.current.value) + 1)
+            );
+        } else {
+            dispatch(ACcarts.setQuantityProduct(inventory));
+        }
+    };
+    const handleSubQuantity = () => {
+        if (parseInt(inputRef.current.value) > 1) {
+            dispatch(
+                ACcarts.setQuantityProduct(parseInt(inputRef.current.value) - 1)
+            );
+        } else {
+            dispatch(ACcarts.setQuantityProduct(1));
+        }
+    };
+    const handleAddTocart = () => {
+        if (dataCartList.length === 0) {
+            const data = {
+                userId: currentUser?.id,
+                id: dataById?.product?._id,
+                name: dataById?.product?.name,
+                price: dataById?.product?.price,
+                quantity: quantityProduct,
+                thumbnail: dataById?.product?.thumbnail,
+                description: dataById?.product?.description,
+                brand: dataById?.product?.brand,
+                inventory: dataById?.product?.inventory,
+                sold: dataById?.product?.sold,
+                createdAt: new Date().toISOString(),
+            };
+            dispatch(setCartList([data]));
+        } else {
+            dataCartList.map((item, index) => {
+                if (item.id === dataById?.product?._id) {
+                    const data = {
+                        userId: currentUser?.id,
+                        id: dataById?.product?._id,
+                        name: dataById?.product?.name,
+                        price: dataById?.product?.price,
+                        quantity:
+                            parseInt(item.quantity) + parseInt(quantityProduct),
+                        thumbnail: dataById?.product?.thumbnail,
+                        description: dataById?.product?.description,
+                        brand: dataById?.product?.brand,
+                        inventory: dataById?.product?.inventory,
+                        sold: dataById?.product?.sold,
+                        createdAt: new Date().toISOString(),
+                    };
+                    dataCartList.splice(index, 1);
+                    dispatch(setCartList([...dataCartList, data]));
+                } else {
+                    const data = {
+                        userId: currentUser?.id,
+                        id: dataById?.product?._id,
+                        name: dataById?.product?.name,
+                        price: dataById?.product?.price,
+                        quantity: quantityProduct,
+                        thumbnail: dataById?.product?.thumbnail,
+                        description: dataById?.product?.description,
+                        brand: dataById?.product?.brand,
+                        inventory: dataById?.product?.inventory,
+                        sold: dataById?.product?.sold,
+                        createdAt: new Date().toISOString(),
+                    };
+                    dispatch(setCartList([...dataCartList, data]));
+                }
+            });
+        }
+    };
     return (
         <div className={`${cx('detail-container')}`}>
             <div className={`${cx('detail-left-container')}`}>
                 <div
-                    className={`${cx('image-lagre-container')}`}
-                    style={{ backgroundImage: `url('/images/sp1.png')` }}
+                    className={`${cx('image-lagre-container')} mb8`}
+                    style={{
+                        backgroundImage: `url(http://localhost:8000/${data?.thumbnail})`,
+                    }}
                 ></div>
                 <div className={`${cx('image-list-container')}`}>
                     <Swiper
@@ -36,7 +137,7 @@ function DetailProduct() {
                             <div
                                 className={`${cx('image-small', 'active')}`}
                                 style={{
-                                    backgroundImage: `url('/images/sp1.png')`,
+                                    backgroundImage: `url('/images/placeholder_images.png')`,
                                 }}
                             ></div>
                         </SwiperSlide>
@@ -44,7 +145,7 @@ function DetailProduct() {
                             <div
                                 className={`${cx('image-small')}`}
                                 style={{
-                                    backgroundImage: `url('/images/sp2.png')`,
+                                    backgroundImage: `url('/images/placeholder_images.png')`,
                                 }}
                             ></div>
                         </SwiperSlide>
@@ -52,23 +153,7 @@ function DetailProduct() {
                             <div
                                 className={`${cx('image-small')}`}
                                 style={{
-                                    backgroundImage: `url('/images/sp3.png')`,
-                                }}
-                            ></div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div
-                                className={`${cx('image-small')}`}
-                                style={{
-                                    backgroundImage: `url('/images/sp4.png')`,
-                                }}
-                            ></div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div
-                                className={`${cx('image-small')}`}
-                                style={{
-                                    backgroundImage: `url('/images/sp5.png')`,
+                                    backgroundImage: `url('/images/placeholder_images.png')`,
                                 }}
                             ></div>
                         </SwiperSlide>
@@ -97,7 +182,9 @@ function DetailProduct() {
                         <Icons.HeartEmptyIcon
                             className={`${cx('heart-icon')} mr8`}
                         />
-                        <div className={`${cx('like-text')}`}>Likes (17k)</div>
+                        <div className={`${cx('like-text')}`}>
+                            Likes ({data?.likesCount})
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,27 +192,25 @@ function DetailProduct() {
                 <div className={`${cx('name-product-container')} mb12`}>
                     <span className={`${cx('badge-product')} mr8`}>Likes</span>
                     <span className={`${cx('name-product')}`}>
-                        áo khoác bomber thời trang thu đông nam nữ - áo bomber
-                        gió, nỉ gấu hàng 1 lớp form rộng, unisex, freesize giá
-                        rẻ nhất ❤❤
+                        {data?.name}
                     </span>
                 </div>
                 <div className={`${cx('count-actions-container')} mb12`}>
                     <div className={`${cx('count-ratings')} d-flex mr8`}>
                         <div className={`${cx('count-number')} fz16 mr8`}>
-                            4.5
+                            {data?.rating}
                         </div>
                         <Rating
                             name='half-rating'
-                            value={2.5}
+                            value={parseFloat(data?.rating)}
                             precision={0.5}
-                            // onChange={handleRating}
+                            readOnly
                         />
                     </div>
                     <div className='divider'></div>
                     <div className={`${cx('count-comments')} d-flex`}>
                         <div className={`${cx('count-number')} fz16 mr8 ml8`}>
-                            3.8k
+                            {data?.feedback?.length}
                         </div>
                         <div className={`${cx('count-text')} fz16 mr8`}>
                             Comments
@@ -134,7 +219,7 @@ function DetailProduct() {
                     <div className='divider'></div>
                     <div className={`${cx('count-sells')} d-flex`}>
                         <div className={`${cx('count-number')} fz16 mr8 ml8`}>
-                            7.8k
+                            {data?.sold}
                         </div>
                         <div className={`${cx('count-text')} fz16 mr8`}>
                             Sells
@@ -146,11 +231,9 @@ function DetailProduct() {
                 </div>
                 <div className={`${cx('price-container')} mb12`}>
                     <div className={`${cx('price')} fz16 mb12`}>
-                        <sup>vnd</sup>
-                        <span>65.000</span>
+                        <span>{moneys.VND(data?.reducedPrice)}</span>
                         <span> - </span>
-                        <sup>vnd</sup>
-                        <span>120.000</span>
+                        <span>{moneys.VND(data?.price)}</span>
                     </div>
                     <div className={`${cx('desc-price')}`}>
                         <Icons.SymbolIcon />
@@ -235,18 +318,37 @@ function DetailProduct() {
                         Quantity
                     </div>
                     <div className={`${cx('size-container')}`}>
-                        <div className={`${cx('sub-product')}`}>-</div>
-                        <div className={`${cx('quantity')}`}>
-                            <input type='text' name='quantity' />
+                        <div
+                            className={`${cx('sub-product')}`}
+                            onClick={handleSubQuantity}
+                        >
+                            -
                         </div>
-                        <div className={`${cx('plus-product')}`}>+</div>
+                        <div className={`${cx('quantity')}`}>
+                            <input
+                                type='text'
+                                name='quantity'
+                                value={quantityProduct}
+                                onChange={handleChangeQuantity}
+                                ref={inputRef}
+                            />
+                        </div>
+                        <div
+                            className={`${cx('plus-product')}`}
+                            onClick={() => handlePlusQuantity(data?.inventory)}
+                        >
+                            +
+                        </div>
                     </div>
                     <div className={`${cx('')} fz16 ml8`}>
-                        3555 sản phẩm có sẵn
+                        {data?.inventory} sản phẩm có sẵn
                     </div>
                 </div>
                 <div className={`${cx('color-product-container')} mb12`}>
-                    <button className={`${cx('btn', 'bgc-opacity')}`}>
+                    <button
+                        className={`${cx('btn', 'bgc-opacity')}`}
+                        onClick={handleAddTocart}
+                    >
                         <div className='flex-center'>
                             <Icons.CartIcons />
                             <span className='fz16 ml8'>Thêm Vào Giỏ Hàng</span>

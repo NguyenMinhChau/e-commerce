@@ -1,5 +1,12 @@
 import routers from './routers.js';
-import { Home, Login, Register, DetailProduct } from '../Layouts';
+import {
+    Home,
+    Login,
+    Register,
+    DetailProduct,
+    CartDetail,
+    Checkout,
+} from '../Layouts';
 import {
     ThongkeDoanhthu,
     ThongkeSanpham,
@@ -17,6 +24,8 @@ const publicRouter = [
 
 const privateRouter = [
     { path: routers.home, component: Home },
+    { path: routers.cart, component: CartDetail },
+    { path: routers.checkout, component: Checkout },
     {
         path: `${routers.products}/${routers.productType}/:type`,
         component: Home,
@@ -30,6 +39,8 @@ const privateRouter = [
 
 const adminRouter = [
     { path: routers.home, component: Home },
+    { path: routers.cart, component: CartDetail },
+    { path: routers.checkout, component: Checkout },
     {
         path: `${routers.products}/${routers.productType}/:type`,
         component: Home,

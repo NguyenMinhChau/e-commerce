@@ -42,6 +42,7 @@
 .cart-list {
     max-height: 200px;
     overflow-y: auto;
+    align-items: center;
 }
 
 .cart-list::-webkit-scrollbar {
@@ -154,4 +155,9 @@
 .cart-view-btn:hover {
     cursor: pointer;
     background-color: #fd5e3e;
+}
+
+.image {
+    width: 100%;
+    height: 150px;
 }

@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import { FormInput, Icons, ModalConfirm, TableData } from '../../Components';
 import { CreateProduct } from '../../Layouts';
-import { moneys, numbers, qlsp, useAppContext } from '../../utils';
-import { ACtoogles } from '../../app/';
+import { products } from '../../services';
+import {
+    moneys,
+    numbers,
+    qlsp,
+    useAppContext,
+    indexTable,
+    dates,
+    requestRefreshToken,
+} from '../../utils';
+import {
+    ACtoogles,
+    ACgetalls,
+    ACgetones,
+    ACforms,
+    ACfiles,
+    ACusers,
+} from '../../app/';
 import styles from './QuanlySanpham.module.css';
 
 const cx = className.bind(styles);
@@ -11,7 +28,25 @@ const cx = className.bind(styles);
 function QuanlySanpham() {
     const [idDelete, setIdDelete] = useState(null);
     const { state, dispatch } = useAppContext();
-    const { toogleConfirm, toogleCreateProduct } = state;
+    const {
+        currentUser,
+        toogleConfirm,
+        toogleCreateProduct,
+        pagination: { page, limit },
+        data: { dataProducts },
+    } = state;
+    useEffect(() => {
+        products.getAllProduct({
+            data: currentUser,
+            page,
+            limit,
+            state,
+            dispatch,
+            ACgetalls,
+        });
+    }, []);
+
+    const data = dataProducts?.products || [];
     const modalConfirmTrue = (e, id) => {
         e.stopPropagation();
         setIdDelete(id);
@@ -25,10 +60,49 @@ function QuanlySanpham() {
         e.stopPropagation();
         dispatch(ACtoogles.toogleCreateProduct(!toogleCreateProduct));
     };
+    const modalEditProduct = (e, item) => {
+        e.stopPropagation();
+        dispatch(ACtoogles.toogleCreateProduct(true));
+        dispatch(ACgetones.getAProduct(item));
+        dispatch(ACfiles.setSingleFile([item.thumbnail]));
+        dispatch(
+            ACforms.setFormCreateProduct({
+                name: item.name,
+                price: item.price,
+                description: item.description,
+                reducedPrice: item.reducedPrice,
+                category: item.category,
+                brand: item.brand,
+                percentReduced: item.percentReduced,
+                rating: item.rating,
+                inventory: item.inventory,
+                priceImport: item.priceImport,
+                dateImport: item.dateImport,
+                shop: item.shop[0]._id,
+            })
+        );
+    };
+    const deleteProductAPI = (data, id) => {
+        products.deleteProduct({
+            token: data?.token,
+            id,
+            page,
+            limit,
+            dispatch,
+            ACgetalls,
+        });
+    };
     const deleteAction = async (id) => {
         try {
             await 1;
-            alert('Delete id: ' + id);
+            requestRefreshToken(
+                currentUser,
+                deleteProductAPI,
+                state,
+                dispatch,
+                ACusers,
+                id
+            );
             dispatch(ACtoogles.toogleConfirm(false));
         } catch (err) {
             console.log(err);
@@ -40,21 +114,29 @@ function QuanlySanpham() {
                 {data.map((item, index) => {
                     return (
                         <tr key={index}>
-                            <td>{item.stt}</td>
-                            <td>{item.sanpham}</td>
-                            <td>{item.ngay}</td>
-                            <td>{moneys.VND(item.giaban)}</td>
-                            <td>{moneys.VND(item.giasale)}</td>
-                            <td>{numbers.number(item.daban)}</td>
-                            <td>{numbers.number(item.tonkho)}</td>
+                            <td>{indexTable(page, limit, index)}</td>
+                            <td>{item.name}</td>
                             <td>
-                                <button className='btn-table completebgc'>
+                                {dates.formatDate(
+                                    item.dateImport,
+                                    'DD/MM/YYYY'
+                                )}
+                            </td>
+                            <td>{moneys.VND(item.price)}</td>
+                            <td>{moneys.VND(item.reducedPrice)}</td>
+                            <td>{numbers.number(item.sold)}</td>
+                            <td>{numbers.number(item.inventory)}</td>
+                            <td>
+                                <button
+                                    className='btn-table completebgc'
+                                    onClick={(e) => modalEditProduct(e, item)}
+                                >
                                     <Icons.EditIcon />
                                 </button>
                                 <button
                                     className='btn-table cancelbgc'
                                     onClick={(e) =>
-                                        modalConfirmTrue(e, item.stt)
+                                        modalConfirmTrue(e, item._id)
                                     }
                                 >
                                     <Icons.DeleteIcons />
@@ -70,11 +152,11 @@ function QuanlySanpham() {
         <>
             <div className='mb12'>
                 <button
-                    className={`${cx('btn')} confirmbgc`}
+                    className={`${cx('btn')} completebgc`}
                     onClick={modalCreateProduct}
                 >
                     <div className='flex-center'>
-                        <Icons.PlusIcon />
+                        {!toogleCreateProduct && <Icons.PlusIcon />}
                         <span className='ml8'>
                             {!toogleCreateProduct ? 'Thêm mới' : 'Quay về'}
                         </span>
@@ -94,10 +176,10 @@ function QuanlySanpham() {
                     </div>
                     <TableData
                         headers={qlsp.headers}
-                        data={qlsp.data}
-                        totalData={qlsp.data.length}
+                        data={data}
+                        totalData={dataProducts.total}
                     >
-                        <RenderBodyTable data={qlsp.data} />
+                        <RenderBodyTable data={data} />
                     </TableData>
                 </div>
             ) : (

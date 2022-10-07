@@ -1,6 +1,7 @@
 import React, { forwardRef, useState } from 'react';
 import className from 'classnames/bind';
 import styles from './FormInput.module.css';
+import { useAppContext } from '../../utils';
 import { Icons } from '..';
 
 const cx = className.bind(styles);
@@ -16,6 +17,7 @@ const FormInput = forwardRef(
             onChange,
             classNameInput,
             className,
+            value,
         },
         ref
     ) => {
@@ -36,6 +38,7 @@ const FormInput = forwardRef(
                     <input
                         type={showPwd ? (pwd ? 'text' : 'password') : type}
                         name={name}
+                        value={value}
                         placeholder={placeholder}
                         onChange={onChange}
                         ref={ref}
