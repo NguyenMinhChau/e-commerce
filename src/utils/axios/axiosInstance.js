@@ -81,12 +81,12 @@ const feedbackInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/feedback/`,
     withCredentials: true,
 });
-export const feedbackGet = async (path, options = {}) => {
-    const res = await feedbackInstance.get(path, options);
+export const feedbackGet = async (path, options = {}, others = {}) => {
+    const res = await feedbackInstance.get(path, options, others);
     return res.data;
 };
-export const feedbackPost = async (path, options = {}) => {
-    const res = await feedbackInstance.post(path, options);
+export const feedbackPost = async (path, options = {}, others = {}) => {
+    const res = await feedbackInstance.post(path, options, others);
     return res.data;
 };
 export const feedbackPut = async (path, options = {}) => {

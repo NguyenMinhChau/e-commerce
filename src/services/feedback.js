@@ -10,3 +10,27 @@ export const getAllFeedback = async (props = {}) => {
     );
     props.dispatch(props.ACgetalls.getAllFeedback(resGet));
 };
+// CREATE FEEDBACK
+export const createFeedback = async (props = {}) => {
+    await api.feedbackPost(
+        '/add',
+        {
+            imageList: props?.imageList,
+            content: props?.content,
+            rating: props?.rating,
+            product: props?.productId,
+        },
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                token: props?.token,
+            },
+        }
+    );
+    window.location.reload();
+};
+// GET FEEDBACK BY ID PRODUCT
+export const SVgetFeebackByIdProduct = async (props = {}) => {
+    const resGet = await api.feedbackGet(`/getByIdProduct/${props.productId}`);
+    props.dispatch(props.ACgetalls.getFeedbackByIdProduct(resGet?.feedbacks));
+};

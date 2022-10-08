@@ -89,6 +89,10 @@ html {
     margin-right: 10px;
 }
 
+.mr15 {
+    margin-right: 15px;
+}
+
 .mb8 {
     margin-bottom: 8px;
 }
@@ -137,6 +141,10 @@ html {
     flex-direction: column;
 }
 
+.underline {
+    text-decoration: underline;
+}
+
 .ps-relative {
     position: relative;
 }
@@ -151,6 +159,10 @@ html {
 
 .fwb {
     font-weight: bold;
+}
+
+.cr-pointer {
+    cursor: pointer;
 }
 
 .divider {

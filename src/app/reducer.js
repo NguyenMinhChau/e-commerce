@@ -19,6 +19,7 @@ import {
     GET_ALL_PRODUCT,
     GET_ALL_SHOP,
     GET_ALL_FEEDBACK,
+    GET_FEEDBACK_BY_PRODUCT_ID,
     GET_A_PRODUCT,
 } from './actions';
 import { store } from '../utils';
@@ -64,6 +65,7 @@ const initialState = {
         dataShops: [],
         dataUsers: [],
         dataFeedBacks: [],
+        dataFeedBacksByIdProduct: [],
         dataCartList: [],
         dataById: null,
     },
@@ -179,6 +181,14 @@ const reducer = (state, action) => {
                 data: {
                     ...state.data,
                     dataFeedBacks: action.payload,
+                },
+            };
+        case GET_FEEDBACK_BY_PRODUCT_ID:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataFeedBacksByIdProduct: action.payload,
                 },
             };
         case GET_A_PRODUCT:

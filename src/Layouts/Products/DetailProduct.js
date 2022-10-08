@@ -10,12 +10,13 @@ import { Editor } from '@tinymce/tinymce-react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { products } from '../../services';
-import { moneys, useAppContext } from '../../utils';
-import { ACgetones, ACcarts } from '../../app/';
+import { products, feedbacks } from '../../services';
+import { dates, moneys, requestRefreshToken, useAppContext } from '../../utils';
+import { ACgetones, ACcarts, ACusers, ACgetalls } from '../../app/';
 import { setCartList } from '../../app/payloads/payloadCart';
-import { CheckoutPaypal, Icons, Image, MultipleUpload } from '../../Components';
+import { CheckoutPaypal, Icons, Image, SingleUpload } from '../../Components';
 import styles from './DetailProducts.module.css';
+import { createFeedback } from '../../services/feedback';
 
 const cx = className.bind(styles);
 
@@ -24,8 +25,9 @@ function DetailProduct() {
     const { state, dispatch } = useAppContext();
     const {
         currentUser,
+        singleFile,
         quantityProduct,
-        data: { dataById, dataCartList },
+        data: { dataById, dataCartList, dataFeedBacksByIdProduct },
     } = state;
     const [rating, setRating] = useState(0);
     const inputRef = useRef();
@@ -36,8 +38,16 @@ function DetailProduct() {
             dispatch,
             ACgetones,
         });
+        feedbacks.SVgetFeebackByIdProduct({
+            token: currentUser?.token,
+            dispatch,
+            ACgetalls,
+            productId: dataById?.product?._id,
+        });
     }, []);
     const data = dataById?.product || [];
+    const dataFeedback = dataFeedBacksByIdProduct || [];
+
     const handleRating = (e, value) => {
         setRating(value);
     };
@@ -133,9 +143,29 @@ function DetailProduct() {
         return data;
     };
     const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
+    const commentAPI = (data) => {
+        createFeedback({
+            token: data?.token,
+            rating,
+            content: editorRef.current.getContent(),
+            productId: dataById?.product?._id,
+            imageList: singleFile[0],
+        });
+    };
+    const handleComment = async () => {
+        try {
+            if (editorRef.current || rating) {
+                await 1;
+                requestRefreshToken(
+                    currentUser,
+                    commentAPI,
+                    state,
+                    dispatch,
+                    ACusers
+                );
+            }
+        } catch (err) {
+            console.log(err);
         }
     };
     return (
@@ -461,6 +491,7 @@ function DetailProduct() {
                         init={{
                             height: 300,
                             menubar: false,
+                            entity_encoding: 'raw',
                             plugins: [
                                 'advlist autolink lists link image charmap print preview anchor',
                                 'searchreplace visualblocks code fullscreen',
@@ -468,7 +499,7 @@ function DetailProduct() {
                             ],
                             toolbar:
                                 'undo redo | formatselect | ' +
-                                'bold italic backcolor | alignleft aligncenter ' +
+                                'bold italic backcolor forecolor | alignleft aligncenter ' +
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
                                 'removeformat | help',
                             content_style:
@@ -476,11 +507,11 @@ function DetailProduct() {
                         }}
                     />
                     <p className={`${cx('')} fz16 mt12 fwb`}>Ảnh sản phẩm</p>
-                    <MultipleUpload width='100%' />
+                    <SingleUpload width='100%' />
                     <div className='flex-end'>
                         <button
                             disabled={!rating}
-                            onClick={log}
+                            onClick={handleComment}
                             className={`${cx(
                                 'btn_feedback',
                                 !rating && 'btn_feedback_disabled'
@@ -495,6 +526,97 @@ function DetailProduct() {
                 <div className={`${cx('detail-list-feedback-title')}`}>
                     Danh sách phản hồi
                 </div>
+                {dataFeedback.length > 0 && (
+                    <div className={`${cx('detail-list-feedback-lists')}`}>
+                        {dataFeedback?.map((item, index) => (
+                            <div
+                                className={`${cx('detail-list-feedback-item')}`}
+                                key={index}
+                            >
+                                <div
+                                    className={`${cx(
+                                        'detail-list-feedback-item-infouser-conatiner'
+                                    )}`}
+                                >
+                                    <div
+                                        className={`${cx(
+                                            'detail-list-feedback-item-infouser'
+                                        )}`}
+                                    >
+                                        <Image
+                                            src={`http://localhost:8000/${item.avatar}`}
+                                            alt={item?.user?.username}
+                                            className={cx('avatar-user')}
+                                        />
+                                        <div className='mr8 ml8'>
+                                            <div
+                                                className={`${cx('name-user')}`}
+                                            >
+                                                {item?.user?.username} -{' '}
+                                                {item?.user?.email}
+                                            </div>
+                                            <div
+                                                className={`${cx(
+                                                    'createdAt-container'
+                                                )}`}
+                                            >
+                                                <div
+                                                    className={`${cx(
+                                                        'createdAt'
+                                                    )} mr8`}
+                                                >
+                                                    {dates.formatDate(
+                                                        item.createdAt,
+                                                        'DD/MM/YYYY'
+                                                    )}
+                                                </div>
+                                                <Rating
+                                                    name='half-rating'
+                                                    value={parseFloat(
+                                                        item?.rating
+                                                    )}
+                                                    precision={0.5}
+                                                    readOnly
+                                                    style={{
+                                                        fontSize: '18px',
+                                                        marginTop: '-2px',
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className={`${cx('action-container')}`}
+                                    >
+                                        <div className='complete mr15 underline fwb cr-pointer'>
+                                            Edit
+                                        </div>
+                                        <div className='cancel underline fwb cr-pointer'>
+                                            Delete
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    className={`${cx(
+                                        'detail-list-feedback-item-content'
+                                    )}`}
+                                >
+                                    <Image
+                                        src={`http://localhost:8000/${item?.imageList[0]}`}
+                                        alt='image_product'
+                                        className={cx('image-product')}
+                                    />
+                                    <div
+                                        className={`${cx('content-desc')}`}
+                                        dangerouslySetInnerHTML={{
+                                            __html: item?.content,
+                                        }}
+                                    ></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </>
     );

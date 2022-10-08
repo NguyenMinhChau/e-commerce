@@ -105,7 +105,12 @@ function QuanlyPhanhoi() {
                                     readOnly
                                 />
                             </td>
-                            <td>{item.content}</td>
+                            <td
+                                style={{ maxWidth: '150px' }}
+                                dangerouslySetInnerHTML={{
+                                    __html: item.content,
+                                }}
+                            ></td>
                             <td>
                                 <button className='btn-table completebgc'>
                                     <Icons.ViewIcons />

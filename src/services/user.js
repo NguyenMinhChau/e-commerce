@@ -7,6 +7,7 @@ export const getAll = async (props = {}) => {
     );
     props.dispatch(props.ACgetalls.getAllUser(resGet));
 };
+
 // SEARCH USERS
 export const searchUser = (props = {}) => {
     let DATA_FLAG = props.dataUsers?.users;
