@@ -165,6 +165,18 @@ const feedbackController = {
             res.status(500).json({ message: 'Server Error' });
         }
     },
+    // [GET] api/v1/feedback/getByIdProduct/:id
+    getFeedBackByIdProduct: async (req, res) => {
+        try {
+            const feedbacks = await Feedback.find({
+                product: { $in: [req.params.id] },
+            }).populate('user', 'username email role rank shop _id');
+            res.status(200).json({ feedbacks });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Server Error' });
+        }
+    },
 };
 
 module.exports = feedbackController;

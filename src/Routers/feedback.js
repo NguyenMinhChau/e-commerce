@@ -24,6 +24,7 @@ router.post(
     FeedbackController.addFeedBack
 );
 router.get('/getall', FeedbackController.getFeedBacks);
+router.get('/getByIdProduct/:id', FeedbackController.getFeedBackByIdProduct);
 router.get('/:id', FeedbackController.getFeedBack);
 router.put(
     '/:id',
