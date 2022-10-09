@@ -34,3 +34,13 @@ export const SVgetFeebackByIdProduct = async (props = {}) => {
     const resGet = await api.feedbackGet(`/getByIdProduct/${props.productId}`);
     props.dispatch(props.ACgetalls.getFeedbackByIdProduct(resGet?.feedbacks));
 };
+// DELETE FEEDBACK
+export const SVdeleteFeedback = async (props = {}) => {
+    await api.feedbackDelete(`/${props.id}`, {
+        headers: {
+            token: props?.token,
+        },
+    });
+    props.dispatch(props.ACtoogles.toogleConfirm(false));
+    window.location.reload();
+};

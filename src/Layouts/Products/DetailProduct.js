@@ -12,11 +12,17 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { products, feedbacks } from '../../services';
 import { dates, moneys, requestRefreshToken, useAppContext } from '../../utils';
-import { ACgetones, ACcarts, ACusers, ACgetalls } from '../../app/';
+import { ACgetones, ACcarts, ACusers, ACgetalls, ACtoogles } from '../../app/';
 import { setCartList } from '../../app/payloads/payloadCart';
-import { CheckoutPaypal, Icons, Image, SingleUpload } from '../../Components';
+import {
+    CheckoutPaypal,
+    Icons,
+    Image,
+    ModalConfirm,
+    SingleUpload,
+} from '../../Components';
 import styles from './DetailProducts.module.css';
-import { createFeedback } from '../../services/feedback';
+import { createFeedback, SVdeleteFeedback } from '../../services/feedback';
 
 const cx = className.bind(styles);
 
@@ -26,10 +32,12 @@ function DetailProduct() {
     const {
         currentUser,
         singleFile,
+        toogleConfirm,
         quantityProduct,
         data: { dataById, dataCartList, dataFeedBacksByIdProduct },
     } = state;
     const [rating, setRating] = useState(0);
+    const [idDelete, setIdDelete] = useState(null);
     const inputRef = useRef();
     useEffect(() => {
         products.getBySlugProduct({
@@ -38,18 +46,28 @@ function DetailProduct() {
             dispatch,
             ACgetones,
         });
+    }, []);
+    useEffect(() => {
         feedbacks.SVgetFeebackByIdProduct({
             token: currentUser?.token,
             dispatch,
             ACgetalls,
             productId: dataById?.product?._id,
         });
-    }, []);
+    }, [dataById]);
     const data = dataById?.product || [];
     const dataFeedback = dataFeedBacksByIdProduct || [];
-
     const handleRating = (e, value) => {
         setRating(value);
+    };
+    const modalConfirmTrue = (e, id) => {
+        e.stopPropagation();
+        setIdDelete(id);
+        dispatch(ACtoogles.toogleConfirm(true));
+    };
+    const modalConfirmFalse = (e) => {
+        e.stopPropagation();
+        dispatch(ACtoogles.toogleConfirm(false));
     };
     const handleChangeQuantity = (e) => {
         dispatch(ACcarts.setQuantityProduct(e.target.value));
@@ -168,6 +186,29 @@ function DetailProduct() {
             console.log(err);
         }
     };
+    const deleteAPI = (data, id) => {
+        SVdeleteFeedback({
+            token: data?.token,
+            id,
+            dispatch,
+            ACtoogles,
+        });
+    };
+    const handleDelete = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                deleteAPI,
+                state,
+                dispatch,
+                ACusers,
+                id
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <>
             <div className={`${cx('detail-container')}`}>
@@ -591,7 +632,12 @@ function DetailProduct() {
                                         <div className='complete mr15 underline fwb cr-pointer'>
                                             Edit
                                         </div>
-                                        <div className='cancel underline fwb cr-pointer'>
+                                        <div
+                                            className='cancel underline fwb cr-pointer'
+                                            onClick={(e) =>
+                                                modalConfirmTrue(e, item?._id)
+                                            }
+                                        >
                                             Delete
                                         </div>
                                     </div>
@@ -618,6 +664,16 @@ function DetailProduct() {
                     </div>
                 )}
             </div>
+            {toogleConfirm && (
+                <ModalConfirm
+                    titleModal='Delete Confirm'
+                    open={modalConfirmTrue}
+                    close={modalConfirmFalse}
+                    onClick={() => handleDelete(idDelete)}
+                >
+                    <p className='fz14'>You're sure delete this actions?</p>
+                </ModalConfirm>
+            )}
         </>
     );
 }

@@ -127,7 +127,7 @@ function Home() {
                                     <span
                                         className={`${cx('item-origin-name')}`}
                                     >
-                                        {item?.shop[0].address}
+                                        {item?.shop[0]?.address}
                                     </span>
                                 </div>
                                 <div

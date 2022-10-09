@@ -29,6 +29,27 @@ html {
     line-height: 1.6rem;
 }
 
+.nosupport {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 12px;
+}
+
+.image-nosupport {
+    width: 50px;
+    height: 50px;
+    object-fit: fill;
+    margin-bottom: 20px;
+}
+
+.nosupport-desc {
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
 .alert {
     width: 100%;
     display: flex;
@@ -179,4 +200,15 @@ html {
     line-height: 22px;
     margin-bottom: 0;
     text-transform: capitalize;
+}
+
+/* TABLET AND MOBILE */
+@media (max-width: 63.9375em) {
+    .nosupport {
+        display: flex;
+    }
+
+    .app {
+        display: none;
+    }
 }
