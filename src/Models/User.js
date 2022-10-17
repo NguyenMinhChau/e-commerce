@@ -18,6 +18,15 @@ const userModel = new Schema(
             required: true,
             unique: true,
         },
+        phone: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        address: {
+            type: String,
+            required: true,
+        },
         role: {
             type: String,
             default: 'user',

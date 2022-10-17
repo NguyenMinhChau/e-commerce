@@ -66,8 +66,8 @@ const ProductController = {
     // [GET] /api/v1/product
     getProducts: async (req, res) => {
         try {
-            const { page, limit = 10 } = req.params;
-            if (!page) {
+            const { page, limit = 10, category } = req.query;
+            if (!page && !category) {
                 const products = await Product.find().populate(
                     'shop',
                     'name address phone email image website product _id'
@@ -79,20 +79,34 @@ const ProductController = {
                     total: totalData,
                 });
             } else {
-                if (page < 1) {
-                    page = 1;
-                } else {
-                    const products = await Product.find().populate(
+                const objectFind = category
+                    ? {
+                          $text: {
+                              $search: '"' + category.toString() + '"',
+                              $caseSensitive: false,
+                          },
+                          $meta:
+                              category.toString() +
+                              '="' +
+                              category.toString() +
+                              '"',
+                      }
+                    : {};
+                const products = await Product.find(objectFind)
+                    .populate(
                         'shop',
                         'name address phone email image website product _id'
-                    );
-                    const totalData = await Product.countDocuments();
-                    res.status(200).json({
-                        message: 'Get all products success!',
-                        products,
-                        total: totalData,
-                    });
-                }
+                    )
+                    .skip((page - 1) * limit)
+                    .limit(limit * 1)
+                    .sort({ createdAt: -1 });
+                const totalData = await Product.countDocuments();
+                res.status(200).json({
+                    message: 'Get all products success!',
+                    products,
+                    total: category ? products.length : totalData,
+                    length: products.length,
+                });
             }
         } catch (error) {
             console.log(error);

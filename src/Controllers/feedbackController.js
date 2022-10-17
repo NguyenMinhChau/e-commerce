@@ -50,7 +50,7 @@ const feedbackController = {
     // [GET] api/v1/feedback
     getFeedBacks: async (req, res) => {
         try {
-            const { page, limit = 10 } = req.params;
+            const { page = 1, limit = 10 } = req.query;
             if (!page) {
                 const feedbacks = await Feedback.find();
                 const totalData = await Feedback.countDocuments();
@@ -60,19 +60,15 @@ const feedbackController = {
                     total: totalData,
                 });
             } else {
-                if (page < 1) {
-                    page = 1;
-                } else {
-                    const feedbacks = await Feedback.find()
-                        .skip((page - 1) * limit)
-                        .limit(limit);
-                    const totalData = await Feedback.countDocuments();
-                    res.status(200).json({
-                        message: 'Get all feedbacks success!',
-                        feedbacks,
-                        total: totalData,
-                    });
-                }
+                const feedbacks = await Feedback.find({})
+                    .skip((page - 1) * limit)
+                    .limit(limit * 1);
+                const totalData = await Feedback.countDocuments();
+                res.status(200).json({
+                    message: 'Get all feedbacks success!',
+                    feedbacks,
+                    total: totalData,
+                });
             }
         } catch (error) {
             console.log(error);

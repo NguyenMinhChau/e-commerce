@@ -96,4 +96,10 @@ const productModel = new Schema(
         timestamps: true,
     }
 );
+// productModel.index({
+//     category: 'text',
+//     // brand: 'category',
+//     // slug: 'category',
+//     // price: 'category',
+// });
 module.exports = mongoose.model('Product', productModel);

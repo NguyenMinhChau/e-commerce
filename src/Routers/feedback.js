@@ -19,7 +19,7 @@ let uploadMultiple = multer({
 router.post(
     '/add',
     checkToken,
-    checkRole,
+    // checkRole,
     uploadMultiple,
     FeedbackController.addFeedBack
 );
