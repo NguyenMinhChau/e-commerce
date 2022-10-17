@@ -6,9 +6,12 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import { useAppContext } from '../../utils';
 
 import styles from './CategoryList.module.css';
 import { Link } from 'react-router-dom';
+import { getAllProduct } from '../../services/product';
+import { ACgetalls } from '../../app/';
 
 const cx = className.bind(styles);
 const Accordion = styled((props) => (
@@ -58,6 +61,9 @@ const DATA = [
         items: [
             {
                 name: 'Điện thoại',
+            },
+            {
+                name: 'Máy tính',
             },
             {
                 name: 'Máy tính bảng',
@@ -123,11 +129,27 @@ const DATA = [
     },
 ];
 function CategoryList() {
+    const { state, dispatch } = useAppContext();
+    const {
+        pagination: { page, limit },
+    } = state;
     const [expanded, setExpanded] = useState('');
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
-
+    const handleClickSidebar = async (category) => {
+        try {
+            getAllProduct({
+                page,
+                limit,
+                category,
+                dispatch,
+                ACgetalls,
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
     return (
         <div className={`${cx('container')}`}>
             {DATA.map((item, index) => (
@@ -151,6 +173,9 @@ function CategoryList() {
                                     <Link
                                         to='#'
                                         className={`${cx('category-item')}`}
+                                        onClick={() =>
+                                            handleClickSidebar(item?.name)
+                                        }
                                     >
                                         {item.name}
                                     </Link>

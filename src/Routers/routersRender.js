@@ -2,7 +2,9 @@ import routers from './routers.js';
 import {
     Home,
     Login,
+    ForgotPwd,
     Register,
+    GetOTP,
     DetailProduct,
     CartDetail,
     Checkout,
@@ -19,6 +21,19 @@ import { PageNotFound } from '../Components';
 const publicRouter = [
     { path: routers.login, component: Login, layout: null },
     { path: routers.register, component: Register, layout: null },
+    { path: routers.forgotPwd, component: ForgotPwd, layout: null },
+    { path: `${routers.getOtp}/:token`, component: GetOTP, layout: null },
+    { path: routers.pageNotFound, component: PageNotFound, layout: null },
+    { path: routers.home, component: Home },
+    { path: routers.cart, component: CartDetail },
+    {
+        path: `${routers.products}/${routers.productType}/:type`,
+        component: Home,
+    },
+    {
+        path: `${routers.products}/${routers.productDetail}/:id`,
+        component: DetailProduct,
+    },
     { path: routers.pageNotFound, component: PageNotFound, layout: null },
 ];
 

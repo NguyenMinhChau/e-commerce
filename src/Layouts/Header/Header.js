@@ -2,7 +2,7 @@ import React from 'react';
 import className from 'classnames/bind';
 import Badge from '@mui/material/Badge';
 import { useAppContext } from '../../utils';
-import { ACtoogles, ACsearchs } from '../../app/';
+import { ACtoogles, ACsearchs, ACgetalls } from '../../app/';
 import routers from '../../Routers/routers';
 import {
     QrCode,
@@ -13,20 +13,25 @@ import {
     Popular,
     AccountMenu,
 } from '../../Components';
+import { setSearchHistory } from '../../app/payloads/payloadSearch';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
+import { getAllProduct } from '../../services/product';
 
 const cx = className.bind(styles);
 
 function Header() {
     const { state, dispatch } = useAppContext();
     const {
+        pagination: { page, limit },
+    } = state;
+    const {
         toogleQrCode,
         toogleNotify,
         search,
         toogleCartList,
         currentUser,
-        data: { dataCartList },
+        data: { dataCartList, dataHistory },
     } = state;
     const handleChange = (e) => {
         if (e.target.value.charAt(0) === ' ') {
@@ -53,6 +58,30 @@ function Header() {
     const handleToogleCartListFalse = () => {
         dispatch(ACtoogles.toogleCartList(false));
     };
+    const handleSearch = async (e) => {
+        try {
+            if (search) {
+                dispatch(setSearchHistory([...dataHistory, search]));
+                dispatch(ACsearchs.setSearchValue(''));
+                getAllProduct({
+                    page,
+                    limit,
+                    category: search,
+                    dispatch,
+                    ACgetalls,
+                });
+            } else {
+                getAllProduct({
+                    page,
+                    limit,
+                    dispatch,
+                    ACgetalls,
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
     return (
         <div className={`${cx('container')}`}>
             <div className={`${cx('content')}`}>
@@ -64,7 +93,7 @@ function Header() {
                             onMouseLeave={handleToogleQrCodeFalse}
                         >
                             <p className={`${cx('top-text', 'hover')}`}>
-                                Shopee Mall
+                                Mega Mart
                             </p>
                             {toogleQrCode && <QrCode />}
                         </div>
@@ -139,7 +168,7 @@ function Header() {
                             to={routers.home}
                             className={`${cx('content-middle-left-link')}`}
                         >
-                            <Icons.LogoShopee
+                            <Icons.LogoShop
                                 className={`${cx('logo-shopee')}`}
                             />
                         </Link>
@@ -153,10 +182,13 @@ function Header() {
                             name='search'
                             onChange={handleChange}
                         />
-                        <button className={`${cx('button-search')}`}>
+                        <button
+                            className={`${cx('button-search')}`}
+                            onClick={handleSearch}
+                        >
                             <Icons.SearchIcon />
                         </button>
-                        {search && <SearchHistory />}
+                        {search && <SearchHistory data={dataHistory} />}
                     </div>
                     <div className={`${cx('content-middle-right')}`}>
                         <div

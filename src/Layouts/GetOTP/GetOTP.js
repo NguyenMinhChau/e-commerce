@@ -1,33 +1,34 @@
 import React, { useState } from 'react';
 import className from 'classnames/bind';
-import { useNavigate } from 'react-router-dom';
-import { useAppContext, api } from '../../utils';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppContext } from '../../utils';
 import { ACmessages } from '../../app/';
 import { Form } from '../../Components';
-import styles from './Register.module.css';
+import styles from './GetOTP.module.css';
 import routers from '../../Routers/routers';
+import { userPut } from '../../utils/axios/axiosInstance';
 
 const cx = className.bind(styles);
 
-function Register() {
+function GetOTP() {
+    const { token } = useParams();
     const { state, dispatch } = useAppContext();
-    const { username, email, password, phone, address } = state.form;
+    const { otpCode, password } = state.form;
     const [isLoading, setIsLoading] = useState(false);
     const history = useNavigate();
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const res = await api.authenPost('register', {
-                username,
-                email,
-                password,
-                phone,
-                address,
+            const res = await userPut(`/getOTP/${token}`, {
+                otp: otpCode,
+                pwd: password,
             });
-            if (res.message) {
-                dispatch(ACmessages.setSuccess(res.message));
+            if (res.code === 0) {
+                dispatch(ACmessages.setSuccess(res?.message));
                 history(routers.login);
+            } else {
+                dispatch(ACmessages.setError(res?.message));
             }
             setIsLoading(false);
         } catch (err) {
@@ -37,19 +38,16 @@ function Register() {
     };
     return (
         <Form
-            titleForm='Register account'
-            btnText='Register'
-            register
-            bolUsername
-            bolEmail
+            titleForm='Cập nhật mật khẩu'
+            btnText='Cập nhật'
+            bolOTP
             bolPwd
-            bolPhone
-            bolAddress
-            isLoadingRegister={isLoading}
-            className={cx('register')}
+            isLoadingOTP={isLoading}
+            bolForgotPwd
+            className={cx('otpCode')}
             onSubmit={handleSubmit}
         />
     );
 }
 
-export default Register;
+export default GetOTP;

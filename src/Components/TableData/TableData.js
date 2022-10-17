@@ -24,7 +24,7 @@ const ThRender = ({ item }) => {
 function TableData({ headers, data, totalData, children, className }) {
     const { state, dispatch } = useAppContext();
     const {
-        pagination: { limit },
+        pagination: { limit, page },
     } = state;
     const {
         name,
@@ -42,7 +42,7 @@ function TableData({ headers, data, totalData, children, className }) {
         dispatch(
             ACpaginations.setPagination({
                 ...state.pagination,
-                page: value,
+                page: parseInt(value),
             })
         );
     };
@@ -77,6 +77,7 @@ function TableData({ headers, data, totalData, children, className }) {
                 <Pagination
                     count={Math.ceil(totalData / limit)}
                     variant='outlined'
+                    value={page}
                     shape='rounded'
                     onChange={handlePage}
                     showFirstButton

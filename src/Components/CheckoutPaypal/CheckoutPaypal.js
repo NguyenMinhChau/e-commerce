@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import { requestRefreshToken, useAppContext } from '../../utils';
 import { ACusers } from '../../app/';
@@ -7,6 +8,7 @@ import { products } from '../../services';
 import { setCartList } from '../../app/payloads/payloadCart';
 import className from 'classnames/bind';
 import styles from './CheckoutPaypal.module.css';
+import routers from '../../Routers/routers';
 
 const cx = className.bind(styles);
 
@@ -15,6 +17,7 @@ function CheckoutPaypal({ dataCartList, label }) {
     const { currentUser } = state;
     const [paidFor, setPaidFor] = useState();
     const [error, setError] = useState(null);
+    const history = useNavigate();
     const handleApprove = (orderId) => {
         setPaidFor(true);
     };
@@ -92,12 +95,16 @@ function CheckoutPaypal({ dataCartList, label }) {
                 label: label ? label : '',
             }}
             onClick={(data, actions) => {
-                let hasAlreadyBoughtCourse = false;
-                if (hasAlreadyBoughtCourse) {
-                    setError('Bạn đã mua khóa học này rồi');
-                    return actions.reject();
+                if (!currentUser) {
+                    history(routers.login);
                 } else {
-                    return actions.resolve();
+                    let hasAlreadyBoughtCourse = false;
+                    if (hasAlreadyBoughtCourse) {
+                        setError('Bạn đã mua khóa học này rồi');
+                        return actions.reject();
+                    } else {
+                        return actions.resolve();
+                    }
                 }
             }}
             createOrder={(data, actions) => {

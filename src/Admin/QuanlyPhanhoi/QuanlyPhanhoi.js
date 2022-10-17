@@ -30,19 +30,19 @@ function QuanlyPhanhoi() {
         });
         products.getAllProduct({
             data: currentUser,
-            page,
-            limit,
+            // page,
+            // limit,
             dispatch,
             ACgetalls,
         });
         users.getAll({
             data: currentUser,
-            page,
-            limit,
+            // page,
+            // limit,
             dispatch,
             ACgetalls,
         });
-    }, []);
+    }, [page, limit]);
     const data = dataFeedBacks?.feedbacks || [];
     const dataProduct = dataProducts?.products || [];
     const dataUser = dataUsers?.users || [];
@@ -92,7 +92,9 @@ function QuanlyPhanhoi() {
                     return (
                         <tr key={index}>
                             <td>{indexTable(page, limit, index)}</td>
-                            <td>{item.nameProduct}</td>
+                            <td style={{ maxWidth: '150px' }}>
+                                {item.nameProduct}
+                            </td>
                             <td>
                                 {dates.formatDate(item.createdAt, 'DD/MM/YYYY')}
                             </td>

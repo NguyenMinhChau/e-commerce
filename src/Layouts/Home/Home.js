@@ -7,7 +7,7 @@ import Pagination from '@mui/material/Pagination';
 import { useAppContext, moneys, percents, findsAdr } from '../../utils';
 import { Icons, RoleAdmin } from '../../Components';
 import { products, shops } from '../../services';
-import { ACgetalls } from '../../app/';
+import { ACgetalls, ACpaginations } from '../../app/';
 import styles from './Home.module.css';
 import { Link } from 'react-router-dom';
 import routers from '../../Routers/routers';
@@ -32,18 +32,26 @@ function Home() {
             state,
             dispatch,
         });
-    }, []);
+    }, [page, limit]);
     const handleHeart = () => {
         setHeart(!heart);
     };
     const handleRating = (e, value) => {
         setRating(value);
     };
+    const handlePage = (e, value) => {
+        dispatch(
+            ACpaginations.setPagination({
+                ...state.pagination,
+                page: parseInt(value),
+            })
+        );
+    };
     const data = dataProducts.products || [];
 
     return (
         <div className={`${cx('container')}`}>
-            {currentUser.role === 'admin' && <RoleAdmin />}
+            {currentUser?.role === 'admin' && <RoleAdmin />}
             <div className={`${cx('products-list')}`}>
                 {data.map((item, index) => {
                     return (
@@ -52,7 +60,7 @@ function Home() {
                                 <div
                                     className={`${cx('item-image')}`}
                                     style={{
-                                        backgroundImage: `url(http://localhost:8000${item.thumbnail})`,
+                                        backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${item.thumbnail})`,
                                     }}
                                 ></div>
                                 <Link
@@ -63,13 +71,16 @@ function Home() {
                                     {item.description}
                                 </Link>
                                 <div
+                                    style={{ height: '48px' }}
                                     className={`${cx(
                                         'item-price-container'
                                     )} flex-center`}
                                 >
                                     <span
                                         className={`${cx(
-                                            'item-price-old'
+                                            item.reducedPrice
+                                                ? 'item-price-old'
+                                                : 'item-price-current'
                                         )} mb8`}
                                     >
                                         {moneys.VND(item.price)}
@@ -79,7 +90,9 @@ function Home() {
                                             'item-price-current'
                                         )} mb8`}
                                     >
-                                        {moneys.VND(item.reducedPrice)}
+                                        {item.reducedPrice
+                                            ? moneys.VND(item.reducedPrice)
+                                            : ''}
                                     </span>
                                 </div>
                                 <div
@@ -174,7 +187,8 @@ function Home() {
                     count={Math.ceil(dataProducts.total / limit)}
                     variant='outlined'
                     shape='rounded'
-                    // onChange={handlePage}
+                    value={page}
+                    onChange={handlePage}
                     showFirstButton
                     showLastButton
                 />

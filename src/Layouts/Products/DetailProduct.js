@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import className from 'classnames/bind';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
@@ -23,11 +23,13 @@ import {
 } from '../../Components';
 import styles from './DetailProducts.module.css';
 import { createFeedback, SVdeleteFeedback } from '../../services/feedback';
+import routers from '../../Routers/routers';
+import { CommentFB, LikeShareFB } from '../../SocialPlugin';
 
 const cx = className.bind(styles);
 
 function DetailProduct() {
-    const { slug } = useParams();
+    const { slug, id } = useParams();
     const { state, dispatch } = useAppContext();
     const {
         currentUser,
@@ -39,10 +41,11 @@ function DetailProduct() {
     const [rating, setRating] = useState(0);
     const [idDelete, setIdDelete] = useState(null);
     const inputRef = useRef();
+    const history = useNavigate();
     useEffect(() => {
         products.getBySlugProduct({
             data: currentUser,
-            slug,
+            slug: id || slug,
             dispatch,
             ACgetones,
         });
@@ -91,57 +94,63 @@ function DetailProduct() {
         }
     };
     const handleAddTocart = () => {
-        if (dataCartList.length === 0) {
-            const data = {
-                userId: currentUser?.id,
-                id: dataById?.product?._id,
-                name: dataById?.product?.name,
-                price: dataById?.product?.price,
-                quantity: quantityProduct,
-                thumbnail: dataById?.product?.thumbnail,
-                description: dataById?.product?.description,
-                brand: dataById?.product?.brand,
-                inventory: dataById?.product?.inventory,
-                sold: dataById?.product?.sold,
-                createdAt: new Date().toISOString(),
-            };
-            dispatch(setCartList([data]));
+        if (currentUser) {
+            if (dataCartList.length === 0) {
+                const data = {
+                    userId: currentUser?.id,
+                    id: dataById?.product?._id,
+                    name: dataById?.product?.name,
+                    price: dataById?.product?.price,
+                    quantity: quantityProduct,
+                    thumbnail: dataById?.product?.thumbnail,
+                    description: dataById?.product?.description,
+                    brand: dataById?.product?.brand,
+                    inventory: dataById?.product?.inventory,
+                    sold: dataById?.product?.sold,
+                    createdAt: new Date().toISOString(),
+                };
+                dispatch(setCartList([data]));
+            } else {
+                dataCartList.map((item, index) => {
+                    if (item.id === dataById?.product?._id) {
+                        const data = {
+                            userId: currentUser?.id,
+                            id: dataById?.product?._id,
+                            name: dataById?.product?.name,
+                            price: dataById?.product?.price,
+                            quantity:
+                                parseInt(item.quantity) +
+                                parseInt(quantityProduct),
+                            thumbnail: dataById?.product?.thumbnail,
+                            description: dataById?.product?.description,
+                            brand: dataById?.product?.brand,
+                            inventory: dataById?.product?.inventory,
+                            sold: dataById?.product?.sold,
+                            createdAt: new Date().toISOString(),
+                        };
+                        dataCartList.splice(index, 1);
+                        dispatch(setCartList([...dataCartList, data]));
+                    } else {
+                        const data = {
+                            userId: currentUser?.id,
+                            id: dataById?.product?._id,
+                            name: dataById?.product?.name,
+                            price: dataById?.product?.price,
+                            quantity: quantityProduct,
+                            thumbnail: dataById?.product?.thumbnail,
+                            description: dataById?.product?.description,
+                            brand: dataById?.product?.brand,
+                            inventory: dataById?.product?.inventory,
+                            sold: dataById?.product?.sold,
+                            createdAt: new Date().toISOString(),
+                        };
+                        dispatch(setCartList([...dataCartList, data]));
+                    }
+                });
+            }
         } else {
-            dataCartList.map((item, index) => {
-                if (item.id === dataById?.product?._id) {
-                    const data = {
-                        userId: currentUser?.id,
-                        id: dataById?.product?._id,
-                        name: dataById?.product?.name,
-                        price: dataById?.product?.price,
-                        quantity:
-                            parseInt(item.quantity) + parseInt(quantityProduct),
-                        thumbnail: dataById?.product?.thumbnail,
-                        description: dataById?.product?.description,
-                        brand: dataById?.product?.brand,
-                        inventory: dataById?.product?.inventory,
-                        sold: dataById?.product?.sold,
-                        createdAt: new Date().toISOString(),
-                    };
-                    dataCartList.splice(index, 1);
-                    dispatch(setCartList([...dataCartList, data]));
-                } else {
-                    const data = {
-                        userId: currentUser?.id,
-                        id: dataById?.product?._id,
-                        name: dataById?.product?.name,
-                        price: dataById?.product?.price,
-                        quantity: quantityProduct,
-                        thumbnail: dataById?.product?.thumbnail,
-                        description: dataById?.product?.description,
-                        brand: dataById?.product?.brand,
-                        inventory: dataById?.product?.inventory,
-                        sold: dataById?.product?.sold,
-                        createdAt: new Date().toISOString(),
-                    };
-                    dispatch(setCartList([...dataCartList, data]));
-                }
-            });
+            alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
+            history(routers.login);
         }
     };
     const handleBuyNow = () => {
@@ -172,15 +181,20 @@ function DetailProduct() {
     };
     const handleComment = async () => {
         try {
-            if (editorRef.current || rating) {
-                await 1;
-                requestRefreshToken(
-                    currentUser,
-                    commentAPI,
-                    state,
-                    dispatch,
-                    ACusers
-                );
+            if (currentUser) {
+                if (editorRef.current || rating) {
+                    await 1;
+                    requestRefreshToken(
+                        currentUser,
+                        commentAPI,
+                        state,
+                        dispatch,
+                        ACusers
+                    );
+                }
+            } else {
+                alert('Bạn cần đăng nhập để bình luận');
+                history(routers.login);
             }
         } catch (err) {
             console.log(err);
@@ -196,14 +210,21 @@ function DetailProduct() {
     };
     const handleDelete = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                deleteAPI,
-                state,
-                dispatch,
-                ACusers,
-                id
-            );
+            if (currentUser) {
+                requestRefreshToken(
+                    currentUser,
+                    deleteAPI,
+                    state,
+                    dispatch,
+                    ACusers,
+                    id
+                );
+            } else {
+                await 1;
+                alert('Bạn cần đăng nhập để xóa bình luận');
+                dispatch(ACtoogles.toogleConfirm(false));
+                history(routers.login);
+            }
         } catch (err) {
             console.log(err);
         }
@@ -216,7 +237,7 @@ function DetailProduct() {
                     <div
                         className={`${cx('image-lagre-container')} mb8`}
                         style={{
-                            backgroundImage: `url(http://localhost:8000/${data?.thumbnail})`,
+                            backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${data?.thumbnail})`,
                         }}
                     ></div>
                     <div className={`${cx('image-list-container')}`}>
@@ -288,6 +309,7 @@ function DetailProduct() {
                             </div>
                         </div>
                     </div>
+                    <LikeShareFB />
                 </div>
                 <div className={`${cx('detail-right-container')}`}>
                     <div className={`${cx('name-product-container')} mb12`}>
@@ -338,8 +360,12 @@ function DetailProduct() {
                     </div>
                     <div className={`${cx('price-container')} mb12`}>
                         <div className={`${cx('price')} fz16 mb12`}>
-                            <span>{moneys.VND(data?.reducedPrice)}</span>
-                            <span> - </span>
+                            <span>
+                                {data?.reducedPrice
+                                    ? moneys.VND(data?.reducedPrice) + ' - '
+                                    : ''}
+                            </span>
+                            {/* <span> - </span> */}
                             <span>{moneys.VND(data?.price)}</span>
                         </div>
                         <div className={`${cx('desc-price')}`}>
@@ -487,7 +513,7 @@ function DetailProduct() {
                                 alt='secure'
                                 className={`${cx('secure-logo')}`}
                             />
-                            <span className='fz16 ml8'>Shopee Đảm Bảo</span>
+                            <span className='fz16 ml8'>Mega Mart Đảm Bảo</span>
                             <span className='fz14 ml8'>
                                 3 Ngày Trả Hàng / Hoàn Tiền
                             </span>
@@ -496,7 +522,7 @@ function DetailProduct() {
                 </div>
             </div>
             <div className={`${cx('detail-desc-conatiner')}`}>
-                <div className={`${cx('detail-desc-title')}`}>
+                <div className={`${cx('detail-desc-title')} align-center`}>
                     Mô tả sản phẩm
                 </div>
                 <div className={`${cx('detail-desc-content')}`}>
@@ -585,7 +611,7 @@ function DetailProduct() {
                                         )}`}
                                     >
                                         <Image
-                                            src={`http://localhost:8000/${item.avatar}`}
+                                            src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item.avatar}`}
                                             alt={item?.user?.username}
                                             className={cx('avatar-user')}
                                         />
@@ -648,12 +674,12 @@ function DetailProduct() {
                                     )}`}
                                 >
                                     <Image
-                                        src={`http://localhost:8000/${item?.imageList[0]}`}
+                                        src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item?.imageList[0]}`}
                                         alt='image_product'
                                         className={cx('image-product')}
                                     />
                                     <div
-                                        className={`${cx('content-desc')}`}
+                                        className={`${cx('content-desc')} ml5`}
                                         dangerouslySetInnerHTML={{
                                             __html: item?.content,
                                         }}
@@ -664,6 +690,7 @@ function DetailProduct() {
                     </div>
                 )}
             </div>
+            <CommentFB />
             {toogleConfirm && (
                 <ModalConfirm
                     titleModal='Delete Confirm'

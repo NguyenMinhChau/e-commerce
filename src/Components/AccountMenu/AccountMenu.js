@@ -36,7 +36,7 @@ function AccountMenu() {
             await api.authenPost('logout');
             store.removeStore();
             dispatch(ACusers.setCurrentUser(store.getStore()));
-            history(routers.login);
+            history(routers.home);
         } catch (err) {
             console.log(err);
         }

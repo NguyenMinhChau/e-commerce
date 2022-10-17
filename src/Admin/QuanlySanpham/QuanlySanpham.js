@@ -44,7 +44,7 @@ function QuanlySanpham() {
             dispatch,
             ACgetalls,
         });
-    }, []);
+    }, [page, limit]);
 
     const data = dataProducts?.products || [];
     const modalConfirmTrue = (e, id) => {
@@ -115,7 +115,11 @@ function QuanlySanpham() {
                     return (
                         <tr key={index}>
                             <td>{indexTable(page, limit, index)}</td>
-                            <td>{item.name}</td>
+                            <td
+                                style={{ maxWidth: '150px', lineHeight: '1.5' }}
+                            >
+                                {item.name}
+                            </td>
                             <td>
                                 {dates.formatDate(
                                     item.dateImport,
@@ -123,7 +127,11 @@ function QuanlySanpham() {
                                 )}
                             </td>
                             <td>{moneys.VND(item.price)}</td>
-                            <td>{moneys.VND(item.reducedPrice)}</td>
+                            <td>
+                                {item.reducedPrice
+                                    ? moneys.VND(item.reducedPrice)
+                                    : ''}
+                            </td>
                             <td>{numbers.number(item.sold)}</td>
                             <td>{numbers.number(item.inventory)}</td>
                             <td>

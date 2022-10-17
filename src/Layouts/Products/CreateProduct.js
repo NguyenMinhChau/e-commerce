@@ -65,29 +65,17 @@ function CreateProduct() {
         };
     });
     const dataCategory = [
-        { label: 'Điện tử', value: 'Electronic' },
-        { label: 'Thời trang', value: 'Fashion' },
-        { label: 'Đồ gia dụng', value: 'HomeAppliance' },
-        { label: 'Đồ chơi', value: 'Toy' },
-        { label: 'Đồ ăn', value: 'Food' },
-        { label: 'Đồ uống', value: 'Drink' },
-        { label: 'Đồ dùng', value: 'Utensil' },
-        { label: 'Đồ dùng cá nhân', value: 'PersonalUtensil' },
-        { label: 'Đồ dùng văn phòng', value: 'OfficeUtensil' },
-        { label: 'Đồ dùng nhà bếp', value: 'KitchenUtensil' },
-        {
-            label: 'Đồ dùng phòng tắm',
-            value: 'BathroomUtensil',
-        },
-        { label: 'Đồ dùng phòng ngủ', value: 'BedroomUtensil' },
+        { label: 'Điện thoại', value: 'DienThoai' },
+        { label: 'Máy tính', value: 'MayTinh' },
+        { label: 'Tai Nghe', value: 'TaiNghe' },
+        { label: 'Máy lạnh', value: 'MayLanh' },
+        { label: 'Máy giặt', value: 'MayGiat' },
+        { label: 'Tủ lạnh', value: 'TuLanh' },
+        { label: 'Tivi', value: 'Tivi' },
     ];
     const dataBranch = [
-        { label: 'Điện thoại', value: 'Phone' },
-        { label: 'Máy tính bảng', value: 'Tablet' },
-        { label: 'Laptop', value: 'Laptop' },
-        { label: 'Máy tính để bàn', value: 'Desktop' },
-        { label: 'Máy ảnh', value: 'Camera' },
-        { label: 'Máy quay phim', value: 'VideoCamera' },
+        { label: 'Điện tử', value: 'DienThoai' },
+        { label: 'Đồ gia dụng', value: 'DoGiaDung' },
     ];
     const cancelCreate = (e) => {
         e.stopPropagation();

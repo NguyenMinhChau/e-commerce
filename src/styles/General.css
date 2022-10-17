@@ -78,6 +78,10 @@ html {
     margin-left: 4px;
 }
 
+.ml5 {
+    margin-left: 5px;
+}
+
 .mb12 {
     margin-bottom: 12px;
 }
@@ -149,6 +153,11 @@ html {
 .flex-center {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.align-center {
+    display: flex;
     align-items: center;
 }
 

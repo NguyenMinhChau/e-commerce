@@ -25,7 +25,7 @@ function CartList({ data }) {
                     data.map((item, index) => (
                         <div className={`${cx('cart-item')}`} key={index}>
                             <Image
-                                src={`http://localhost:8000/${item?.thumbnail}`}
+                                src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item?.thumbnail}`}
                                 alt={item?.name}
                                 className={`${cx('cart-image')}`}
                             />

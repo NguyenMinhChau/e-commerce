@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect } from 'react';
-import { useNavigate, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import {
     adminRouter,
@@ -8,7 +8,6 @@ import {
     privateRouter,
 } from './Routers/routersRender';
 import { DefaultLayout } from './Layouts';
-import routers from './Routers/routers';
 import { useAppContext, store } from './utils';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 import { Image } from './Components';
@@ -16,7 +15,6 @@ import { Image } from './Components';
 function App() {
     const { state } = useAppContext();
     const { currentUser } = state;
-    const history = useNavigate();
     const Routers =
         currentUser?.role === 'admin'
             ? adminRouter
@@ -24,9 +22,7 @@ function App() {
             ? privateRouter
             : publicRouter;
     useEffect(() => {
-        if (!currentUser) {
-            history(`${routers.login}`);
-        } else {
+        if (currentUser) {
             store.setStore(currentUser);
         }
     }, []);

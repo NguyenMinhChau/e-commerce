@@ -4,10 +4,11 @@ import { api } from '../utils';
 // GET ALL PRODUCTS
 export const getAllProduct = async (props = {}) => {
     const resGet = await api.productGet(
-        `/getall?page=${props.page}&limit=${props.limit}`,
-        {
-            token: props?.data?.token,
-        }
+        props.page && !props.category
+            ? `/getall?page=${props.page}&limit=${props.limit}`
+            : props.category && props.page
+            ? `/getall?page=${props.page}&limit=${props.limit}&category=${props.category}`
+            : '/getall'
     );
     props.dispatch(props.ACgetalls.getAllProduct(resGet));
 };

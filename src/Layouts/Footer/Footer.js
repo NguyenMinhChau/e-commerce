@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Icons, Image } from '../../Components';
 import className from 'classnames/bind';
 import styles from './Footer.module.css';
+import { PageFB } from '../../SocialPlugin';
 
 const cx = className.bind(styles);
 
@@ -16,7 +17,7 @@ function Footer() {
                     </h3>
                     <div className={`${cx('footer-top-item-list')}`}>
                         <Link to='#'>Trung tâm trợ giúp</Link>
-                        <Link to='#'>Shop Mall</Link>
+                        <Link to='#'>Mega Mart</Link>
                         <Link to='#'>Hướng dẫn mua hàng</Link>
                     </div>
                 </div>
@@ -66,7 +67,7 @@ function Footer() {
                         </Link>
                     </div>
                 </div>
-                <div className={`${cx('footer-top-item')}`}>
+                {/* <div className={`${cx('footer-top-item')}`}>
                     <h3 className={`${cx('footer-top-item-title')}`}>
                         Vào cửa hàng trên ứng dụng
                     </h3>
@@ -93,11 +94,14 @@ function Footer() {
                             </Link>
                         </div>
                     </div>
+                </div> */}
+                <div className={`${cx('footer-top-item')}`}>
+                    <PageFB />
                 </div>
             </div>
             <div className={`${cx('footer-bottom')}`}>
                 <h3 className={`${cx('footer-copyright')}`}>
-                    Copyright &copy; Shopee Mall 2022 -{' '}
+                    Copyright &copy; Mega Mart 2022 -{' '}
                     <span>{new Date().getFullYear()}</span>
                 </h3>
             </div>

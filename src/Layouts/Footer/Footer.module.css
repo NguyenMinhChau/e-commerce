@@ -6,7 +6,7 @@
 }
 
 .footer-top {
-    --cols: 5;
+    --cols: 6;
     --spacing: 8px;
     display: flex;
 }

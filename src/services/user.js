@@ -1,9 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { api } from '../utils';
+import { userPost } from '../utils/axios/axiosInstance';
 // GET ALL USERS
 export const getAll = async (props = {}) => {
     const resGet = await api.userGet(
-        `getall?page=${props.page}&limit=${props.limit}`
+        props.page && props.limit
+            ? `/getall?page=${props.page}&limit=${props.limit}`
+            : '/getall'
     );
     props.dispatch(props.ACgetalls.getAllUser(resGet));
 };
@@ -39,4 +42,11 @@ export const deleteUser = async (props = {}) => {
         },
     });
     window.location.reload();
+};
+// forgot Password
+export const SVforgotPwd = async (props = {}) => {
+    const resPost = await userPost('/forgotPwd', {
+        email: props?.email,
+    });
+    console.log(resPost);
 };

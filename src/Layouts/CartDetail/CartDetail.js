@@ -51,7 +51,7 @@ function CartDetail() {
                             <td>{indexTable(page, limit, index)}</td>
                             <td>
                                 <Image
-                                    src={`http://localhost:8000/${item?.thumbnail}`}
+                                    src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item?.thumbnail}`}
                                     alt={item?.name}
                                     className={`${cx('image')}`}
                                 />

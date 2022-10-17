@@ -10,6 +10,7 @@ import {
     SET_FORM_CREATE_PRODUCT,
     SET_QUANTITY_PRODUCT,
     SET_CART_LIST,
+    SET_HISTORY_SEARCH,
     TOOGLE_QR_CODE,
     TOOGLE_NOTIFY,
     TOOGLE_CART_LIST,
@@ -41,6 +42,9 @@ const initialState = {
         username: '',
         email: '',
         password: '',
+        phone: '',
+        address: '',
+        otpCode: '',
     },
     formCreateProduct: {
         name: '',
@@ -68,6 +72,7 @@ const initialState = {
         dataFeedBacksByIdProduct: [],
         dataCartList: [],
         dataById: null,
+        dataHistory: [],
     },
 };
 const reducer = (state, action) => {
@@ -145,6 +150,14 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 multipleFile: action.payload,
+            };
+        case SET_HISTORY_SEARCH:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataHistory: action.payload,
+                },
             };
         case TOOGLE_CONFIRM:
             return {

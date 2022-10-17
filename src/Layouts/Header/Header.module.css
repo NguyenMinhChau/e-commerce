@@ -10,6 +10,11 @@
     padding: 10px 32px;
 }
 
+.logo-shopee {
+    color: white;
+    height: 120px;
+}
+
 /* CONTENT TOP */
 .content-top {
     flex: 1;

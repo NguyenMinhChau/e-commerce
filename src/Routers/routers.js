@@ -3,6 +3,8 @@ const routers = {
     help: '/help',
     register: '/register',
     login: '/login',
+    forgotPwd: '/forgotPwd',
+    getOtp: '/getOTP',
     cart: '/cart',
     checkout: '/checkout',
     products: '/products',

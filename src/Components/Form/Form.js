@@ -19,13 +19,22 @@ function Form({
     bolEmail,
     bolPwd,
     bolUsername,
+    bolPhone,
+    bolAddress,
+    bolForgotPwd,
+    bolOTP,
+    bolLinkForgotPwd,
     className,
+    isLoadingLogin,
+    isLoadingRegister,
+    isLoadingOTP,
+    isLoadingForgotPwd,
 }) {
     const { state, dispatch } = useAppContext();
-    const { username, email, password } = state.form;
+    const { username, email, password, phone, address, otpCode } = state.form;
     const { errorMessage, successMessage } = state;
     const handleChange = (e) => {
-        if (e.target.value.charAt(0) === '') {
+        if (e.target.value.startsWith() === '') {
             return;
         } else {
             dispatch(
@@ -40,7 +49,9 @@ function Form({
     return (
         <div className={classed}>
             <div className={`${cx('form-container')}`}>
-                <Icons.LogoShopee className={`${cx('form-logo')}`} />
+                <Link to={routers.home}>
+                    <Icons.LogoShop className={`${cx('form-logo')}`} />
+                </Link>
                 <div className={`${cx('form-title')}`}>{titleForm}</div>
                 {(errorMessage || successMessage) && (
                     <Alert
@@ -70,6 +81,16 @@ function Form({
                         onChange={handleChange}
                     />
                 )}
+                {bolOTP && (
+                    <FormInput
+                        label='OTP'
+                        name='otpCode'
+                        value={otpCode}
+                        type='text'
+                        placeholder='Enter your OTP code'
+                        onChange={handleChange}
+                    />
+                )}
                 {bolPwd && (
                     <FormInput
                         label='password'
@@ -81,23 +102,91 @@ function Form({
                         onChange={handleChange}
                     />
                 )}
+                {bolPhone && (
+                    <FormInput
+                        label='phone'
+                        name='phone'
+                        value={phone}
+                        type='text'
+                        placeholder='Enter your phone number'
+                        onChange={handleChange}
+                    />
+                )}
+                {bolAddress && (
+                    <FormInput
+                        label='address'
+                        name='address'
+                        value={address}
+                        type='text'
+                        placeholder='Enter your address'
+                        onChange={handleChange}
+                    />
+                )}
                 <button className={`${cx('form-btn')}`} onClick={onSubmit}>
-                    {btnText}
+                    {isLoadingLogin ||
+                    isLoadingRegister ||
+                    isLoadingOTP ||
+                    isLoadingForgotPwd ? (
+                        <span className={`${cx('loader')}`}></span>
+                    ) : (
+                        btnText
+                    )}
                 </button>
                 {(login || register) && (
-                    <span className={`${cx('form-desc')}`}>
-                        <span className={`${cx('form-text')}`}>
-                            {login
-                                ? "You dont't account?"
-                                : 'You have an account?'}
+                    <>
+                        <span className={`${cx('form-desc')}`}>
+                            <span className={`${cx('form-text')}`}>
+                                {login
+                                    ? "You dont't account?"
+                                    : 'You have an account?'}
+                            </span>
+                            <Link
+                                to={login ? routers.register : routers.login}
+                                className={`${cx('form-link')}`}
+                            >
+                                {login ? 'Register' : 'Login'}
+                            </Link>
                         </span>
-                        <Link
-                            to={login ? routers.register : routers.login}
-                            className={`${cx('form-link')}`}
-                        >
-                            {login ? 'Register' : 'Login'}
-                        </Link>
-                    </span>
+                        {bolLinkForgotPwd && (
+                            <span className={`${cx('form-desc')} mt12`}>
+                                <span className={`${cx('form-text')}`}>
+                                    Forgot
+                                </span>
+                                <Link
+                                    to={routers.forgotPwd}
+                                    className={`${cx('form-link')}`}
+                                >
+                                    Password?
+                                </Link>
+                            </span>
+                        )}
+                    </>
+                )}
+                {bolForgotPwd && (
+                    <>
+                        <span className={`${cx('form-desc')}`}>
+                            <span className={`${cx('form-text')}`}>
+                                You dont't account?
+                            </span>
+                            <Link
+                                to={routers.register}
+                                className={`${cx('form-link')}`}
+                            >
+                                Register
+                            </Link>
+                        </span>
+                        <span className={`${cx('form-desc')} mt12`}>
+                            <span className={`${cx('form-text')}`}>
+                                You have an account?
+                            </span>
+                            <Link
+                                to={routers.login}
+                                className={`${cx('form-link')}`}
+                            >
+                                Login
+                            </Link>
+                        </span>
+                    </>
                 )}
             </div>
         </div>

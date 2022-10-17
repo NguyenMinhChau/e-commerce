@@ -4,33 +4,32 @@ import { useNavigate } from 'react-router-dom';
 import { useAppContext, api, store } from '../../utils';
 import { ACmessages, ACusers } from '../../app/';
 import { Form } from '../../Components';
-import styles from './Login.module.css';
+import styles from './Forgot.module.css';
 import routers from '../../Routers/routers';
+import { SVforgotPwd } from '../../services/user';
 
 const cx = className.bind(styles);
 
-function Login() {
+function ForgotPwd() {
     const { state, dispatch } = useAppContext();
-    const { email, password } = state.form;
+    const { email } = state.form;
     const [isLoading, setIsLoading] = useState(false);
     const history = useNavigate();
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const res = await api.authenPost('login', {
+            const res = await SVforgotPwd({
                 email,
-                password,
             });
-            store.setStore({
-                id: res.user._id,
-                username: res.user.username,
-                role: res.user.role,
-                token: res.user.token,
-            });
-            dispatch(ACusers.setCurrentUser(store.getStore()));
-            history(routers.home);
-            setIsLoading(false);
+            if (res.code === 0) {
+                dispatch(ACmessages.setSuccess(res?.message));
+                setIsLoading(false);
+                history(routers.login);
+            } else {
+                dispatch(ACmessages.setError(res?.message));
+                setIsLoading(false);
+            }
         } catch (err) {
             dispatch(ACmessages.setError(err?.response?.data?.message));
             setIsLoading(false);
@@ -38,17 +37,15 @@ function Login() {
     };
     return (
         <Form
-            titleForm='Login account'
-            btnText='Login'
-            login
-            bolLinkForgotPwd
+            titleForm='Forgot Password'
+            btnText='Send email'
             bolEmail
-            bolPwd
-            isLoadingLogin={isLoading}
-            className={cx('login')}
+            bolForgotPwd
+            isLoadingForgotPwd={isLoading}
+            className={cx('forgot_pwd')}
             onSubmit={handleSubmit}
         />
     );
 }
 
-export default Login;
+export default ForgotPwd;

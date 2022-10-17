@@ -8,6 +8,7 @@ export const getAllFeedback = async (props = {}) => {
             token: props?.data?.token,
         }
     );
+    console.log(resGet);
     props.dispatch(props.ACgetalls.getAllFeedback(resGet));
 };
 // CREATE FEEDBACK
