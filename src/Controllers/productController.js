@@ -5,12 +5,14 @@ const ProductController = {
     // [POST] /api/v1/product/add
     addProduct: async (req, res) => {
         try {
-            const thumbnail = req?.files?.thumbnail[0].path
+            const thumbnail = req?.files?.thumbnail[0]?.path
                 .replace('src\\uploads\\', '/')
                 .replace(/\\/g, '/');
             const imagesList = req?.files?.imagesList?.reduce((acc, file) => {
                 acc.push(
-                    file.path.replace('src\\uploads\\', '/').replace(/\\/g, '/')
+                    file?.path
+                        ?.replace('src\\uploads\\', '/')
+                        .replace(/\\/g, '/')
                 );
                 return acc;
             }, []);
@@ -119,47 +121,45 @@ const ProductController = {
             const product = await Product.findById(req.params.id);
             if (product) {
                 if (req.files) {
-                    if (req.files.thumbnail) {
-                        const thumbnail = req?.files?.thumbnail[0]?.path
-                            .replace('src\\uploads\\', '/')
-                            .replace(/\\/g, '/');
-                        req.body.thumbnail = thumbnail;
-                    } else if (req.files.imagesList) {
-                        const imagesList = req?.files?.imagesList?.reduce(
-                            (acc, file) => {
-                                acc.push(
-                                    file.path
-                                        .replace('src\\uploads\\', '/')
-                                        .replace(/\\/g, '/')
-                                );
-                                return acc;
-                            },
-                            []
-                        );
-                        req.body.imagesList = imagesList;
-                    } else {
-                        req.body.thumbnail = product.thumbnail;
-                        req.body.imagesList = product.imagesList;
-                    }
-                    await product.updateOne(
-                        { _id: req.params.id },
+                    const thumbnail = req?.files?.thumbnail
+                        ? req?.files?.thumbnail[0]?.path
+                              .replace('src\\uploads\\', '/')
+                              .replace(/\\/g, '/')
+                        : product?.thumbnail;
+                    const imagesList = req?.files?.imagesList
+                        ? req?.files?.imagesList?.reduce((acc, file) => {
+                              acc.push(
+                                  file?.path
+                                      ?.replace('src\\uploads\\', '/')
+                                      .replace(/\\/g, '/')
+                              );
+                              return acc;
+                          }, [])
+                        : product?.imagesList;
+                    const updateProduct = await Product.findByIdAndUpdate(
+                        req.params.id,
                         {
-                            $set: req.body,
-                        }
+                            ...req.body,
+                            thumbnail,
+                            imagesList,
+                        },
+                        { new: true }
                     );
-                    const newProduct = await Product.findById(req.params.id);
                     res.status(200).json({
                         message: 'Update product successfully',
-                        newProduct,
+                        updateProduct,
                     });
                 } else {
-                    await product.updateOne({
-                        $set: req.body,
-                    });
-                    const newProduct = await Product.findById(req.params.id);
+                    const updateProduct = await Product.findByIdAndUpdate(
+                        req.params.id,
+                        {
+                            ...req.body,
+                        },
+                        { new: true }
+                    );
                     res.status(200).json({
                         message: 'Update product successfully',
-                        newProduct,
+                        updateProduct,
                     });
                 }
             } else {

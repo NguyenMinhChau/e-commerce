@@ -9,6 +9,7 @@ let storage = multer.diskStorage({
         cb(null, './src/uploads/images/products');
     },
     filename: function (req, file, cb) {
+        console.log(file);
         cb(null, file.fieldname + '_' + Date.now() + '_' + file.originalname);
     },
 });
@@ -29,13 +30,8 @@ router.post(
 router.get('/getall', ProductController.getProducts);
 router.get('/:slug', ProductController.getProductBySlug);
 // router.get('/:id', ProductController.getProductById);
-router.put(
-    '/:id',
-    checkToken,
-    checkRole,
-    uploadMultiple,
-    ProductController.updateProduct
-);
+router.put('/:id', checkToken, uploadMultiple, ProductController.updateProduct);
+
 router.delete('/:id', checkToken, checkRole, ProductController.deleteProduct);
 
 module.exports = router;

@@ -10,7 +10,7 @@ const StripController = {
                         currency: 'vnd',
                         product_data: {
                             name: item?.name,
-                            description: item.description,
+                            // description: item?.description?.slice(0, 3000),
                             images: [
                                 `${process.env.URL_CLIENT}${item.thumbnail}`,
                             ],

@@ -61,9 +61,19 @@ const userController = {
                     message: 'You can not update password!',
                 });
             }
-            const user = await User.findByIdAndUpdate(req.params.id, {
-                $set: req.body,
-            });
+            if (req.body.phone || req.body.address) {
+                const user = await User.findByIdAndUpdate(req.params.id, {
+                    $set: {
+                        ...req.body,
+                        phone: req?.body?.phone,
+                        address: req?.body?.address,
+                    },
+                });
+            } else {
+                const user = await User.findByIdAndUpdate(req.params.id, {
+                    $set: req.body,
+                });
+            }
             const userUpdate = await User.findById(req.params.id);
             res.status(200).json({
                 message: 'Update user success!',

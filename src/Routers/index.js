@@ -5,6 +5,10 @@ const shopRouter = require('./shop');
 const feedbackRouter = require('./feedback');
 const cartRouter = require('./cart');
 const stripeRouter = require('./stripe');
+const emailRouter = require('./email');
+const zaloRouter = require('./zalo');
+const vnpayRouter = require('./vnpay');
+const baokimRouter = require('./baokim');
 
 const router = (app) => {
     app.use('/api/v1/authen', authenRouter);
@@ -14,6 +18,10 @@ const router = (app) => {
     app.use('/api/v1/feedback', feedbackRouter);
     app.use('/api/v1/cart', cartRouter);
     app.use('/api/v1/stripe', stripeRouter);
+    app.use('/api/v1/email', emailRouter);
+    app.use('/api/v1/zalo', zaloRouter);
+    app.use('/api/v1/vnpay', vnpayRouter);
+    app.use('/api/v1/baokim', baokimRouter);
 };
 
 module.exports = router;
