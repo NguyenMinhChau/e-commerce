@@ -30,6 +30,8 @@
 }
 
 .item-image {
+    border: none !important;
+    outline: none !important;
     flex: 1;
     padding-top: 100%;
     background-repeat: no-repeat;
@@ -37,6 +39,12 @@
     background-position: top center;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
+}
+
+.item-video {
+    width: 100%;
+    min-height: 203px;
+    padding-top: 0;
 }
 
 .item-title {

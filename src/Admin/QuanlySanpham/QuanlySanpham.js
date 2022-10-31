@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import { FormInput, Icons, ModalConfirm, TableData } from '../../Components';
 import { CreateProduct } from '../../Layouts';
-import { products } from '../../services';
+import { products, users } from '../../services';
 import {
     moneys,
     numbers,
@@ -22,6 +22,7 @@ import {
     ACusers,
 } from '../../app/';
 import styles from './QuanlySanpham.module.css';
+import { SVsendEmailMarketing } from '../../services/email';
 
 const cx = className.bind(styles);
 
@@ -33,7 +34,7 @@ function QuanlySanpham() {
         toogleConfirm,
         toogleCreateProduct,
         pagination: { page, limit },
-        data: { dataProducts },
+        data: { dataProducts, dataUsers },
     } = state;
     useEffect(() => {
         products.getAllProduct({
@@ -41,6 +42,10 @@ function QuanlySanpham() {
             page,
             limit,
             state,
+            dispatch,
+            ACgetalls,
+        });
+        users.getAll({
             dispatch,
             ACgetalls,
         });
@@ -108,6 +113,16 @@ function QuanlySanpham() {
             console.log(err);
         }
     };
+    const handleSendMailMarketing = async (slug) => {
+        try {
+            SVsendEmailMarketing({
+                userList: dataUsers?.users,
+                idProduct: slug,
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const RenderBodyTable = ({ data }) => {
         return (
             <>
@@ -148,6 +163,14 @@ function QuanlySanpham() {
                                     }
                                 >
                                     <Icons.DeleteIcons />
+                                </button>
+                                <button
+                                    className='btn-table vipbgc'
+                                    onClick={() =>
+                                        handleSendMailMarketing(item.slug)
+                                    }
+                                >
+                                    <Icons.EmailMarketing />
                                 </button>
                             </td>
                         </tr>
@@ -198,6 +221,7 @@ function QuanlySanpham() {
                     titleModal='Delete Confirm'
                     open={modalConfirmTrue}
                     close={modalConfirmFalse}
+                    textActionMain='Delete'
                     onClick={() => deleteAction(idDelete)}
                 >
                     <p className='fz14'>You're sure delete this actions?</p>

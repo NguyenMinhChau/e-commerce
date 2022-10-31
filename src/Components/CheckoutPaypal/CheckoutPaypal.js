@@ -9,6 +9,7 @@ import { setCartList } from '../../app/payloads/payloadCart';
 import className from 'classnames/bind';
 import styles from './CheckoutPaypal.module.css';
 import routers from '../../Routers/routers';
+import { SVsendEmailCheckout } from '../../services/email';
 
 const cx = className.bind(styles);
 
@@ -62,6 +63,10 @@ function CheckoutPaypal({ dataCartList, label }) {
         inventorySold.forEach(async (item) => {
             await handleUpdateInventory(item.id);
         });
+        SVsendEmailCheckout({
+            currentUser,
+            dataCartList,
+        });
         dispatch(setCartList([]));
         return (
             <div className={`${cx('container')}`}>
@@ -73,6 +78,7 @@ function CheckoutPaypal({ dataCartList, label }) {
             </div>
         );
     }
+
     if (error) {
         return (
             <div className={`${cx('container')}`}>

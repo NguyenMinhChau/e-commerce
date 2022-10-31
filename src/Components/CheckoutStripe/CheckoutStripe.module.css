@@ -19,5 +19,5 @@
 
 .button-stripe img {
     width: 30px;
-    object-fit: contain;
+    object-fit: fill;
 }

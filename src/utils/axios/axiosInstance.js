@@ -106,3 +106,39 @@ export const stripePost = async (path, options = {}) => {
     const res = await stripeInstance.post(path, options);
     return res.data;
 };
+// EMAIL
+const emailInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/email/`,
+    withCredentials: true,
+});
+export const emailPost = async (path, options = {}) => {
+    const res = await emailInstance.post(path, options);
+    return res.data;
+};
+// ZALO
+const zaloInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/zalo/`,
+    withCredentials: true,
+});
+export const zaloPost = async (path, options = {}, others = {}) => {
+    const res = await zaloInstance.post(path, options, others);
+    return res.data;
+};
+// VNPAY
+const vnpayInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/vnpay/`,
+    withCredentials: true,
+});
+export const vnpayPost = async (path, options = {}, others = {}) => {
+    const res = await vnpayInstance.post(path, options, others);
+    return res.data;
+};
+// VNPAY
+const baokimInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/baokim/`,
+    withCredentials: true,
+});
+export const baokimPost = async (path, options = {}, others = {}) => {
+    const res = await baokimInstance.post(path, options, others);
+    return res.data;
+};

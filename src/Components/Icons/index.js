@@ -1,3 +1,55 @@
+export const UpdateIcon = ({ className, width = '15px', height = '15px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            className={className}
+            width={width}
+            height={height}
+            color='currentColor'
+            fill='currentColor'
+            stroke='currentColor'
+        >
+            <path d='M288 109.3V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V109.3l-73.4 73.4c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l128-128c12.5-12.5 32.8-12.5 45.3 0l128 128c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L288 109.3zM64 352H192c0 35.3 28.7 64 64 64s64-28.7 64-64H448c35.3 0 64 28.7 64 64v32c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V416c0-35.3 28.7-64 64-64zM432 456c13.3 0 24-10.7 24-24s-10.7-24-24-24s-24 10.7-24 24s10.7 24 24 24z' />
+        </svg>
+    );
+};
+export const ReloadIcon = ({ className, width = '15px', height = '15px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            className={className}
+            width={width}
+            height={height}
+            color='currentColor'
+            fill='currentColor'
+            stroke='currentColor'
+        >
+            <path d='M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z' />
+        </svg>
+    );
+};
+export const EmailMarketing = ({
+    className,
+    width = '15px',
+    height = '15px',
+}) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            className={className}
+            width={width}
+            height={height}
+            fill='currentColor'
+            color='currentColor'
+            stroke='currentColor'
+        >
+            <path d='M215.4 96H144 107.8 96v8.8V144v40.4 89L.2 202.5c1.6-18.1 10.9-34.9 25.7-45.8L48 140.3V96c0-26.5 21.5-48 48-48h76.6l49.9-36.9C232.2 3.9 243.9 0 256 0s23.8 3.9 33.5 11L339.4 48H416c26.5 0 48 21.5 48 48v44.3l22.1 16.4c14.8 10.9 24.1 27.7 25.7 45.8L416 273.4v-89V144 104.8 96H404.2 368 296.6 215.4zM0 448V242.1L217.6 403.3c11.1 8.2 24.6 12.7 38.4 12.7s27.3-4.4 38.4-12.7L512 242.1V448v0c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64v0zM176 160H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16z' />
+        </svg>
+    );
+};
 export const FacebookIcon = ({
     className,
     width = '15px',

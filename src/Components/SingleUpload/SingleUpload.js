@@ -23,10 +23,9 @@ function SingleUpload({ width }) {
         MimeType.ico,
         MimeType.gif,
     ];
-    const handleChange = React.useCallback(
-        (files) => dispatch(ACfiles.setSingleFile([files[0]])),
-        []
-    );
+    const handleChange = React.useCallback((files) => {
+        dispatch(ACfiles.setSingleFile([files[0]]));
+    }, []);
     const handleRejected = React.useCallback(
         (fileRejections) => setFileRejections([fileRejections[0]]),
         []
@@ -55,10 +54,11 @@ function SingleUpload({ width }) {
                                 key={name}
                                 isInvalid={fileRejection != null}
                                 name={
+                                    name ||
                                     dataById?.thumbnail?.replace(
                                         '/images/products/',
                                         ''
-                                    ) || name
+                                    )
                                 }
                                 onRemove={handleRemove}
                                 sizeInBytes={size || 20000}

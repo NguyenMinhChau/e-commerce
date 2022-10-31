@@ -21,3 +21,35 @@
     font-weight: bold;
     border-radius: 5px;
 }
+
+.size-container {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.sub-product,
+.plus-product {
+    border: 1px solid #ccc;
+    padding: 4px 12px;
+    width: 30px;
+    height: 100%;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.quantity {
+    height: 100%;
+}
+
+.quantity input {
+    border: 1px solid #ccc;
+    outline: none !important;
+    height: 100%;
+    width: 60px;
+    text-align: center;
+}

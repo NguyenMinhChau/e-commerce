@@ -24,7 +24,14 @@ import {
 import styles from './DetailProducts.module.css';
 import { createFeedback, SVdeleteFeedback } from '../../services/feedback';
 import routers from '../../Routers/routers';
-import { CommentFB, LikeShareFB } from '../../SocialPlugin';
+import {
+    CommentFB,
+    LikeFB,
+    ShareFB,
+    ShareLinkedln,
+    ShareTelegram,
+    ShareTwitter,
+} from '../../SocialPlugin';
 
 const cx = className.bind(styles);
 
@@ -40,6 +47,9 @@ function DetailProduct() {
     } = state;
     const [rating, setRating] = useState(0);
     const [idDelete, setIdDelete] = useState(null);
+    const [toogleUser, setToogleUser] = useState(false);
+    const [toogleAddtoCart, setToogleAddtoCart] = useState(false);
+    const [toogleAddtoCartError, setToogleAddtoCartError] = useState(false);
     const inputRef = useRef();
     const history = useNavigate();
     useEffect(() => {
@@ -72,8 +82,37 @@ function DetailProduct() {
         e.stopPropagation();
         dispatch(ACtoogles.toogleConfirm(false));
     };
+    const modalToogleUserTrue = (e) => {
+        e.stopPropagation();
+        setToogleUser(true);
+    };
+    const modalToogleUserFalse = (e) => {
+        e.stopPropagation();
+        setToogleUser(false);
+    };
+    const modalToogleAddtoCartTrue = (e) => {
+        e.stopPropagation();
+        setToogleAddtoCart(true);
+    };
+    const modalToogleAddtoCartFalse = (e) => {
+        e.stopPropagation();
+        setToogleAddtoCart(false);
+    };
+    const modalToogleAddtoCartErrorTrue = (e) => {
+        e.stopPropagation();
+        setToogleAddtoCartError(true);
+    };
+    const modalToogleAddtoCartErrorFalse = (e) => {
+        e.stopPropagation();
+        setToogleAddtoCartError(false);
+    };
     const handleChangeQuantity = (e) => {
         dispatch(ACcarts.setQuantityProduct(e.target.value));
+    };
+    const handleKeyDown = (e) => {
+        if (quantityProduct > data?.inventory) {
+            setToogleAddtoCartError(true);
+        }
     };
     const handlePlusQuantity = (inventory) => {
         if (parseInt(inputRef.current.value) < parseInt(inventory)) {
@@ -95,62 +134,68 @@ function DetailProduct() {
     };
     const handleAddTocart = () => {
         if (currentUser) {
-            if (dataCartList.length === 0) {
-                const data = {
-                    userId: currentUser?.id,
-                    id: dataById?.product?._id,
-                    name: dataById?.product?.name,
-                    price: dataById?.product?.price,
-                    quantity: quantityProduct,
-                    thumbnail: dataById?.product?.thumbnail,
-                    description: dataById?.product?.description,
-                    brand: dataById?.product?.brand,
-                    inventory: dataById?.product?.inventory,
-                    sold: dataById?.product?.sold,
-                    createdAt: new Date().toISOString(),
-                };
-                dispatch(setCartList([data]));
+            if (dataById?.product?.inventory < quantityProduct) {
+                setToogleAddtoCartError(true);
             } else {
-                dataCartList.map((item, index) => {
-                    if (item.id === dataById?.product?._id) {
-                        const data = {
-                            userId: currentUser?.id,
-                            id: dataById?.product?._id,
-                            name: dataById?.product?.name,
-                            price: dataById?.product?.price,
-                            quantity:
-                                parseInt(item.quantity) +
-                                parseInt(quantityProduct),
-                            thumbnail: dataById?.product?.thumbnail,
-                            description: dataById?.product?.description,
-                            brand: dataById?.product?.brand,
-                            inventory: dataById?.product?.inventory,
-                            sold: dataById?.product?.sold,
-                            createdAt: new Date().toISOString(),
-                        };
-                        dataCartList.splice(index, 1);
-                        dispatch(setCartList([...dataCartList, data]));
-                    } else {
-                        const data = {
-                            userId: currentUser?.id,
-                            id: dataById?.product?._id,
-                            name: dataById?.product?.name,
-                            price: dataById?.product?.price,
-                            quantity: quantityProduct,
-                            thumbnail: dataById?.product?.thumbnail,
-                            description: dataById?.product?.description,
-                            brand: dataById?.product?.brand,
-                            inventory: dataById?.product?.inventory,
-                            sold: dataById?.product?.sold,
-                            createdAt: new Date().toISOString(),
-                        };
-                        dispatch(setCartList([...dataCartList, data]));
-                    }
-                });
+                if (dataCartList.length === 0) {
+                    const data = {
+                        userId: currentUser?.id,
+                        id: dataById?.product?._id,
+                        name: dataById?.product?.name,
+                        price: dataById?.product?.price,
+                        quantity: quantityProduct,
+                        thumbnail: dataById?.product?.thumbnail,
+                        description: dataById?.product?.description,
+                        brand: dataById?.product?.brand,
+                        inventory: dataById?.product?.inventory,
+                        sold: dataById?.product?.sold,
+                        createdAt: new Date().toISOString(),
+                    };
+                    dispatch(setCartList([data]));
+                    setToogleAddtoCart(true);
+                } else {
+                    dataCartList.map((item, index) => {
+                        if (item.id === dataById?.product?._id) {
+                            const data = {
+                                userId: currentUser?.id,
+                                id: dataById?.product?._id,
+                                name: dataById?.product?.name,
+                                price: dataById?.product?.price,
+                                quantity:
+                                    parseInt(item.quantity) +
+                                    parseInt(quantityProduct),
+                                thumbnail: dataById?.product?.thumbnail,
+                                description: dataById?.product?.description,
+                                brand: dataById?.product?.brand,
+                                inventory: dataById?.product?.inventory,
+                                sold: dataById?.product?.sold,
+                                createdAt: new Date().toISOString(),
+                            };
+                            dataCartList.splice(index, 1);
+                            dispatch(setCartList([...dataCartList, data]));
+                            setToogleAddtoCart(true);
+                        } else {
+                            const data = {
+                                userId: currentUser?.id,
+                                id: dataById?.product?._id,
+                                name: dataById?.product?.name,
+                                price: dataById?.product?.price,
+                                quantity: quantityProduct,
+                                thumbnail: dataById?.product?.thumbnail,
+                                description: dataById?.product?.description,
+                                brand: dataById?.product?.brand,
+                                inventory: dataById?.product?.inventory,
+                                sold: dataById?.product?.sold,
+                                createdAt: new Date().toISOString(),
+                            };
+                            dispatch(setCartList([...dataCartList, data]));
+                            setToogleAddtoCart(true);
+                        }
+                    });
+                }
             }
         } else {
-            alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
-            history(routers.login);
+            setToogleUser(true);
         }
     };
     const handleBuyNow = () => {
@@ -193,8 +238,7 @@ function DetailProduct() {
                     );
                 }
             } else {
-                alert('Bạn cần đăng nhập để bình luận');
-                history(routers.login);
+                setToogleUser(true);
             }
         } catch (err) {
             console.log(err);
@@ -221,9 +265,8 @@ function DetailProduct() {
                 );
             } else {
                 await 1;
-                alert('Bạn cần đăng nhập để xóa bình luận');
+                setToogleUser(true);
                 dispatch(ACtoogles.toogleConfirm(false));
-                history(routers.login);
             }
         } catch (err) {
             console.log(err);
@@ -234,12 +277,23 @@ function DetailProduct() {
         <>
             <div className={`${cx('detail-container')}`}>
                 <div className={`${cx('detail-left-container')}`}>
-                    <div
-                        className={`${cx('image-lagre-container')} mb8`}
-                        style={{
-                            backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${data?.thumbnail})`,
-                        }}
-                    ></div>
+                    {data?.thumbnail?.endsWith('.png') ? (
+                        <div
+                            className={`${cx('image-lagre-container')} mb8`}
+                            style={{
+                                backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${data?.thumbnail})`,
+                            }}
+                        ></div>
+                    ) : (
+                        <video
+                            className={`${cx(
+                                'image-lagre-container',
+                                'item-video'
+                            )} mb8`}
+                            src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${data.thumbnail}`}
+                            controls
+                        ></video>
+                    )}
                     <div className={`${cx('image-list-container')}`}>
                         <Swiper
                             slidesPerView={3}
@@ -253,30 +307,52 @@ function DetailProduct() {
                                 height: '120px',
                             }}
                         >
-                            <SwiperSlide>
-                                <div
+                            {data?.imagesList?.length > 0 ? (
+                                data?.imagesList?.map((item, index) => (
+                                    <SwiperSlide
+                                        key={index}
+                                        className={`${cx(
+                                            'image-small',
+                                            'active'
+                                        )}`}
+                                    >
+                                        {item?.endsWith('.png') ? (
+                                            <div
+                                                className={`${cx(
+                                                    'image-small-container'
+                                                )}`}
+                                                style={{
+                                                    backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${item})`,
+                                                }}
+                                            ></div>
+                                        ) : (
+                                            <video
+                                                className={`${cx(
+                                                    'image-small-container',
+                                                    'item-video'
+                                                )}`}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                }}
+                                                src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item}`}
+                                                controls
+                                            ></video>
+                                        )}
+                                    </SwiperSlide>
+                                ))
+                            ) : (
+                                <SwiperSlide
                                     className={`${cx('image-small', 'active')}`}
-                                    style={{
-                                        backgroundImage: `url('/images/placeholder_images.png')`,
-                                    }}
-                                ></div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div
-                                    className={`${cx('image-small')}`}
-                                    style={{
-                                        backgroundImage: `url('/images/placeholder_images.png')`,
-                                    }}
-                                ></div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div
-                                    className={`${cx('image-small')}`}
-                                    style={{
-                                        backgroundImage: `url('/images/placeholder_images.png')`,
-                                    }}
-                                ></div>
-                            </SwiperSlide>
+                                >
+                                    <div
+                                        className={`${cx('image-small')}`}
+                                        style={{
+                                            backgroundImage: `url('/images/placeholder_images.png')`,
+                                        }}
+                                    ></div>
+                                </SwiperSlide>
+                            )}
                         </Swiper>
                     </div>
                     <div className={`${cx('actions-container')}`}>
@@ -284,32 +360,38 @@ function DetailProduct() {
                             <div className={`${cx('action-text')}`}>
                                 Chia sẻ:{' '}
                             </div>
-                            <div className={`${cx('actions-icons')}`}>
-                                <button className={`${cx('actions-btn')}`}>
-                                    <Icons.MessengerIcon className='messenger' />
-                                </button>
-                                <button className={`${cx('actions-btn')}`}>
-                                    <Icons.FacebookIcon className='facebook' />
-                                </button>
-                                <button className={`${cx('actions-btn')}`}>
-                                    <Icons.PinterestIcon className='pinterest' />
-                                </button>
-                                <button className={`${cx('actions-btn')}`}>
-                                    <Icons.TwitterIcon className='twitter' />
-                                </button>
+                            <div
+                                className={`${cx(
+                                    'actions-icons'
+                                )} align-center`}
+                            >
+                                <ShareFB
+                                    slug={data?.slug}
+                                    name={data?.name}
+                                    desc={data?.description}
+                                />
+                                <ShareLinkedln
+                                    slug={data?.slug}
+                                    name={data?.name}
+                                    desc={data?.description}
+                                />
+                                <ShareTwitter
+                                    slug={data?.slug}
+                                    name={data?.name}
+                                    desc={data?.description}
+                                />
+                                <ShareTelegram
+                                    slug={data?.slug}
+                                    name={data?.name}
+                                    desc={data?.description}
+                                />
                             </div>
                         </div>
                         <div className='divider'></div>
                         <div className={`${cx('action-like')}`}>
-                            <Icons.HeartEmptyIcon
-                                className={`${cx('heart-icon')} mr8`}
-                            />
-                            <div className={`${cx('like-text')}`}>
-                                Likes ({data?.likesCount})
-                            </div>
+                            <LikeFB slug={data?.slug} />
                         </div>
                     </div>
-                    <LikeShareFB />
                 </div>
                 <div className={`${cx('detail-right-container')}`}>
                     <div className={`${cx('name-product-container')} mb12`}>
@@ -477,6 +559,7 @@ function DetailProduct() {
                                     value={quantityProduct}
                                     onChange={handleChangeQuantity}
                                     ref={inputRef}
+                                    onKeyUp={handleKeyDown}
                                 />
                             </div>
                             <div
@@ -525,16 +608,10 @@ function DetailProduct() {
                 <div className={`${cx('detail-desc-title')} align-center`}>
                     Mô tả sản phẩm
                 </div>
-                <div className={`${cx('detail-desc-content')}`}>
-                    {data?.description?.split('.').map((item, index) => (
-                        <div
-                            key={index}
-                            className={`${cx('detail-desc-item')}`}
-                        >
-                            - {item}
-                        </div>
-                    ))}
-                </div>
+                <div
+                    className={`${cx('detail-desc-content')} fz16`}
+                    dangerouslySetInnerHTML={{ __html: data.description }}
+                ></div>
             </div>
             <div className={`${cx('detail-feedback-conatiner')}`}>
                 <div className='d-flex'>
@@ -690,15 +767,55 @@ function DetailProduct() {
                     </div>
                 )}
             </div>
-            <CommentFB />
+            <CommentFB slug={data?.slug} />
             {toogleConfirm && (
                 <ModalConfirm
                     titleModal='Delete Confirm'
                     open={modalConfirmTrue}
                     close={modalConfirmFalse}
+                    textActionMain='Delete'
                     onClick={() => handleDelete(idDelete)}
                 >
                     <p className='fz14'>You're sure delete this actions?</p>
+                </ModalConfirm>
+            )}
+            {toogleUser && (
+                <ModalConfirm
+                    titleModal='Thông báo'
+                    open={modalToogleUserTrue}
+                    close={modalToogleUserFalse}
+                    textActionMain='Đăng nhập'
+                    onClick={() => history(routers.login)}
+                >
+                    <p className='fz14'>
+                        Bạn cần đăng nhập để thực hiện chức năng này
+                    </p>
+                </ModalConfirm>
+            )}
+            {toogleAddtoCart && (
+                <ModalConfirm
+                    titleModal='Thông báo'
+                    open={modalToogleAddtoCartTrue}
+                    close={modalToogleAddtoCartFalse}
+                    textActionMain='Đến giỏ hàng'
+                    onClick={() => history(routers.cart)}
+                >
+                    <p className='fz14'>
+                        Bạn đã thêm sản phẩm vào giỏ hàng thành công
+                    </p>
+                </ModalConfirm>
+            )}
+            {toogleAddtoCartError && (
+                <ModalConfirm
+                    titleModal='Thông báo'
+                    open={modalToogleAddtoCartErrorTrue}
+                    close={modalToogleAddtoCartErrorFalse}
+                    // textActionMain='Đến giỏ hàng'
+                    // onClick={() => history(routers.cart)}
+                >
+                    <p className='fz14'>
+                        Số lượng sản phẩm trong kho không đủ để thêm vào giỏ
+                    </p>
                 </ModalConfirm>
             )}
         </>

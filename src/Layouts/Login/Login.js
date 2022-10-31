@@ -25,6 +25,9 @@ function Login() {
             store.setStore({
                 id: res.user._id,
                 username: res.user.username,
+                email: res.user.email,
+                phone: res.user?.phone,
+                address: res.user?.address,
                 role: res.user.role,
                 token: res.user.token,
             });

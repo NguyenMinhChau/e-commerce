@@ -20,3 +20,33 @@
     justify-content: flex-end;
     align-items: center;
 }
+
+.info-user-container {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 12px;
+}
+
+.card {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    max-width: 500px;
+}
+
+.card-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.card-item:first-child {
+    margin-top: 0
+}
+
+.card-text {
+    font-size: 15px;
+}

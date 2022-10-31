@@ -8,7 +8,6 @@ import routers from '../../Routers/routers';
 import { moneys, useAppContext } from '../../utils';
 
 const cx = className.bind(styles);
-
 function CartList({ data }) {
     const { state } = useAppContext();
     const {

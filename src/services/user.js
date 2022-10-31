@@ -50,3 +50,14 @@ export const SVforgotPwd = async (props = {}) => {
     });
     console.log(resPost);
 };
+// update user
+export const updateUser = async (props = {}) => {
+    const resPut = await api.userPut(`/${props.id}`, {
+        phone: props?.phone,
+        address: props?.address,
+        headers: {
+            token: props?.token,
+        },
+    });
+    window.location.reload();
+};

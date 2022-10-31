@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import className from 'classnames/bind';
 import {
     FormInput,
-    TextArea,
     SelectOption,
     SingleUpload,
+    MultipleUpload,
     // MultipleUpload,
 } from '../../Components';
 import { shops, products } from '../../services';
+import { Editor } from '@tinymce/tinymce-react';
 import { useAppContext, requestRefreshToken } from '../../utils';
-import { ACtoogles, ACforms, ACgetalls, ACusers } from '../../app/';
+import { ACtoogles, ACforms, ACgetalls, ACusers, ACgetones } from '../../app/';
 import styles from './CreateProduct.css';
 import routers from '../../Routers/routers';
 
@@ -23,6 +24,7 @@ function CreateProduct() {
     const [showBranch, setShowBranch] = useState(false);
     const [showShopId, setShowShopId] = useState(false);
     const history = useNavigate();
+    const editorRef = useRef(null);
     const {
         currentUser,
         singleFile,
@@ -67,15 +69,29 @@ function CreateProduct() {
     const dataCategory = [
         { label: 'Điện thoại', value: 'DienThoai' },
         { label: 'Máy tính', value: 'MayTinh' },
+        { label: 'Máy tính bảng', value: 'MayTinhBang' },
+        { label: 'Pin sạc dự phòng', value: 'PinSacDuPhong' },
         { label: 'Tai Nghe', value: 'TaiNghe' },
+        { label: 'Cáp và bộ sạc', value: 'CapVaBoSac' },
+        { label: 'Thẻ nhớ', value: 'TheNho' },
+        { label: 'Ốp lưng, bao da', value: 'OpLungBaoDa' },
+        { label: 'Máy ảnh', value: 'MayAnh' },
+        { label: 'Máy quay phim', value: 'MayQuayPhim' },
+        { label: 'Đồng hồ thông minh', value: 'DongHoThongMinh' },
+        { label: 'Tivi', value: 'Tivi' },
         { label: 'Máy lạnh', value: 'MayLanh' },
         { label: 'Máy giặt', value: 'MayGiat' },
         { label: 'Tủ lạnh', value: 'TuLanh' },
-        { label: 'Tivi', value: 'Tivi' },
+        { label: 'Máy hút bụi', value: 'MayHutBui' },
+        { label: 'Máy sấy quần áo', value: 'MaySayQuanAo' },
+        { label: 'Máy chiếu', value: 'MayChieu' },
+        { label: 'Khác', value: 'Khac' },
     ];
     const dataBranch = [
         { label: 'Điện tử', value: 'DienThoai' },
+        { label: 'Phụ kiện', value: 'Phụ kiện' },
         { label: 'Đồ gia dụng', value: 'DoGiaDung' },
+        { label: 'Khác', value: 'Khac' },
     ];
     const cancelCreate = (e) => {
         e.stopPropagation();
@@ -126,7 +142,7 @@ function CreateProduct() {
         products.createProduct({
             name,
             price,
-            description,
+            description: editorRef.current.getContent(),
             reducedPrice,
             category,
             brand,
@@ -136,14 +152,15 @@ function CreateProduct() {
             priceImport,
             dateImport,
             shop,
-            singleFile,
-            multipleFile,
+            thumbnail: singleFile,
+            imagesList: multipleFile,
             state,
             dispatch,
             data,
             page,
             limit,
             ACgetalls,
+            ACgetones,
         });
     };
     const handleCreate = async () => {
@@ -157,7 +174,6 @@ function CreateProduct() {
                 ACusers
             );
             history(`${routers.qlsp}`);
-            // window.location.reload();
         } catch (err) {
             console.log(err);
         }
@@ -167,6 +183,9 @@ function CreateProduct() {
             token: data?.token,
             id,
             ...state.formCreateProduct,
+            description: editorRef.current.getContent(),
+            singleFile,
+            multipleFile,
         });
     };
     const handleUpdate = async (id) => {
@@ -185,7 +204,6 @@ function CreateProduct() {
             console.log(err);
         }
     };
-
     return (
         <div className={`${cx('container')}`}>
             <div className={`${cx('item-field')}`}>
@@ -208,12 +226,29 @@ function CreateProduct() {
                 />
             </div>
             <div className={`${cx('item-field')}`}>
-                <TextArea
-                    label='Mô tả'
-                    name='description'
-                    placeholder='Nhập mô tả sản phẩm'
-                    value={description}
-                    onChange={handleChangeInput}
+                <Editor
+                    onInit={(evt, editor) => (editorRef.current = editor)}
+                    initialValue={
+                        description ? description : '<p>Mô tả về sản phẩm?</p>'
+                    }
+                    init={{
+                        width: '100%',
+                        height: 300,
+                        menubar: false,
+                        entity_encoding: 'raw',
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount',
+                        ],
+                        toolbar:
+                            'undo redo | formatselect | ' +
+                            'bold italic backcolor forecolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                        content_style:
+                            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                    }}
                 />
             </div>
             <div className={`${cx('item-field')}`}>
@@ -319,10 +354,10 @@ function CreateProduct() {
                 <label className='label'>Ảnh/Video đầu trang</label>
                 <SingleUpload width='100%' />
             </div>
-            {/* <div className={`${cx('item-field-upload')}`}>
+            <div className={`${cx('item-field-upload')}`}>
                 <label className='label'>Ảnh/Video sản phẩm</label>
                 <MultipleUpload width='100%' />
-            </div> */}
+            </div>
             <div className={`${cx('item-field-upload')}`}>
                 <SelectOption
                     label='Shop'

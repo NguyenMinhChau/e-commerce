@@ -1,0 +1,24 @@
+.button-baokim {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #fafafa;
+    outline: none !important;
+    padding: 14px 60px;
+    border-radius: 24px;
+    background-color: #ededed;
+    font-weight: bold;
+    margin-left: 8px;
+    transition: all .3s;
+}
+
+.button-baokim:hover {
+    cursor: pointer;
+    background-color: #e2e2e2;
+}
+
+.button-baokim img {
+    width: 30px;
+    height: 15px;
+    object-fit: fill;
+}

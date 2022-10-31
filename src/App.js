@@ -2,6 +2,7 @@
 import { Fragment, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import ReactGA from 'react-ga';
 import {
     adminRouter,
     publicRouter,
@@ -13,6 +14,8 @@ import MessengerCustomerChat from 'react-messenger-customer-chat';
 import { Image } from './Components';
 
 function App() {
+    const TRACKING_ID = 'UA-246415947-1';
+    ReactGA.initialize(TRACKING_ID);
     const { state } = useAppContext();
     const { currentUser } = state;
     const Routers =

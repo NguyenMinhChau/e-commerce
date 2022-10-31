@@ -17,5 +17,8 @@ export { default as SingleUpload } from './SingleUpload/SingleUpload';
 export { default as MultipleUpload } from './MultipleUpload/MultipleUpload';
 export { default as CheckoutPaypal } from './CheckoutPaypal/CheckoutPaypal';
 export { default as CheckoutStripe } from './CheckoutStripe/CheckoutStripe';
+export { default as CheckoutVnpay } from './CheckoutVnpay/CheckoutVnpay';
+export { default as CheckoutZalo } from './CheckoutZalo/CheckoutZalo';
+export { default as CheckoutBaoKim } from './CheckoutBaoKim/CheckoutBaoKim';
 export { default as PageNotFound } from './PageNotFound/PageNotFound';
 export * as Icons from './Icons';

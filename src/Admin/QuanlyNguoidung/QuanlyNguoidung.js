@@ -138,6 +138,7 @@ function QuanlyNguoidung() {
                     titleModal='Delete Confirm'
                     open={modalConfirmTrue}
                     close={modalConfirmFalse}
+                    textActionMain='Delete'
                     onClick={() => handleDeleteUser(idDelete)}
                 >
                     <p className='fz14'>You're sure delete this actions?</p>

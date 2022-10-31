@@ -12,6 +12,7 @@ function ModalConfirm({
     onClick,
     children,
     className,
+    textActionMain,
 }) {
     const classed = cx('modal-container', className);
     return (
@@ -29,9 +30,11 @@ function ModalConfirm({
                     <button className='btn confirmbgc' onClick={close}>
                         Cancel
                     </button>
-                    <button className='btn cancelbgc' onClick={onClick}>
-                        Delete
-                    </button>
+                    {textActionMain && (
+                        <button className='btn cancelbgc' onClick={onClick}>
+                            {textActionMain}
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

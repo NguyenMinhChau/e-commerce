@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Icons, Image } from '../../Components';
+import { Icons } from '../../Components';
 import className from 'classnames/bind';
 import styles from './Footer.module.css';
 import { PageFB } from '../../SocialPlugin';

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
 import { api } from '../utils';
 
@@ -43,8 +44,8 @@ export const createProduct = async (props = {}) => {
             priceImport: props.priceImport,
             dateImport: props.dateImport,
             shop: props.shop,
-            thumbnail: props.singleFile[0],
-            // imagesList: props.multipleFile,
+            thumbnail: props.thumbnail[0],
+            imagesList: props.imagesList[0],
         },
         {
             headers: {
@@ -57,14 +58,18 @@ export const createProduct = async (props = {}) => {
 };
 // UPDATE PRODUCT
 export const updateProduct = async (props = {}) => {
+    const { multipleFile, singleFile, ...dataResPut } = props;
     const resPut = await api.productPut(
         `/${props.id}`,
         {
-            ...props,
-            token: props?.token,
+            ...dataResPut,
+            description: props.description,
+            thumbnail: props.singleFile[0],
+            imagesList: props.multipleFile[0],
         },
         {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 token: props?.token,
             },
         }

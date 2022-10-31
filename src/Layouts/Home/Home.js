@@ -57,19 +57,31 @@ function Home() {
                     return (
                         <div className={`${cx('products-item')}`} key={index}>
                             <div className={`${cx('item-container')}`}>
-                                <div
-                                    className={`${cx('item-image')}`}
-                                    style={{
-                                        backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${item.thumbnail})`,
-                                    }}
-                                ></div>
+                                {item.thumbnail.endsWith('.png') ? (
+                                    <div
+                                        className={`${cx('item-image')}`}
+                                        style={{
+                                            backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${item.thumbnail})`,
+                                        }}
+                                    ></div>
+                                ) : (
+                                    <video
+                                        className={`${cx(
+                                            'item-image',
+                                            'item-video'
+                                        )}`}
+                                        src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item.thumbnail}`}
+                                        controls
+                                    ></video>
+                                )}
                                 <Link
                                     to={`${routers.products}/${routers.productDetail}/${item.slug}`}
                                     className={`${cx('item-title')}`}
-                                    title={item.description}
-                                >
-                                    {item.description}
-                                </Link>
+                                    title={item.name}
+                                    dangerouslySetInnerHTML={{
+                                        __html: item.name,
+                                    }}
+                                ></Link>
                                 <div
                                     style={{ height: '48px' }}
                                     className={`${cx(

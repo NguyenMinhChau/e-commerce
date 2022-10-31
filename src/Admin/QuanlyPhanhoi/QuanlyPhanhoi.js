@@ -157,6 +157,7 @@ function QuanlyPhanhoi() {
                     titleModal='Delete Confirm'
                     open={modalConfirmTrue}
                     close={modalConfirmFalse}
+                    textActionMain='Delete'
                     onClick={() => deleteAction(idDelete)}
                 >
                     <p className='fz14'>You're sure delete this actions?</p>
