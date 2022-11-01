@@ -116,6 +116,7 @@ function Livestream() {
                                     fontWeight: 'bold',
                                     marginBottom: '8px',
                                     fontStyle: 'italic',
+                                    lineHeight: '1.5',
                                 }}
                             >
                                 <span style={{ color: 'red' }}>
