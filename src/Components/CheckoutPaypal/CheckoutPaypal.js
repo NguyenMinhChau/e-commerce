@@ -36,11 +36,11 @@ function CheckoutPaypal({ dataCartList, label }) {
     });
     const updateInventoryAPI = (data, id) => {
         inventorySold.map((item) => {
-            products.updateProduct({
+            products.updateProductInventory({
                 token: data?.token,
-                inventory: item?.inventory,
-                sold: item?.sold,
-                id: item?.id,
+                inventory: parseInt(item?.inventory),
+                sold: parseInt(item?.sold),
+                id: id,
             });
         });
     };

@@ -10,6 +10,7 @@ const routers = {
     products: '/products',
     productType: 'type',
     productDetail: 'detail',
+    livestream: '/live',
     // ADMIN
     tkdt: '/admin/tkdoanhthu',
     tksp: '/admin/thongkesp',

@@ -8,6 +8,7 @@ import {
     DetailProduct,
     CartDetail,
     Checkout,
+    Livestream,
 } from '../Layouts';
 import {
     ThongkeDoanhthu,
@@ -26,6 +27,7 @@ const publicRouter = [
     { path: routers.pageNotFound, component: PageNotFound, layout: null },
     { path: routers.home, component: Home },
     { path: routers.cart, component: CartDetail },
+    { path: routers.livestream, component: Livestream },
     {
         path: `${routers.products}/${routers.productType}/:type`,
         component: Home,
@@ -41,6 +43,7 @@ const privateRouter = [
     { path: routers.home, component: Home },
     { path: routers.cart, component: CartDetail },
     { path: routers.checkout, component: Checkout },
+    { path: routers.livestream, component: Livestream },
     {
         path: `${routers.products}/${routers.productType}/:type`,
         component: Home,
@@ -56,6 +59,7 @@ const adminRouter = [
     { path: routers.home, component: Home },
     { path: routers.cart, component: CartDetail },
     { path: routers.checkout, component: Checkout },
+    { path: routers.livestream, component: Livestream },
     {
         path: `${routers.products}/${routers.productType}/:type`,
         component: Home,

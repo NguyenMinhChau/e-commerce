@@ -3,6 +3,7 @@ import {
     GET_ALL_PRODUCT,
     GET_ALL_SHOP,
     GET_ALL_FEEDBACK,
+    GET_ALL_LIVE,
     GET_FEEDBACK_BY_PRODUCT_ID,
 } from '../actions';
 
@@ -27,6 +28,12 @@ export const getAllShop = (payload) => {
 export const getAllFeedback = (payload) => {
     return {
         type: GET_ALL_FEEDBACK,
+        payload,
+    };
+};
+export const getAllLive = (payload) => {
+    return {
+        type: GET_ALL_LIVE,
         payload,
     };
 };

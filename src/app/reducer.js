@@ -20,6 +20,7 @@ import {
     GET_ALL_PRODUCT,
     GET_ALL_SHOP,
     GET_ALL_FEEDBACK,
+    GET_ALL_LIVE,
     GET_FEEDBACK_BY_PRODUCT_ID,
     GET_A_PRODUCT,
 } from './actions';
@@ -73,6 +74,7 @@ const initialState = {
         dataCartList: [],
         dataById: null,
         dataHistory: [],
+        dataLives: [],
     },
 };
 const reducer = (state, action) => {
@@ -178,6 +180,14 @@ const reducer = (state, action) => {
                 data: {
                     ...state.data,
                     dataProducts: action.payload,
+                },
+            };
+        case GET_ALL_LIVE:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataLives: action.payload,
                 },
             };
         case GET_ALL_SHOP:

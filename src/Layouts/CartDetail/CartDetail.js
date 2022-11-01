@@ -8,13 +8,22 @@ import {
     useAppContext,
     dates,
     indexTable,
+    store,
+    requestRefreshToken,
 } from '../../utils';
-import { Icons, Image, ModalConfirm, TableData } from '../../Components';
-import { ACtoogles } from '../../app/';
-import { Link } from 'react-router-dom';
+import {
+    FormInput,
+    Icons,
+    Image,
+    ModalConfirm,
+    TableData,
+} from '../../Components';
+import { ACforms, ACtoogles, ACusers } from '../../app/';
+import { Link, useNavigate } from 'react-router-dom';
 import routers from '../../Routers/routers';
 import { SVsendEmailOrder } from '../../services/email';
 import { setCartList } from '../../app/payloads/payloadCart';
+import { updateUser } from '../../services/user';
 
 const cx = className.bind(styles);
 
@@ -23,11 +32,16 @@ function CartDetail() {
     const {
         currentUser,
         toogleConfirm,
+        form: { address, phone },
         data: { dataCartList },
         pagination: { page, limit },
     } = state;
+    const history = useNavigate();
+    const refAddress = useRef();
+    const refPhone = useRef();
     const [idDelete, setIdDelete] = useState(null);
     const [toogleAddtoCartError, setToogleAddtoCartError] = useState(false);
+    const [toogleUpdateUser, setToogleUpdateUser] = useState(false);
     const inputRef = useRef();
     const modalConfirmTrue = (e, id) => {
         e.stopPropagation();
@@ -43,6 +57,14 @@ function CartDetail() {
         setToogleAddtoCartError(true);
     };
     const modalToogleAddtoCartErrorFalse = (e) => {
+        e.stopPropagation();
+        setToogleAddtoCartError(false);
+    };
+    const modalToogleUpdateUserTrue = (e) => {
+        e.stopPropagation();
+        setToogleUpdateUser(true);
+    };
+    const modalToogleUpdateUserFalse = (e) => {
         e.stopPropagation();
         setToogleAddtoCartError(false);
     };
@@ -189,10 +211,63 @@ function CartDetail() {
         );
     };
     const handleOrderEmail = () => {
-        SVsendEmailOrder({
-            dataCartList,
-            currentUser,
+        if (!currentUser?.address || !currentUser?.phone) {
+            setToogleUpdateUser(true);
+        } else {
+            SVsendEmailOrder({
+                dataCartList,
+                currentUser,
+            });
+        }
+    };
+    const updateAPI = (data, id) => {
+        updateUser({
+            token: data?.token,
+            phone: refPhone.current?.value?.trim() || phone.trim(),
+            address: refAddress.current?.value?.trim() || address.trim(),
+            id,
         });
+    };
+    const handleChange = (e) => {
+        dispatch(
+            ACforms.setFormValue({
+                address: refAddress.current.value,
+                phone: refPhone.current.value,
+            })
+        );
+    };
+    const handleUpdateInfo = async (id) => {
+        try {
+            await 1;
+            store.setStore({
+                id: currentUser?.id,
+                username: currentUser?.username,
+                email: currentUser?.email,
+                phone: refPhone.current?.value || phone,
+                address: refAddress.current?.value || address,
+                role: currentUser?.role,
+                token: currentUser?.token,
+            });
+            dispatch(ACusers.setCurrentUser(store.getStore()));
+            requestRefreshToken(
+                currentUser,
+                updateAPI,
+                state,
+                dispatch,
+                ACusers,
+                id
+            );
+            SVsendEmailOrder({
+                dataCartList,
+                currentUser: {
+                    ...currentUser,
+                    phone,
+                    address,
+                },
+            });
+            setToogleUpdateUser(false);
+            history(routers.checkout);
+        } catch (err) {}
     };
     return (
         <>
@@ -201,7 +276,11 @@ function CartDetail() {
                     <div className={`${cx('top')} d-flex`}>
                         <Link
                             className={`${cx('btn')} confirmbgc`}
-                            to={routers.checkout}
+                            to={
+                                !currentUser?.address || !currentUser?.phone
+                                    ? routers.cart
+                                    : routers.checkout
+                            }
                             onClick={handleOrderEmail}
                         >
                             Tiến hành đặt hàng và thanh toán
@@ -236,6 +315,32 @@ function CartDetail() {
                     <p className='fz14'>
                         Số lượng sản phẩm trong kho không đủ cập nhật vào giỏ
                     </p>
+                </ModalConfirm>
+            )}
+            {toogleUpdateUser && (
+                <ModalConfirm
+                    open={modalToogleUpdateUserTrue}
+                    close={modalToogleUpdateUserFalse}
+                    textActionMain='Cập nhật'
+                    titleModal='Vui lòng cập nhật thông tin'
+                    onClick={() => handleUpdateInfo(currentUser?.id)}
+                >
+                    <FormInput
+                        label='Địa chỉ'
+                        type='text'
+                        name='address'
+                        value={refAddress.current?.value || address}
+                        onChange={handleChange}
+                        ref={refAddress}
+                    />
+                    <FormInput
+                        label='Số điện thoại'
+                        type='text'
+                        name='phone'
+                        value={refPhone.current?.value || phone}
+                        onChange={handleChange}
+                        ref={refPhone}
+                    />
                 </ModalConfirm>
             )}
         </>

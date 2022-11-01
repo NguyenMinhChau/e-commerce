@@ -10,4 +10,5 @@ export { default as DetailProduct } from './Products/DetailProduct';
 export { default as CreateProduct } from './Products/CreateProduct';
 export { default as CartDetail } from './CartDetail/CartDetail';
 export { default as Checkout } from './Checkout/Checkout';
+export { default as Livestream } from './Livestream/Livestream';
 export { default as Footer } from './Footer/Footer';

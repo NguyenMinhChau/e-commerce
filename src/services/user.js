@@ -59,5 +59,5 @@ export const updateUser = async (props = {}) => {
             token: props?.token,
         },
     });
-    window.location.reload();
+    // window.location.reload();
 };

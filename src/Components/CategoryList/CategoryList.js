@@ -12,6 +12,7 @@ import styles from './CategoryList.module.css';
 import { Link } from 'react-router-dom';
 import { getAllProduct } from '../../services/product';
 import { ACgetalls } from '../../app/';
+import routers from '../../Routers/routers';
 
 const cx = className.bind(styles);
 const Accordion = styled((props) => (
@@ -57,6 +58,10 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 const DATA = [
     {
         id: 1,
+        title: 'Live',
+    },
+    {
+        id: 2,
         title: 'Điện thoại & Phụ kiện',
         items: [
             {
@@ -89,7 +94,7 @@ const DATA = [
         ],
     },
     {
-        id: 2,
+        id: 3,
         title: 'Thiết bị điện tử',
         items: [
             {
@@ -163,25 +168,42 @@ function CategoryList() {
                             id='panel1d-header'
                             className='cl-primary'
                         >
-                            <Typography className='fwb fz12 text-capitalize'>
-                                {item.title}
-                            </Typography>
+                            {item.items ? (
+                                <Typography className='fwb fz12 text-capitalize'>
+                                    {item.title}
+                                </Typography>
+                            ) : (
+                                <Link
+                                    style={{
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                        width: '100%',
+                                    }}
+                                    to={routers.livestream}
+                                >
+                                    <Typography className='fwb fz12 text-capitalize'>
+                                        {item.title}
+                                    </Typography>
+                                </Link>
+                            )}
                         </AccordionSummary>
-                        <AccordionDetails>
-                            <div className={`${cx('category-list')}`}>
-                                {item.items.map((item, index) => (
-                                    <Link
-                                        to='#'
-                                        className={`${cx('category-item')}`}
-                                        onClick={() =>
-                                            handleClickSidebar(item?.name)
-                                        }
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
-                            </div>
-                        </AccordionDetails>
+                        {item.items && (
+                            <AccordionDetails>
+                                <div className={`${cx('category-list')}`}>
+                                    {item.items.map((item, index) => (
+                                        <Link
+                                            to='#'
+                                            className={`${cx('category-item')}`}
+                                            onClick={() =>
+                                                handleClickSidebar(item?.name)
+                                            }
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </AccordionDetails>
+                        )}
                     </Accordion>
                 </div>
             ))}

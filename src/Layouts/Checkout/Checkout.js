@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import className from 'classnames/bind';
 import styles from './Checkout.module.css';
 import {
@@ -22,6 +23,7 @@ import {
 } from '../../Components';
 import { ACforms, ACusers } from '../../app/';
 import { updateUser } from '../../services/user';
+import routers from '../../Routers/routers';
 
 const cx = className.bind(styles);
 
@@ -29,6 +31,7 @@ function Checkout() {
     const { state, dispatch } = useAppContext();
     const [toogleConfirm, setToogleConfirm] = React.useState(false);
     const [idDelete, setIdDelete] = React.useState(null);
+    const history = useNavigate();
     const {
         currentUser,
         data: { dataCartList },
@@ -124,6 +127,7 @@ function Checkout() {
                 id
             );
             setToogleConfirm(false);
+            history(routers.checkout);
         } catch (err) {}
     };
     return (

@@ -142,3 +142,20 @@ export const baokimPost = async (path, options = {}, others = {}) => {
     const res = await baokimInstance.post(path, options, others);
     return res.data;
 };
+// VNPAY
+const liveInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/live/`,
+    withCredentials: true,
+});
+export const livePost = async (path, options = {}, others = {}) => {
+    const res = await liveInstance.post(path, options, others);
+    return res.data;
+};
+export const liveGet = async (path, options = {}, others = {}) => {
+    const res = await liveInstance.get(path, options, others);
+    return res.data;
+};
+export const liveDelete = async (path, options = {}, others = {}) => {
+    const res = await liveInstance.delete(path, options, others);
+    return res.data;
+};

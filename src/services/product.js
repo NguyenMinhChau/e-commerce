@@ -66,6 +66,25 @@ export const updateProduct = async (props = {}) => {
             description: props.description,
             thumbnail: props.singleFile[0],
             imagesList: props.multipleFile[0],
+            inventory: props.inventory,
+            sold: props.sold,
+        },
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                token: props?.token,
+            },
+        }
+    );
+    window.location.reload();
+};
+// UPDATE PRODUCT
+export const updateProductInventory = async (props = {}) => {
+    const resPut = await api.productPut(
+        `/${props.id}`,
+        {
+            inventory: props.inventory,
+            sold: props.sold,
         },
         {
             headers: {
