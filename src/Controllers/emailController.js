@@ -10,6 +10,18 @@ const EmailController = {
             const mailContent = `
                 <p>Kính gửi: <strong><i>${user?.username}</i></strong></p>
                 <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a style='color: #ee4d2d' href='https://shopsmallnmc.netlify.app/'><u><strong>MEGAMART</strong></u></a></span>. Đơn hàng của bạn đã được thanh toán thành công.</i></p>
+                <h3><b>Thông tin khách hàng</b></h3>
+                <div style='border: 1px solid #000; border-radius: 8px; padding: 8px 12px; max-width: 500px'>
+                    <p><b>Họ và tên: <i style='color: #ee4d2d'>${
+                        user?.username
+                    }</i></b></p>
+                    <p><b>Địa chỉ: <i style='color: #ee4d2d'>${
+                        user?.address ? user?.address : 'Không có địa chỉ'
+                    }</i></b></p>
+                    <p><b>Số điện thoại: <i style='color: #ee4d2d'>${
+                        user?.phone ? user?.phone : 'Không có số điện thoại'
+                    }</i></b></p>
+                </div>
                 <h3 style='margin-bottom: 10px'>Chi tiết đơn hàng</h3>
                 <table style='border-collapse: collapse; width: 100%;'>
                     <thead>
@@ -86,6 +98,18 @@ const EmailController = {
             const mailContent = `
                 <p>Kính gửi: <strong><i>${user?.username}</i></strong></p>
                 <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a  style='color: #ee4d2d' href='https://shopsmallnmc.netlify.app/'><u><strong>MEGAMART</strong></u></a></span>. Đơn hàng của bạn đã được đặt thành công.</i></p>
+                <h3><b>Thông tin khách hàng</b></h3>
+                <div style='border: 1px solid #000; border-radius: 8px; padding: 8px 12px; max-width: 500px'>
+                    <p><b>Họ và tên: <i style='color: #ee4d2d'>${
+                        user?.username
+                    }</i></b></p>
+                    <p><b>Địa chỉ: <i style='color: #ee4d2d'>${
+                        user?.address ? user?.address : 'Không có địa chỉ'
+                    }</i></b></p>
+                    <p><b>Số điện thoại: <i style='color: #ee4d2d'>${
+                        user?.phone ? user?.phone : 'Không có số điện thoại'
+                    }</i></b></p>
+                </div>
                 <h3 style='margin-bottom: 10px'>Chi tiết đơn hàng</h3>
                 <table style='border-collapse: collapse; width: 100%;'>
                     <thead>
@@ -205,8 +229,10 @@ const EmailController = {
                                             product.description.length > 1000
                                                 ? product.description
                                                       .slice(0, 1000)
-                                                      .replace(/<img[^>]*>/g) +
-                                                  ''
+                                                      .replace(
+                                                          /<img[^>]*>/g,
+                                                          ''
+                                                      ) + ''
                                                 : product.description
                                         }
                                         <p><strong>Chi tiết sản phẩm có thể xem tại đây: <i><a style='color: #ee4d2d' href='https://shopsmallnmc.netlify.app/products/detail/${idProduct}'>${
