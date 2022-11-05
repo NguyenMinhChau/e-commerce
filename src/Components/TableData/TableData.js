@@ -6,6 +6,7 @@ import { Icons } from '../';
 import { useAppContext } from '../../utils';
 import { ACpaginations } from '../../app/';
 import styles from './TableData.module.css';
+import { Link } from 'react-router-dom';
 
 const cx = className.bind(styles);
 
@@ -21,7 +22,14 @@ const ThRender = ({ item }) => {
     );
 };
 
-function TableData({ headers, data, totalData, children, className }) {
+function TableData({
+    headers,
+    data,
+    totalData,
+    children,
+    router = {},
+    className,
+}) {
     const { state, dispatch } = useAppContext();
     const {
         pagination: { limit, page },
@@ -67,23 +75,36 @@ function TableData({ headers, data, totalData, children, className }) {
                     ) : (
                         <tr>
                             <td colSpan={lengthHeades} className='text-center'>
-                                Không có dữ liệu
+                                <span>Không có dữ liệu.</span>{' '}
+                                {router && (
+                                    <span>
+                                        {router.textBack}{' '}
+                                        <Link
+                                            to={router.link}
+                                            className={`${cx('link')}`}
+                                        >
+                                            {router.textPage}
+                                        </Link>
+                                    </span>
+                                )}
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>
-            <div className={`${cx('item-pagination-container')}`}>
-                <Pagination
-                    count={Math.ceil(totalData / limit)}
-                    variant='outlined'
-                    value={page}
-                    shape='rounded'
-                    onChange={handlePage}
-                    showFirstButton
-                    showLastButton
-                />
-            </div>
+            {data?.length > 0 && (
+                <div className={`${cx('item-pagination-container')}`}>
+                    <Pagination
+                        count={Math.ceil(totalData / limit)}
+                        variant='outlined'
+                        value={page}
+                        shape='rounded'
+                        onChange={handlePage}
+                        showFirstButton
+                        showLastButton
+                    />
+                </div>
+            )}
         </div>
     );
 }

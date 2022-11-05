@@ -291,6 +291,11 @@ function CartDetail() {
                     headers={cartDetail.headers}
                     data={dataCartList}
                     totalData={dataCartList.length}
+                    router={{
+                        textBack: 'Tiếp tục mua hàng',
+                        textPage: 'Về trang chủ',
+                        link: routers.home,
+                    }}
                 >
                     <RenderBodyTable data={dataCartList} />
                 </TableData>
