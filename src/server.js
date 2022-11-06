@@ -17,6 +17,8 @@ app.use(
     cors({
         origin: true,
         credentials: true,
+        optionSuccessStatus: 200,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
     })
 );
 app.use(

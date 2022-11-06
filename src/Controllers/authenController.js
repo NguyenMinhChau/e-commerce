@@ -24,7 +24,7 @@ const authenController = {
             },
             process.env.JWT_ACCESS_TOKEN_SECRET,
             {
-                expiresIn: '60s',
+                expiresIn: '1d',
             }
         );
     },
@@ -88,7 +88,7 @@ const authenController = {
             const mailContent = `
                 <p>Kính gửi: <strong><i>${data.username}</i></strong></p>
                 <p><i>Chúng tôi, bộ phận tiếp nhận thông tin khách hàng <span style='color: #ee4d2d'><u><strong>MEGAMART</strong></u></span>. Chúc mừng bạn đã đăng kí tài khoản thành công.</i></p>
-                <p>Để thực hiện đăng nhập. Vui lòng truy cập tại <a href='https://shopsmallnmc.netlify.app/login'><strong>here</strong></a></p>
+                <p>Để thực hiện đăng nhập. Vui lòng truy cập tại <a href='https://megamartnmc.netlify.app/login'><strong>here</strong></a></p>
                 <p><i>Đây là email tự động, vui lòng không trả lời email này.</i></p>
 
                 <p><strong><i>Trân trọng.</i></strong></p>

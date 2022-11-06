@@ -2,7 +2,7 @@ const User = require('../Models/User');
 const Forgot = require('../Models/Forgot');
 const otpGenerator = require('otp-generator');
 const bcrypt = require('bcrypt');
-const sendMailFunc = require('../Utils/sendMail');
+const sendMailFunc = require('../utils/sendMail');
 const jwt = require('jsonwebtoken');
 
 const userController = {
@@ -131,7 +131,7 @@ const userController = {
                                 <p><i>Chúng tôi, bộ phận tiếp nhận thông tin khách hàng <span style='color: #ee4d2d'><u><strong>MEGAMART</strong></u></span> gửi đến bạn URL thực hiện cập nhật mật khẩu.</i></p>
                                 <p>Chú ý: <strong>Không được chia sẻ mã này cho bất kì ai để đảm bảo an toàn tuyệt đối cho tài khoản.<u><i style='color: #ee4d2d; font-weight: bold'>Mật khẩu có hiệu lực trong vòng 5 phút.</i></u></strong></p>
                                 <p>Mã OTP: <strong><u><i>${otp}</i></u></strong></p>
-                                <p>Để thực hiện refresh mật khẩu. Vui lòng truy cập tại <a href='https://shopsmallnmc.netlify.app/getOTP/${token}'><strong>here</strong></a></p>
+                                <p>Để thực hiện refresh mật khẩu. Vui lòng truy cập tại <a href='https://megamartnmc.netlify.app/getOTP/${token}'><strong>here</strong></a></p>
                                 <p><i>Đây là email tự động, vui lòng không trả lời email này.</i></p>
 
                                 <p><strong><i>Trân trọng.</i></strong></p>
