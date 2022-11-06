@@ -190,7 +190,6 @@ function CreateProduct() {
     };
     const handleUpdate = async (id) => {
         try {
-            await 1;
             requestRefreshToken(
                 currentUser,
                 updateProductAPI,
@@ -236,13 +235,15 @@ function CreateProduct() {
                         height: 300,
                         menubar: false,
                         entity_encoding: 'raw',
+                        images_upload_url: 'postAcceptor.php',
+                        automatic_uploads: false,
                         plugins: [
-                            'advlist autolink lists link image charmap print preview anchor',
+                            'advlist autolink lists link image media charmap print preview anchor',
                             'searchreplace visualblocks code fullscreen',
                             'insertdatetime media table paste code help wordcount',
                         ],
                         toolbar:
-                            'undo redo | formatselect | ' +
+                            'undo redo | formatselect | image | media |' +
                             'bold italic backcolor forecolor | alignleft aligncenter ' +
                             'alignright alignjustify | bullist numlist outdent indent | ' +
                             'removeformat | help',

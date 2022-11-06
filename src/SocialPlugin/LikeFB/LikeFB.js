@@ -9,7 +9,7 @@ function LikeFB({ slug }) {
     return (
         <div
             className='fb-like'
-            data-href={`https://shopsmallnmc.netlify.app/products/detail/${slug}`}
+            data-href={`${process.env.REACT_APP_URL_SERVER_IMAGE}/products/detail/${slug}`}
             data-width=''
             data-layout='button'
             data-action='like'

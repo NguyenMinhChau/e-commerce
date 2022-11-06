@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import Rating from '@mui/material/Rating';
 import Pagination from '@mui/material/Pagination';
-import { useAppContext, moneys, percents, findsAdr } from '../../utils';
+import { useAppContext, moneys, percents } from '../../utils';
 import { Icons, RoleAdmin } from '../../Components';
-import { products, shops } from '../../services';
+import { products } from '../../services';
 import { ACgetalls, ACpaginations } from '../../app/';
 import styles from './Home.module.css';
 import { Link } from 'react-router-dom';
@@ -61,7 +61,13 @@ function Home() {
                                     <div
                                         className={`${cx('item-image')}`}
                                         style={{
-                                            backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${item.thumbnail})`,
+                                            backgroundImage: `url(${
+                                                process.env
+                                                    .REACT_APP_URL_SERVER_IMAGE
+                                            }${item?.thumbnail?.replace(
+                                                'src/uploads',
+                                                ''
+                                            )})`,
                                         }}
                                     ></div>
                                 ) : (
@@ -70,7 +76,13 @@ function Home() {
                                             'item-image',
                                             'item-video'
                                         )}`}
-                                        src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item.thumbnail}`}
+                                        src={`${
+                                            process.env
+                                                .REACT_APP_URL_SERVER_IMAGE
+                                        }${item?.thumbnail?.replace(
+                                            'src/uploads',
+                                            ''
+                                        )}`}
                                         controls
                                     ></video>
                                 )}

@@ -14,6 +14,7 @@ const requestRefreshToken = async (
         if (accessToken) {
             const decodedToken = await jwt_decode(accessToken);
             const date = new Date();
+            console.log(decodedToken.exp < date.getTime() / 1000);
             if (decodedToken.exp < date.getTime() / 1000) {
                 const res = await api.refreshToken('refresh_token');
                 const refreshUser = {

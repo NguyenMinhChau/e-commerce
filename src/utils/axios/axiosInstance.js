@@ -16,7 +16,7 @@ export const refreshToken = async (path, options = {}) => {
 // User
 const userInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/users/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const userGet = async (path, options = {}) => {
     const res = await userInstance.get(path, options);
@@ -37,7 +37,7 @@ export const userDelete = async (path, options = {}, others = {}) => {
 // PRODUCT
 const productInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/product/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const productGet = async (path, options = {}) => {
     const res = await productInstance.get(path, options);
@@ -58,7 +58,7 @@ export const productDelete = async (path, options = {}, others = {}) => {
 // SHOP
 const shopInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/shop/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const shopGet = async (path, options = {}) => {
     const res = await shopInstance.get(path, options);
@@ -79,7 +79,7 @@ export const shopDelete = async (path, options = {}) => {
 // FEEDBACK
 const feedbackInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/feedback/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const feedbackGet = async (path, options = {}, others = {}) => {
     const res = await feedbackInstance.get(path, options, others);
@@ -100,7 +100,7 @@ export const feedbackDelete = async (path, options = {}) => {
 // STRIPE
 const stripeInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/stripe/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const stripePost = async (path, options = {}) => {
     const res = await stripeInstance.post(path, options);
@@ -109,16 +109,16 @@ export const stripePost = async (path, options = {}) => {
 // EMAIL
 const emailInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/email/`,
-    withCredentials: true,
+    // withCredentials: false,
 });
-export const emailPost = async (path, options = {}) => {
-    const res = await emailInstance.post(path, options);
+export const emailPost = async (path, options = {}, others = {}) => {
+    const res = await emailInstance.post(path, options, others);
     return res.data;
 };
 // ZALO
 const zaloInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/zalo/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const zaloPost = async (path, options = {}, others = {}) => {
     const res = await zaloInstance.post(path, options, others);
@@ -127,7 +127,7 @@ export const zaloPost = async (path, options = {}, others = {}) => {
 // VNPAY
 const vnpayInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/vnpay/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const vnpayPost = async (path, options = {}, others = {}) => {
     const res = await vnpayInstance.post(path, options, others);
@@ -142,10 +142,10 @@ export const baokimPost = async (path, options = {}, others = {}) => {
     const res = await baokimInstance.post(path, options, others);
     return res.data;
 };
-// VNPAY
+// LIVE
 const liveInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/live/`,
-    withCredentials: true,
+    // withCredentials: true,
 });
 export const livePost = async (path, options = {}, others = {}) => {
     const res = await liveInstance.post(path, options, others);

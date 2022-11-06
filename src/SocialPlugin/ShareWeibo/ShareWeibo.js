@@ -11,7 +11,7 @@ function ShareWeibo({ slug, name, desc }) {
             <WeiboShareButton
                 title={name}
                 summary='blabla'
-                url={`https://shopsmallnmc.netlify.app/products/detail/${slug}`}
+                url={`${process.env.REACT_APP_URL_SERVER_IMAGE}/products/detail/${slug}`}
             >
                 <WeiboIcon style={{ height: '25px' }} />
             </WeiboShareButton>

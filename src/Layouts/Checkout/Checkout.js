@@ -76,11 +76,34 @@ function Checkout() {
                         <tr key={index}>
                             <td>{indexTable(page, limit, index)}</td>
                             <td>
-                                <Image
-                                    src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item?.thumbnail}`}
-                                    alt={item?.name}
-                                    className={`${cx('image')}`}
-                                />
+                                {item?.thumbnail?.endsWith('.png') ? (
+                                    <Image
+                                        src={`${
+                                            process.env
+                                                .REACT_APP_URL_SERVER_IMAGE
+                                        }${item?.thumbnail?.replace(
+                                            'src/uploads',
+                                            ''
+                                        )}`}
+                                        alt={item?.name}
+                                        className={`${cx('image')}`}
+                                    />
+                                ) : (
+                                    <video
+                                        style={{
+                                            width: '150px',
+                                            height: '150px',
+                                        }}
+                                        src={`${
+                                            process.env
+                                                .REACT_APP_URL_SERVER_IMAGE
+                                        }${item?.thumbnail?.replace(
+                                            'src/uploads',
+                                            ''
+                                        )}`}
+                                        controls
+                                    ></video>
+                                )}
                             </td>
                             <td style={{ maxWidth: '150px' }}>{item?.name}</td>
                             <td>{moneys.VND(item?.price)}</td>

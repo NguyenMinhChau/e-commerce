@@ -11,7 +11,7 @@ function ShareLinkedln({ slug, name, desc }) {
             <LinkedinShareButton
                 title={name}
                 summary='blabla'
-                url={`https://shopsmallnmc.netlify.app/products/detail/${slug}`}
+                url={`https://megamartnmc.netlify.app/products/detail/${slug}`}
             >
                 <LinkedinIcon style={{ height: '25px', width: '25px' }} />
             </LinkedinShareButton>

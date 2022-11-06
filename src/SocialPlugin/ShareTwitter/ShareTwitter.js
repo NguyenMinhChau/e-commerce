@@ -11,7 +11,7 @@ function ShareTwitter({ slug, name, desc }) {
             <TwitterShareButton
                 title={name}
                 summary='blabla'
-                url={`https://shopsmallnmc.netlify.app/products/detail/${slug}`}
+                url={`https://megamartnmc.netlify.app/products/detail/${slug}`}
             >
                 <TwitterIcon style={{ height: '25px', width: '25px' }} />
             </TwitterShareButton>

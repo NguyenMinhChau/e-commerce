@@ -281,7 +281,12 @@ function DetailProduct() {
                         <div
                             className={`${cx('image-lagre-container')} mb8`}
                             style={{
-                                backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${data?.thumbnail})`,
+                                backgroundImage: `url(${
+                                    process.env.REACT_APP_URL_SERVER_IMAGE
+                                }${data?.thumbnail?.replace(
+                                    'src/uploads',
+                                    ''
+                                )})`,
                             }}
                         ></div>
                     ) : (
@@ -290,7 +295,9 @@ function DetailProduct() {
                                 'image-lagre-container',
                                 'item-video'
                             )} mb8`}
-                            src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${data.thumbnail}`}
+                            src={`${
+                                process.env.REACT_APP_URL_SERVER_IMAGE
+                            }${data?.thumbnail?.replace('src/uploads', '')}`}
                             controls
                         ></video>
                     )}
@@ -322,7 +329,13 @@ function DetailProduct() {
                                                     'image-small-container'
                                                 )}`}
                                                 style={{
-                                                    backgroundImage: `url(${process.env.REACT_APP_URL_SERVER_IMAGE}${item})`,
+                                                    backgroundImage: `url(${
+                                                        process.env
+                                                            .REACT_APP_URL_SERVER_IMAGE
+                                                    }${item?.replace(
+                                                        'src/uploads',
+                                                        ''
+                                                    )})`,
                                                 }}
                                             ></div>
                                         ) : (
@@ -335,7 +348,13 @@ function DetailProduct() {
                                                     width: '100%',
                                                     height: '100%',
                                                 }}
-                                                src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item}`}
+                                                src={`${
+                                                    process.env
+                                                        .REACT_APP_URL_SERVER_IMAGE
+                                                }${item?.replace(
+                                                    'src/uploads',
+                                                    ''
+                                                )}`}
                                                 controls
                                             ></video>
                                         )}
@@ -636,13 +655,15 @@ function DetailProduct() {
                             height: 300,
                             menubar: false,
                             entity_encoding: 'raw',
+                            images_upload_url: 'postAcceptor.php',
+                            automatic_uploads: false,
                             plugins: [
-                                'advlist autolink lists link image charmap print preview anchor',
+                                'advlist autolink lists link image media charmap print preview anchor',
                                 'searchreplace visualblocks code fullscreen',
                                 'insertdatetime media table paste code help wordcount',
                             ],
                             toolbar:
-                                'undo redo | formatselect | ' +
+                                'undo redo | formatselect | image | media |' +
                                 'bold italic backcolor forecolor | alignleft aligncenter ' +
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
                                 'removeformat | help',
@@ -751,7 +772,13 @@ function DetailProduct() {
                                     )}`}
                                 >
                                     <Image
-                                        src={`${process.env.REACT_APP_URL_SERVER_IMAGE}${item?.imageList[0]}`}
+                                        src={`${
+                                            process.env
+                                                .REACT_APP_URL_SERVER_IMAGE
+                                        }${item?.imageList[0]?.replace(
+                                            'src/uploads',
+                                            ''
+                                        )}`}
                                         alt='image_product'
                                         className={cx('image-product')}
                                     />

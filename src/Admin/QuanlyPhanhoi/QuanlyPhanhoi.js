@@ -110,7 +110,29 @@ function QuanlyPhanhoi() {
                             <td
                                 style={{ maxWidth: '150px' }}
                                 dangerouslySetInnerHTML={{
-                                    __html: item.content,
+                                    // __html: item.content.replace(
+                                    //     /<img[^>]*>/g,
+                                    //     ''
+                                    // ),
+                                    // chỉnh lại kich thước ảnh 100x100 trong content
+                                    __html: item.content.replace(
+                                        /<img[^>]*>/g,
+                                        (match) => {
+                                            return match
+                                                .replace(
+                                                    /width="[^"]*"/g,
+                                                    'width="100%"'
+                                                )
+                                                .replace(
+                                                    /height="[^"]*"/g,
+                                                    'height="120"'
+                                                )
+                                                .replace(
+                                                    /style="[^"]*"/g,
+                                                    'style="object-fit: cover;"'
+                                                );
+                                        }
+                                    ),
                                 }}
                             ></td>
                             <td>
