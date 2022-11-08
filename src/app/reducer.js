@@ -21,6 +21,7 @@ import {
     GET_ALL_SHOP,
     GET_ALL_FEEDBACK,
     GET_ALL_LIVE,
+    GET_ALL_TKDOANHTHU,
     GET_FEEDBACK_BY_PRODUCT_ID,
     GET_A_PRODUCT,
 } from './actions';
@@ -75,6 +76,7 @@ const initialState = {
         dataById: null,
         dataHistory: [],
         dataLives: [],
+        dataTkDoanhThus: [],
     },
 };
 const reducer = (state, action) => {
@@ -188,6 +190,14 @@ const reducer = (state, action) => {
                 data: {
                     ...state.data,
                     dataLives: action.payload,
+                },
+            };
+        case GET_ALL_TKDOANHTHU:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    dataTkDoanhThus: action.payload,
                 },
             };
         case GET_ALL_SHOP:

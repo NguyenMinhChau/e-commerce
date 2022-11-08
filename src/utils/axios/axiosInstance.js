@@ -142,6 +142,15 @@ export const baokimPost = async (path, options = {}, others = {}) => {
     const res = await baokimInstance.post(path, options, others);
     return res.data;
 };
+// THONG KE DOANH THU
+const tkdoanhthuInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/tkdoanhthu/`,
+    withCredentials: true,
+});
+export const tkdoanhthuGet = async (path, options = {}, others = {}) => {
+    const res = await tkdoanhthuInstance.get(path, options, others);
+    return res.data;
+};
 // LIVE
 const liveInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/live/`,

@@ -4,10 +4,17 @@ import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import Rating from '@mui/material/Rating';
 import { FormInput, Icons, ModalConfirm, TableData } from '../../Components';
-import { qlph, useAppContext, indexTable, dates } from '../../utils';
-import { ACtoogles, ACgetalls } from '../../app/';
+import {
+    qlph,
+    useAppContext,
+    indexTable,
+    dates,
+    requestRefreshToken,
+} from '../../utils';
+import { ACtoogles, ACgetalls, ACusers } from '../../app/';
 import { feedbacks, products, users } from '../../services';
 import styles from './QuanlyPhanhoi.module.css';
+import { SVdeleteFeedback } from '../../services/feedback';
 
 const cx = className.bind(styles);
 
@@ -76,10 +83,24 @@ function QuanlyPhanhoi() {
         e.stopPropagation();
         dispatch(ACtoogles.toogleConfirm(false));
     };
-    const deleteAction = async (id) => {
+    const deleteAPI = (data, id) => {
+        SVdeleteFeedback({
+            token: data?.token,
+            id,
+            dispatch,
+            ACtoogles,
+        });
+    };
+    const handleDelete = async (id) => {
         try {
-            await 1;
-            alert('Delete id: ' + id);
+            requestRefreshToken(
+                currentUser,
+                deleteAPI,
+                state,
+                dispatch,
+                ACusers,
+                id
+            );
             dispatch(ACtoogles.toogleConfirm(false));
         } catch (err) {
             console.log(err);
@@ -110,11 +131,6 @@ function QuanlyPhanhoi() {
                             <td
                                 style={{ maxWidth: '150px' }}
                                 dangerouslySetInnerHTML={{
-                                    // __html: item.content.replace(
-                                    //     /<img[^>]*>/g,
-                                    //     ''
-                                    // ),
-                                    // chỉnh lại kich thước ảnh 100x100 trong content
                                     __html: item.content.replace(
                                         /<img[^>]*>/g,
                                         (match) => {
@@ -180,7 +196,7 @@ function QuanlyPhanhoi() {
                     open={modalConfirmTrue}
                     close={modalConfirmFalse}
                     textActionMain='Delete'
-                    onClick={() => deleteAction(idDelete)}
+                    onClick={() => handleDelete(idDelete)}
                 >
                     <p className='fz14'>You're sure delete this actions?</p>
                 </ModalConfirm>

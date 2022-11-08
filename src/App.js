@@ -12,6 +12,7 @@ import { DefaultLayout } from './Layouts';
 import { useAppContext, store } from './utils';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 import { Image } from './Components';
+import { CallMe } from './SocialPlugin';
 
 function App() {
     const TRACKING_ID = 'UA-246415947-1';
@@ -52,6 +53,7 @@ function App() {
                                     element={
                                         <Cp>
                                             <Page />
+                                            <CallMe />
                                         </Cp>
                                     }
                                 />

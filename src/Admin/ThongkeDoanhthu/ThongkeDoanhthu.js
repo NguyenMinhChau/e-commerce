@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import {
     Chart as ChartJS,
@@ -13,8 +14,9 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { FormInput, Icons, TableData, ModalConfirm } from '../../Components';
 import { moneys, tkdt, useAppContext } from '../../utils';
-import { ACtoogles } from '../../app/';
+import { ACtoogles, ACgetalls } from '../../app/';
 import styles from './ThongkeDoanhthu.module.css';
+import { SVgetallDoanhThu } from '../../services/tkdoanhthu';
 
 const cx = className.bind(styles);
 
@@ -108,7 +110,22 @@ function ThongkeDoanhthu() {
     const [showChart, setShowChart] = useState(false);
     const [idDelete, setIdDelete] = useState(null);
     const { state, dispatch } = useAppContext();
-    const { toogleConfirm } = state;
+    const {
+        toogleConfirm,
+        data: { dataTkDoanhThus },
+        pagination: { page, limit },
+    } = state;
+    useEffect(() => {
+        SVgetallDoanhThu({
+            dispatch,
+            page,
+            limit,
+            ACgetalls,
+        });
+    }, []);
+
+    console.log(dataTkDoanhThus);
+
     const modalConfirmTrue = (e, id) => {
         e.stopPropagation();
         setIdDelete(id);
@@ -135,14 +152,6 @@ function ThongkeDoanhthu() {
                             <td>
                                 <button className='btn-table completebgc'>
                                     <Icons.ViewIcons />
-                                </button>
-                                <button
-                                    className='btn-table cancelbgc'
-                                    onClick={(e) =>
-                                        modalConfirmTrue(e, item.stt)
-                                    }
-                                >
-                                    <Icons.DeleteIcons />
                                 </button>
                             </td>
                         </tr>

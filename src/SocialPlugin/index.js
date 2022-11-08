@@ -6,3 +6,4 @@ export { default as ShareLinkedln } from './ShareLinkedln/ShareLinkedln';
 export { default as ShareTwitter } from './ShareTwitter/ShareTwitter';
 export { default as ShareTelegram } from './ShareTelegram/ShareTelegram';
 export { default as ShareWeibo } from './ShareWeibo/ShareWeibo';
+export { default as CallMe } from './CallMe/CallMe';
