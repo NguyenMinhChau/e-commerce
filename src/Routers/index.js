@@ -10,6 +10,7 @@ const emailRouter = require('./email');
 const zaloRouter = require('./zalo');
 const vnpayRouter = require('./vnpay');
 const baokimRouter = require('./baokim');
+const tkdoanhthuRouter = require('./tkdoanhthu');
 
 const router = (app) => {
     app.use('/api/v1/authen', authenRouter);
@@ -24,6 +25,7 @@ const router = (app) => {
     app.use('/api/v1/zalo', zaloRouter);
     app.use('/api/v1/vnpay', vnpayRouter);
     app.use('/api/v1/baokim', baokimRouter);
+    app.use('/api/v1/tkdoanhthu', tkdoanhthuRouter);
 };
 
 module.exports = router;

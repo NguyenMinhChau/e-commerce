@@ -9,7 +9,7 @@ const EmailController = {
             const { user, dataCart } = req.body;
             const mailContent = `
                 <p>Kính gửi: <strong><i>${user?.username}</i></strong></p>
-                <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a style='color: #ee4d2d' href='https://megamartnmc.netlify.app/'><u><strong>MEGAMART</strong></u></a></span>. Đơn hàng của bạn đã được thanh toán thành công.</i></p>
+                <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'><u><strong>MEGAMART</strong></u></a></span>. Đơn hàng của bạn đã được thanh toán thành công.</i></p>
                 <h3><b>Thông tin khách hàng</b></h3>
                 <div style='border: 1px solid #000; border-radius: 8px; padding: 8px 12px; max-width: 500px'>
                     <p><b>Họ và tên: <i style='color: #ee4d2d'>${
@@ -92,7 +92,7 @@ const EmailController = {
 
                 <p><strong><i>Trân trọng.</i></strong></p>
                 <div style='width: 100%; height: 1px; background-color: #ee4d2d; margin-bottom: 12px'></div>
-                <p><strong>Sàn giao dịch thương mại: <i><a style='color: #ee4d2d' href='https://megamartnmc.netlify.app/'>MegaMart</a></i></strong></p>
+                <p><strong>Sàn giao dịch thương mại: <i><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'>MegaMart</a></i></strong></p>
                 <p><strong>Hotline: <i><a style='color: red' href='tel:0398365404'>0398365404</a></i></strong></p>
                 <p><strong>Địa chỉ: <i><a style='color: red' href='https://goo.gl/maps/nYe6U42GEZKbSQio8'>Châu Thành - Tiền Giang</a></i></strong></p>
                 <p><strong>Slogan: <i style='color: red'>Chất lượng luôn đặt lên hàng đầu</i></strong></p>
@@ -115,7 +115,7 @@ const EmailController = {
             const { user, dataCart } = req.body;
             const mailContent = `
                 <p>Kính gửi: <strong><i>${user?.username}</i></strong></p>
-                <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a  style='color: #ee4d2d' href='https://megamartnmc.netlify.app/'><u><strong>MEGAMART</strong></u></a></span>. Đơn hàng của bạn đã được đặt thành công.</i></p>
+                <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a  style='color: #ee4d2d' href='https://nguyenminhchau.site/'><u><strong>MEGAMART</strong></u></a></span>. Đơn hàng của bạn đã được đặt thành công.</i></p>
                 <h3><b>Thông tin khách hàng</b></h3>
                 <div style='border: 1px solid #000; border-radius: 8px; padding: 8px 12px; max-width: 500px'>
                     <p><b>Họ và tên: <i style='color: #ee4d2d'>${
@@ -190,7 +190,7 @@ const EmailController = {
                 <p><i>Đây là email tự động, vui lòng không trả lời email này.</i></p>
                 <p><strong><i>Trân trọng.</i></strong></p>
                 <div style='width: 100%; height: 1px; background-color: #ee4d2d; margin-bottom: 12px'></div>
-                <p><strong>Sàn giao dịch thương mại: <i><a style='color: #ee4d2d' href='https://megamartnmc.netlify.app/'>MegaMart</a></i></strong></p>
+                <p><strong>Sàn giao dịch thương mại: <i><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'>MegaMart</a></i></strong></p>
                 <p><strong>Hotline: <i><a style='color: red' href='tel:0398365404'>0398365404</a></i></strong></p>
                 <p><strong>Địa chỉ: <i><a style='color: red' href='https://goo.gl/maps/nYe6U42GEZKbSQio8'>Châu Thành - Tiền Giang</a></i></strong></p>
                 <p><strong>Slogan: <i style='color: red'>Chất lượng luôn đặt lên hàng đầu</i></strong></p>
@@ -225,7 +225,7 @@ const EmailController = {
                         <p>Kính gửi: <strong><i>${
                             userList[i]?.username
                         }</i></strong></p>
-                        <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a style='color: #ee4d2d' href='https://megamartnmc.netlify.app/'><u><strong>MEGAMART</strong></u></a></span>. Chúng tôi có một sản phẩm mới cho bạn xem.</i></p>
+                        <p><i>Chúng tôi, bộ phận xử lý đơn hàng <span><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'><u><strong>MEGAMART</strong></u></a></span>. Chúng tôi có một sản phẩm mới cho bạn xem.</i></p>
                         <h3 style='margin-bottom: 10px'>Chi tiết sản phẩm</h3>
                         <table style='border-collapse: collapse; width: 100%;'>
                             <thead>
@@ -248,7 +248,7 @@ const EmailController = {
                                             ''
                                         )}`}' style='width: 100px; height: 100px; object-fit: cover' controls></video>
                                     </td>
-                                    <td style='border: 1px solid #ddd; padding: 8px; text-align: left; max-width: 300px; min-width: 120px;'><i><a style='color: #ee4d2d' href='https://megamartnmc.netlify.app/products/detail/${idProduct}'>${
+                                    <td style='border: 1px solid #ddd; padding: 8px; text-align: left; max-width: 300px; min-width: 120px;'><i><a style='color: #ee4d2d' href='https://nguyenminhchau.site/products/detail/${idProduct}'>${
                         product.name
                     }</a></i></td>
                                     <td style='border: 1px solid #ddd; padding: 8px; text-align: left; min-width: 120px;'>${
@@ -313,7 +313,7 @@ const EmailController = {
                                                   )
                                                 : 'Không có mô tả'
                                         }
-                                        <p><strong>Chi tiết sản phẩm có thể xem tại đây: <i><a style='color: #ee4d2d' href='https://megamartnmc.netlify.app/products/detail/${idProduct}'>${
+                                        <p><strong>Chi tiết sản phẩm có thể xem tại đây: <i><a style='color: #ee4d2d' href='https://nguyenminhchau.site/products/detail/${idProduct}'>${
                         product.name
                     }</a></i></strong></p>
                                     </td>
@@ -323,7 +323,7 @@ const EmailController = {
 
                         <p><strong><i>Trân trọng.</i></strong></p>
                         <div style='width: 100%; height: 1px; background-color: #ee4d2d; margin-bottom: 12px'></div>
-                        <p><strong>Sàn giao dịch thương mại: <i><a style='color: #ee4d2d' href='https://megamartnmc.netlify.app/'>MegaMart</a></i></strong></p>
+                        <p><strong>Sàn giao dịch thương mại: <i><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'>MegaMart</a></i></strong></p>
                         <p><strong>Hotline: <i><a style='color: red' href='tel:0398365404'>0398365404</a></i></strong></p>
                         <p><strong>Địa chỉ: <i><a style='color: red' href='https://goo.gl/maps/nYe6U42GEZKbSQio8'>Châu Thành - Tiền Giang</a></i></strong></p>
                         <p><strong>Slogan: <i style='color: red'>Chất lượng luôn đặt lên hàng đầu</i></strong></p>
