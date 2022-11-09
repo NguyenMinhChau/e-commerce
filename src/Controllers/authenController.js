@@ -98,11 +98,13 @@ const authenController = {
                 phone,
                 address,
             });
+            const date = Date.now();
             const activation_token = jwt.sign(
                 {
                     id: newUser._id,
                     email: newUser.email,
                     username: newUser.username,
+                    date,
                 },
                 process.env.JWT_ACCESS_TOKEN_SECRET,
                 {
@@ -119,6 +121,7 @@ const authenController = {
                 code: otp,
                 email: newUser.email,
                 token: activation_token,
+                date,
             });
             await newUser.save();
             verify
@@ -178,6 +181,100 @@ const authenController = {
             return res.status(500).json({ message: err.message });
         }
     },
+    // [POST] /api/v1/authen/sendMailVerify
+    sendMailVerify: async (req, res) => {
+        try {
+            const { email } = req.body;
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.json({
+                    code: 1,
+                    message: 'User not found.',
+                });
+            } else {
+                const date = Date.now();
+                const activation_token = jwt.sign(
+                    {
+                        id: user._id,
+                        email: user.email,
+                        username: user.username,
+                        date,
+                    },
+                    process.env.JWT_ACCESS_TOKEN_SECRET,
+                    {
+                        expiresIn: '5m',
+                    }
+                );
+                // generater otp
+                const otp = otpGenerator.generate(6, {
+                    lowerCaseAlphabets: false,
+                    upperCaseAlphabets: false,
+                    specialChars: false,
+                });
+                const verify = new VerifyAccount({
+                    code: otp,
+                    email: user.email,
+                    token: activation_token,
+                    date,
+                });
+                verify
+                    .save()
+                    .then((f) => {
+                        if (f) {
+                            const mailContentActivation = `
+                            <p>Kính gửi: <strong><i>${user.username}</i></strong></p>
+                            <p><i>Chúng tôi, bộ phận tiếp nhận thông tin khách hàng <span><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'><u><strong>MEGAMART</strong></u></a></span>. Chúng tôi đã gửi cho bạn mã xác thực tài khoản.</i></p>
+                            <p>Mã OTP xác thực tài khoản: <u><i><b>${otp}</b></i></u></p>
+                            <p><b>Mã OTP có hiệu lực trong 3 phút (tính từ khi email này được gửi đi).</b></p>
+                            <p>Để thực hiện xác thực tài khoản. Vui lòng truy cập tại <a href='http://localhost:3001/user/activation_account/${activation_token}'><strong>here</strong></a></p>
+                            <p><i>Đây là email tự động, vui lòng không trả lời email này.</i></p>
+
+                            <p><strong><i>Trân trọng.</i></strong></p>
+                            <div style='width: 100%; height: 1px; background-color: #ee4d2d; margin-bottom: 12px'></div>
+                            <p><strong>Sàn giao dịch thương mại: <i><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'>MegaMart</a></i></strong></p>
+                            <p><strong>Hotline: <i><a style='color: red' href='tel:0398365404'>0398365404</a></i></strong></p>
+                            <p><strong>Địa chỉ: <i><a style='color: red' href='https://goo.gl/maps/nYe6U42GEZKbSQio8'>Châu Thành - Tiền Giang</a></i></strong></p>
+                            <p><strong>Slogan: <i style='color: red'>Chất lượng luôn đặt lên hàng đầu</i></strong></p>
+                            <div style='width: 100%; height: 200px'>
+                                <img src='https://images.unsplash.com/photo-1503437313881-503a91226402?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=2000' alt='MegaMart' style='width: 100%; height: 100%; object-fit: contain'/>
+                            </div>
+                        `;
+                            let resultSendMail = sendMailFunc(
+                                user.email,
+                                mailContentActivation,
+                                `MEGAMART - Xác thực cho tài khoản @${user.email}`
+                            );
+                            resultSendMail
+                                .then((val) => {
+                                    return res.json({
+                                        code: 0,
+                                        message: `Send mail for verify account successfully to email = ${user.email}`,
+                                    });
+                                })
+                                .catch((err) => {
+                                    return res.json({
+                                        code: 1,
+                                        message: err?.message,
+                                    });
+                                });
+                        } else {
+                            return res.json({
+                                code: 2,
+                                message: `Can not save model verify account of user with email = ${user.email}`,
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        return res.json({
+                            code: 1,
+                            message: err?.message,
+                        });
+                    });
+            }
+        } catch (err) {
+            return res.status(500).json({ message: err.message });
+        }
+    },
     // [POST] /api/v1/authen/resendCode/:token
     resendCode: async (req, res) => {
         try {
@@ -188,12 +285,13 @@ const authenController = {
                     message: 'A token is required',
                 });
             } else {
+                const date = Date.now();
                 const decoded = jwt.verify(
                     token,
                     process.env.JWT_ACCESS_TOKEN_SECRET
                 );
                 const activation_token = jwt.sign(
-                    { id: decoded._id, email: decoded.email },
+                    { id: decoded._id, email: decoded.email, date },
                     process.env.JWT_ACCESS_TOKEN_SECRET,
                     {
                         expiresIn: '5m',
@@ -209,6 +307,7 @@ const authenController = {
                     code: otp,
                     email: decoded.email,
                     token: activation_token,
+                    date,
                 });
                 verify
                     .save()
@@ -283,7 +382,7 @@ const authenController = {
                 token,
                 process.env.JWT_ACCESS_TOKEN_SECRET
             );
-            VerifyAccount.findOne({ email: decoded.email }, (err, f) => {
+            VerifyAccount.findOne({ date: decoded.date }, (err, f) => {
                 if (f) {
                     if (f.code === otp) {
                         User.findOne({ email: decoded.email }, (errs, user) => {

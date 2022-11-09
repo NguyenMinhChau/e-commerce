@@ -27,6 +27,7 @@ const EmailController = {
                             new Date().getTime() + 3 * 24 * 60 * 60 * 1000
                         ).toLocaleString()}
                     </i></b></p>
+                    <p><b>Hình thức thanh toán: <i style='color: #ee4d2d'>Trực tuyến qua cổng thanh toán</i></b></p>
                 </div>
                 <h3 style='margin-bottom: 10px'>Chi tiết đơn hàng</h3>
                 <table style='border-collapse: collapse; width: 100%;'>

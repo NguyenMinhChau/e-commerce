@@ -5,6 +5,7 @@ const authenController = require('../Controllers/authenController');
 router.post('/login', authenController.login);
 router.post('/register', authenController.register);
 router.post('/logout', authenController.logout);
+router.post('/sendMailVerify', authenController.sendMailVerify);
 router.post('/refresh_token', authenController.refreshToken);
 router.post('/checkCodeVerify/:token', authenController.checkCodeVerify);
 router.post('/resendCode/:token', authenController.resendCode);
