@@ -90,33 +90,50 @@
     position: relative;
 }
 
-.input-search {
+.input-container {
     width: 100%;
     height: 100%;
-    border: none;
+    display: flex;
+}
+
+.input-price-container {
+    width: 100%;
+    height: 100%;
+}
+
+.input-search {
+    width: calc(113% / 3);
+    height: 100%;
+    border: 1px solid #f2f2f2;
     outline: none;
     font-size: 1.3rem;
     color: var(--text-color);
-    padding: 0 1.5rem;
-    border-radius: 0.2rem;
+    padding: 0 1rem;
+    /* border-radius: 0.2rem; */
 }
 
 .button-search {
     position: absolute;
-    top: 3px;
-    right: 3px;
-    bottom: 3px;
-    display: flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
     align-items: center;
     justify-content: center;
     background-color: var(--primary-color);
     color: var(--white-color);
-    border: none;
-    height: 3.4rem;
+    border: 2px solid var(--white-color);
+    height: 4rem;
     border-radius: 0.2rem;
     width: 6rem;
     outline: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-search-custom {
+    right: 6.5rem;
 }
 
 .content-middle-right {

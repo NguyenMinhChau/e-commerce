@@ -17,3 +17,24 @@
     border-radius: 6px;
     cursor: pointer;
 }
+
+.info-generality {
+    border: 2px solid var(--primary-color);
+    padding: 12px 8px;
+    border-radius: 12px;
+    width: 100%;
+    font-size: 18px;
+    margin-bottom: 12px;
+    background-color: #fafafa;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 1.6;
+}
+
+.info-item__title {
+    font-weight: bold;
+}

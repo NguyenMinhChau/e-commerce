@@ -145,14 +145,6 @@ function ThongkeSanpham() {
                                 <button className='btn-table completebgc'>
                                     <Icons.ViewIcons />
                                 </button>
-                                <button
-                                    className='btn-table cancelbgc'
-                                    onClick={(e) =>
-                                        modalConfirmTrue(e, item.stt)
-                                    }
-                                >
-                                    <Icons.DeleteIcons />
-                                </button>
                             </td>
                         </tr>
                     );

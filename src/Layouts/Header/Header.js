@@ -16,7 +16,7 @@ import {
 import { setSearchHistory } from '../../app/payloads/payloadSearch';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
-import { getAllProduct } from '../../services/product';
+import { getAllProduct, SVfindPrice } from '../../services/product';
 
 const cx = className.bind(styles);
 
@@ -29,6 +29,8 @@ function Header() {
         toogleQrCode,
         toogleNotify,
         search,
+        minPrice,
+        maxPrice,
         toogleCartList,
         currentUser,
         data: { dataCartList, dataHistory },
@@ -38,6 +40,20 @@ function Header() {
             return;
         } else {
             dispatch(ACsearchs.setSearchValue(e.target.value));
+        }
+    };
+    const handleChangeMinPrice = (e) => {
+        if (e.target.value.charAt(0) === ' ') {
+            return;
+        } else {
+            dispatch(ACsearchs.setMinPriceValue(e.target.value));
+        }
+    };
+    const handleChangeMaxPrice = (e) => {
+        if (e.target.value.charAt(0) === ' ') {
+            return;
+        } else {
+            dispatch(ACsearchs.setMaxPriceValue(e.target.value));
         }
     };
     const handleToogleQrCodeTrue = () => {
@@ -69,6 +85,33 @@ function Header() {
                     category: search,
                     dispatch,
                     ACgetalls,
+                });
+            } else {
+                getAllProduct({
+                    page,
+                    limit,
+                    dispatch,
+                    ACgetalls,
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const handleSearchMinMaxPrice = async (e) => {
+        try {
+            if (minPrice && maxPrice) {
+                dispatch(ACsearchs.setMinPriceValue(''));
+                dispatch(ACsearchs.setSearchValue(''));
+                dispatch(ACsearchs.setMaxPriceValue(''));
+                SVfindPrice({
+                    category: search,
+                    minPrice: minPrice.toString(),
+                    maxPrice: maxPrice.toString(),
+                    dispatch,
+                    ACgetalls,
+                    page,
+                    limit,
                 });
             } else {
                 getAllProduct({
@@ -174,14 +217,43 @@ function Header() {
                         </Link>
                     </div>
                     <div className={`${cx('content-middle-middle')}`}>
-                        <input
-                            type='text'
-                            className={`${cx('input-search')}`}
-                            placeholder='Tìm kiếm sản phẩm'
-                            value={search}
-                            name='search'
-                            onChange={handleChange}
-                        />
+                        <div className={`${cx('input-container')}`}>
+                            <input
+                                type='text'
+                                className={`${cx('input-search')}`}
+                                placeholder='Tìm kiếm sản phẩm'
+                                value={search}
+                                name='search'
+                                onChange={handleChange}
+                            />
+                            <div className={`${cx('input-price-container')}`}>
+                                <input
+                                    type='text'
+                                    className={`${cx('input-search')}`}
+                                    placeholder='Min price'
+                                    value={minPrice}
+                                    name='minPrice'
+                                    onChange={handleChangeMinPrice}
+                                />
+                                <input
+                                    type='text'
+                                    className={`${cx('input-search')}`}
+                                    placeholder='Max price'
+                                    value={maxPrice}
+                                    name='maxPrice'
+                                    onChange={handleChangeMaxPrice}
+                                />
+                            </div>
+                        </div>
+                        <button
+                            className={`${cx(
+                                'button-search',
+                                'button-search-custom'
+                            )}`}
+                            onClick={handleSearchMinMaxPrice}
+                        >
+                            <Icons.DollarIcon />
+                        </button>
                         <button
                             className={`${cx('button-search')}`}
                             onClick={handleSearch}

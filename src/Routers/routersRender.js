@@ -9,6 +9,7 @@ import {
     CartDetail,
     Checkout,
     Livestream,
+    VerifyAccount,
 } from '../Layouts';
 import {
     ThongkeDoanhthu,
@@ -24,6 +25,11 @@ const publicRouter = [
     { path: routers.register, component: Register, layout: null },
     { path: routers.forgotPwd, component: ForgotPwd, layout: null },
     { path: `${routers.getOtp}/:token`, component: GetOTP, layout: null },
+    {
+        path: `${routers.verifyAccount}/:tokenActivation`,
+        component: VerifyAccount,
+        layout: null,
+    },
     { path: routers.pageNotFound, component: PageNotFound, layout: null },
     { path: routers.home, component: Home },
     { path: routers.cart, component: CartDetail },

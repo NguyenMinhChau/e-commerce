@@ -491,6 +491,25 @@ export const SearchIcon = ({ className, width = '15px', height = '15px' }) => {
         </svg>
     );
 };
+export const DollarIcon = ({ className, width = '15px', height = '15px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width={width}
+            height={height}
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            class={className}
+        >
+            <line x1='12' y1='1' x2='12' y2='23' />
+            <path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+        </svg>
+    );
+};
 export const CartIcon = ({ className, width = '27px', height = '25px' }) => {
     return (
         <svg

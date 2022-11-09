@@ -13,10 +13,11 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { FormInput, Icons, TableData, ModalConfirm } from '../../Components';
-import { moneys, tkdt, useAppContext } from '../../utils';
+import { indexTable, moneys, tkdt, useAppContext } from '../../utils';
 import { ACtoogles, ACgetalls } from '../../app/';
 import styles from './ThongkeDoanhthu.module.css';
 import { SVgetallDoanhThu } from '../../services/tkdoanhthu';
+import moment from 'moment';
 
 const cx = className.bind(styles);
 
@@ -122,9 +123,18 @@ function ThongkeDoanhthu() {
             limit,
             ACgetalls,
         });
-    }, []);
+    }, [page, limit]);
 
-    console.log(dataTkDoanhThus);
+    const dataDoanhThu = dataTkDoanhThus?.data || [];
+    const tongDoanhThu = dataDoanhThu?.reduce((acc, item) => {
+        return acc + item.ban;
+    }, 0);
+    const tongVon = dataDoanhThu?.reduce((acc, item) => {
+        return acc + item.von;
+    }, 0);
+    const tongLoiNhuan = dataDoanhThu?.reduce((acc, item) => {
+        return acc + item.loiNhuan;
+    }, 0);
 
     const modalConfirmTrue = (e, id) => {
         e.stopPropagation();
@@ -141,14 +151,20 @@ function ThongkeDoanhthu() {
     const RenderBodyTable = ({ data }) => {
         return (
             <>
-                {data.map((item, index) => {
+                {data?.map((item, index) => {
                     return (
                         <tr key={index}>
-                            <td>{item.stt}</td>
-                            <td>{item.ngay}</td>
-                            <td>{moneys.VND(item.doanhthu)}</td>
-                            <td>{moneys.VND(item.chiphi)}</td>
-                            <td>{moneys.VND(item.loinhuan)}</td>
+                            <td>{indexTable(page, limit, index)}</td>
+                            <td>
+                                {moment(item.dateImport).format('DD/MM/YYYY')}
+                            </td>
+                            <td>{moneys.VND(item.von)}</td>
+                            <td>{moneys.VND(item.ban)}</td>
+                            <td>
+                                {item.loiNhuan > 0
+                                    ? moneys.VND(item.loiNhuan)
+                                    : 'Chưa hoàn vốn'}
+                            </td>
                             <td>
                                 <button className='btn-table completebgc'>
                                     <Icons.ViewIcons />
@@ -192,15 +208,43 @@ function ThongkeDoanhthu() {
                         </div>
                     </button>
                 </div>
+                <div className={`${cx('info-generality')}`}>
+                    <div className={`${cx('info-item')}`}>
+                        <div className={`${cx('info-item__title')}`}>
+                            Tổng doanh thu
+                        </div>
+                        <div className={`${cx('info-item__value')}`}>
+                            {moneys.VND(tongDoanhThu)}
+                        </div>
+                    </div>
+                    <div className={`${cx('info-item')}`}>
+                        <div className={`${cx('info-item__title')}`}>
+                            Tổng lợi nhuận
+                        </div>
+                        <div className={`${cx('info-item__value')}`}>
+                            {tongLoiNhuan > 0
+                                ? moneys.VND(tongLoiNhuan)
+                                : 'Chưa hoàn vốn'}
+                        </div>
+                    </div>
+                    <div className={`${cx('info-item')}`}>
+                        <div className={`${cx('info-item__title')}`}>
+                            Tổng vốn
+                        </div>
+                        <div className={`${cx('info-item__value')}`}>
+                            {moneys.VND(tongVon)}
+                        </div>
+                    </div>
+                </div>
                 {showChart ? (
                     <Bar options={options} data={data} />
                 ) : (
                     <TableData
                         headers={tkdt.headers}
-                        data={tkdt.data}
-                        totalData={tkdt.data.length}
+                        data={dataDoanhThu}
+                        totalData={dataTkDoanhThus?.totalData}
                     >
-                        <RenderBodyTable data={tkdt.data} />
+                        <RenderBodyTable data={dataDoanhThu} />
                     </TableData>
                 )}
             </div>

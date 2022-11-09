@@ -208,7 +208,9 @@ function Home() {
             </div>
             <div className={`${cx('item-pagination-container')}`}>
                 <Pagination
-                    count={Math.ceil(dataProducts.total / limit)}
+                    count={Math.ceil(
+                        (dataProducts.total || dataProducts.totalData) / limit
+                    )}
                     variant='outlined'
                     shape='rounded'
                     value={page}

@@ -45,13 +45,13 @@ function CheckoutStripe({ dataCartList }) {
         }
     };
     const handleCheckout = () => {
-        // inventorySold.forEach(async (item) => {
-        //     await handleUpdateInventory(item.id);
-        // });
         stripes.checkoutStripe({
             dataCartList,
             currentUser,
         });
+        // inventorySold.forEach(async (item) => {
+        //     await handleUpdateInventory(item.id);
+        // });
     };
     return (
         <div className={`${cx('button-stripe-container')}`}>

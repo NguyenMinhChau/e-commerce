@@ -4,6 +4,7 @@ import {
     TOOGLE_CART_LIST,
     TOOGLE_CONFIRM,
     TOOGLE_CREATE_PRODUCT,
+    SET_STATUS_STRIPE,
 } from '../actions';
 export const toogleQrCode = (payload) => {
     return {
@@ -32,6 +33,12 @@ export const toogleConfirm = (payload) => {
 export const toogleCreateProduct = (payload) => {
     return {
         type: TOOGLE_CREATE_PRODUCT,
+        payload,
+    };
+};
+export const toogleStripeStatus = (payload) => {
+    return {
+        type: SET_STATUS_STRIPE,
         payload,
     };
 };

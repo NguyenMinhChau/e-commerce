@@ -105,3 +105,12 @@ export const deleteProduct = async (props = {}) => {
     });
     window.location.reload();
 };
+export const SVfindPrice = async (props = {}) => {
+    const resGet = await api.productGet(
+        props.category
+            ? `/findPrice?page=${props.page}&limit=${props.limit}&minPrice=${props.minPrice}&maxPrice=${props.maxPrice}&category=${props.category}`
+            : `/findPrice?page=${props.page}&limit=${props.limit}&minPrice=${props.minPrice}&maxPrice=${props.maxPrice}`
+    );
+    console.log(resGet);
+    props.dispatch(props.ACgetalls.getAllProduct(resGet));
+};

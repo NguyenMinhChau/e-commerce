@@ -1,6 +1,8 @@
 import {
     SET_CURRENT_USER,
     SET_SEARCH_VALUE,
+    SET_MIN_PRICE_VALUE,
+    SET_MAX_PRICE_VALUE,
     SET_FORM_VALUE,
     SET_ERROR_MESSAGE,
     SET_SUCCESS_MESSAGE,
@@ -11,6 +13,7 @@ import {
     SET_QUANTITY_PRODUCT,
     SET_CART_LIST,
     SET_HISTORY_SEARCH,
+    SET_STATUS_STRIPE,
     TOOGLE_QR_CODE,
     TOOGLE_NOTIFY,
     TOOGLE_CART_LIST,
@@ -37,6 +40,9 @@ const initialState = {
     multipleFile: null,
     toogleCreateProduct: false,
     search: '',
+    minPrice: '',
+    maxPrice: '',
+    stripeStatus: false,
     errorMessage: '',
     successMessage: '',
     quantityProduct: 1,
@@ -101,6 +107,16 @@ const reducer = (state, action) => {
                 ...state,
                 search: action.payload,
             };
+        case SET_MIN_PRICE_VALUE:
+            return {
+                ...state,
+                minPrice: action.payload,
+            };
+        case SET_MAX_PRICE_VALUE:
+            return {
+                ...state,
+                maxPrice: action.payload,
+            };
         case SET_CART_LIST:
             return {
                 ...state,
@@ -139,6 +155,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 errorMessage: action.payload,
+            };
+        case SET_STATUS_STRIPE:
+            return {
+                ...state,
+                stripeStatus: action.payload,
             };
         case SET_SUCCESS_MESSAGE:
             return {

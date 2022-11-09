@@ -5,6 +5,7 @@ const routers = {
     login: '/login',
     forgotPwd: '/forgotPwd',
     getOtp: '/getOTP',
+    verifyAccount: '/user/activation_account',
     cart: '/cart',
     checkout: '/checkout',
     products: '/products',

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import className from 'classnames/bind';
 import styles from './Livestream.module.css';
-import { Icons } from '../../Components';
+import { FormInput, Icons } from '../../Components';
 import { useAppContext, requestRefreshToken, dates } from '../../utils';
-import { ACusers, ACgetalls } from '../../app/';
+import { ACusers, ACgetalls, ACsearchs } from '../../app/';
 import { SVaddLive, SVdeleteLive, SVgetAllLive } from '../../services/live';
 
 const cx = className.bind(styles);
@@ -17,6 +17,7 @@ function Livestream() {
     } = state;
     const [iframeURL, setIframeURL] = React.useState('');
     const [descVideo, setDescVideo] = React.useState('');
+    const [search, setSearch] = useState(null);
     const refIframe = useRef();
     const refDesc = useRef();
     useEffect(() => {
@@ -25,7 +26,12 @@ function Livestream() {
             ACgetalls,
         });
     }, []);
-    const data = dataLives || [];
+    let data = dataLives || [];
+    if (search) {
+        data = data.filter((item) =>
+            item.descVideo.toLowerCase().includes(search.toLowerCase())
+        );
+    }
     const addLiveAPI = (data) => {
         SVaddLive({
             token: data?.token,
@@ -76,6 +82,17 @@ function Livestream() {
             console.log(err);
         }
     };
+    const handleChangeSearch = (e) => {
+        if (e.target.value.startsWith(' ')) {
+            return;
+        } else {
+            setSearch(e.target.value);
+        }
+    };
+    // const video cuối
+    const lastVideo = data[data.length - 1];
+    // các video còn lại
+    const otherVideos = data.slice(0, data.length - 1);
     return (
         <div className={`${cx('livestream-container')}`}>
             {currentUser && (
@@ -91,7 +108,7 @@ function Livestream() {
                     />
                     <input
                         type='text'
-                        className={`${cx('input-search')}`}
+                        className={`${cx('input-search')} pr18`}
                         placeholder='Mô tả ngắn live'
                         value={descVideo}
                         name='descVideo'
@@ -106,45 +123,126 @@ function Livestream() {
                     </button>
                 </div>
             )}
+            <p className='fz16 fwb'>Tìm kiếm</p>
+            <div>
+                <FormInput
+                    type='text'
+                    name='search'
+                    placeholder='Tìm kiếm live...'
+                    classNameInput={`${cx('input')}`}
+                    onChange={handleChangeSearch}
+                />
+            </div>
             <div className={`${cx('video-container')}`}>
                 {data.length > 0 ? (
-                    data?.map((item, index) => (
-                        <div className={`${cx('video-item')}`} key={index}>
-                            <div
-                                style={{
-                                    fontSize: '18px',
-                                    fontWeight: 'bold',
-                                    marginBottom: '8px',
-                                    fontStyle: 'italic',
-                                    lineHeight: '1.5',
-                                }}
-                            >
-                                <span style={{ color: 'red' }}>
-                                    {item?.descVideo}
-                                </span>{' '}
-                                |{' '}
-                                {dates.formatDate(
-                                    item?.createdAt,
-                                    'DD/MM/YYYY'
-                                )}
-                                <span
+                    <div className={`${cx('video-container')}`}>
+                        <div
+                            className={`${cx(
+                                'video-isShowing',
+                                'video-item'
+                            )} mb12`}
+                        >
+                            <p className={`${cx('video-title')} complete`}>
+                                {search
+                                    ? `Kết quả tìm kiếm cho LiveStreams: ${search}`
+                                    : 'LiveStreams đang công chiếu'}
+                            </p>
+                            <div className={`${cx('video-item')}`}>
+                                <div
                                     style={{
-                                        color: 'red',
-                                        marginLeft: '20px',
-                                        cursor: 'pointer',
+                                        fontSize: '18px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '8px',
+                                        fontStyle: 'italic',
+                                        lineHeight: '1.5',
                                     }}
-                                    onClick={() => handleDelete(item?._id)}
                                 >
-                                    Delete
-                                </span>
+                                    <span style={{ color: 'red' }}>
+                                        {lastVideo?.descVideo}
+                                    </span>{' '}
+                                    |{' '}
+                                    {dates.formatDate(
+                                        lastVideo?.createdAt,
+                                        'DD/MM/YYYY'
+                                    )}
+                                    <span
+                                        style={{
+                                            color: 'red',
+                                            marginLeft: '20px',
+                                            cursor: 'pointer',
+                                        }}
+                                        onClick={() =>
+                                            handleDelete(lastVideo?._id)
+                                        }
+                                    >
+                                        Delete
+                                    </span>
+                                </div>
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: lastVideo?.iframeURL,
+                                    }}
+                                ></div>
                             </div>
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: item?.iframeURL,
-                                }}
-                            ></div>
                         </div>
-                    ))
+                        <div
+                            className={`${cx('video-premiered', 'video-item')}`}
+                        >
+                            <p className={`${cx('video-title')} cancel`}>
+                                LiveStreams đã công chiếu
+                            </p>
+                            {otherVideos.length > 0 ? (
+                                otherVideos?.map((item, index) => (
+                                    <div
+                                        className={`${cx('video-item')}`}
+                                        key={index}
+                                    >
+                                        <div
+                                            style={{
+                                                fontSize: '18px',
+                                                fontWeight: 'bold',
+                                                marginBottom: '8px',
+                                                fontStyle: 'italic',
+                                                lineHeight: '1.5',
+                                            }}
+                                        >
+                                            <span style={{ color: 'red' }}>
+                                                {item?.descVideo}
+                                            </span>{' '}
+                                            |{' '}
+                                            {dates.formatDate(
+                                                item?.createdAt,
+                                                'DD/MM/YYYY'
+                                            )}
+                                            <span
+                                                style={{
+                                                    color: 'red',
+                                                    marginLeft: '20px',
+                                                    cursor: 'pointer',
+                                                }}
+                                                onClick={() =>
+                                                    handleDelete(item?._id)
+                                                }
+                                            >
+                                                Delete
+                                            </span>
+                                        </div>
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: item?.iframeURL,
+                                            }}
+                                        ></div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className='w100 text-center fz16 mt12'>
+                                    <p className='cancel'>
+                                        Chưa có video nào được công chiếu
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 ) : (
                     <div
                         style={{
@@ -154,7 +252,9 @@ function Livestream() {
                             width: '100%',
                         }}
                     >
-                        Không có livestream nào
+                        {search
+                            ? `Không có LiveStreams nào phù hợp với ${search}`
+                            : 'Không có livestream nào'}
                     </div>
                 )}
             </div>

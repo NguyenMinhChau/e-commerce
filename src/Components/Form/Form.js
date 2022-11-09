@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import Alert from '@mui/material/Alert';
 import { useAppContext } from '../../utils';
@@ -14,6 +14,7 @@ function Form({
     titleForm,
     btnText,
     onSubmit,
+    onResendCode,
     login,
     register,
     bolEmail,
@@ -33,6 +34,14 @@ function Form({
     const { state, dispatch } = useAppContext();
     const { username, email, password, phone, address, otpCode } = state.form;
     const { errorMessage, successMessage } = state;
+    const [timer, setTimer] = useState(180);
+    useEffect(() => {
+        if (timer > 0) {
+            setTimeout(() => setTimer(timer - 1), 1000);
+        } else {
+            setTimer(0);
+        }
+    }, [timer]);
     const handleChange = (e) => {
         if (e.target.value.startsWith() === '') {
             return;
@@ -82,14 +91,32 @@ function Form({
                     />
                 )}
                 {bolOTP && (
-                    <FormInput
-                        label='OTP'
-                        name='otpCode'
-                        value={otpCode}
-                        type='text'
-                        placeholder='Enter your OTP code'
-                        onChange={handleChange}
-                    />
+                    <>
+                        <FormInput
+                            label='OTP'
+                            name='otpCode'
+                            value={otpCode}
+                            type='text'
+                            placeholder='Enter your OTP code'
+                            onChange={handleChange}
+                        />
+                        <div
+                            className={`${cx('resendcode')} fwb ${
+                                timer <= 10 && 'cancel'
+                            }`}
+                            onClick={timer === 0 && onResendCode}
+                        >
+                            {timer > 0
+                                ? `OTP còn hiệu lực trong ${
+                                      '0' + Math.floor(timer / 60)
+                                  }:${
+                                      timer % 60 >= 10
+                                          ? timer % 60
+                                          : '0' + (timer % 60)
+                                  }`
+                                : 'Resend Code'}
+                        </div>
+                    </>
                 )}
                 {bolPwd && (
                     <FormInput
