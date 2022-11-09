@@ -31,6 +31,14 @@ const userModel = new Schema(
             type: String,
             default: 'user',
         },
+        verify: {
+            type: Boolean,
+            default: false,
+        },
+        block: {
+            type: Boolean,
+            default: false,
+        },
         rank: {
             type: String,
             default: 'Standard',

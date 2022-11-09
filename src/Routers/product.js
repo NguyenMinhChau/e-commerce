@@ -28,6 +28,7 @@ router.post(
     ProductController.addProduct
 );
 router.get('/getall', ProductController.getProducts);
+router.get('/findPrice', ProductController.findPrice);
 router.get('/:slug', ProductController.getProductBySlug);
 // router.get('/:id', ProductController.getProductById);
 router.put('/:id', checkToken, uploadMultiple, ProductController.updateProduct);

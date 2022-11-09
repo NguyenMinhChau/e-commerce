@@ -86,6 +86,8 @@ const TkDoanhThu = {
             return res.status(500).json({ meaasge: err.message });
         }
     },
+    // [GET] /api/v1/tkdoanhthu/getmonth
+    getDoanhThuMonth: async (req, res) => {},
 };
 
 module.exports = TkDoanhThu;

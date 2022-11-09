@@ -33,7 +33,7 @@ const LiveController = {
     // [GET] /api/v1/live/getall
     getAllLive: async (req, res) => {
         try {
-            const allLive = await Live.find();
+            const allLive = await Live.find().sort({ createdAt: 'desc' });
             return res.status(200).json({
                 success: true,
                 message: 'Get all live successfully',

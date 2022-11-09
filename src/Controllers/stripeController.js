@@ -12,7 +12,10 @@ const StripController = {
                             name: item?.name,
                             // description: item?.description?.slice(0, 3000),
                             images: [
-                                `${process.env.URL_CLIENT}${item.thumbnail}`,
+                                `https://apimegamart.4eve.site/${item?.thumbnail?.replace(
+                                    'src/uploads',
+                                    ''
+                                )}`,
                             ],
                             metadata: {
                                 id: item.userId,

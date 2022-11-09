@@ -195,6 +195,75 @@ const ProductController = {
             res.status(500).json({ message: 'Server Error' });
         }
     },
+    // [GET] /api/v1/product/findPrice
+    findPrice: async (req, res) => {
+        try {
+            // tìm kiếm theo min -> max của giá và phân trang
+            const {
+                page = 1,
+                limit = 10,
+                category,
+                minPrice,
+                maxPrice,
+            } = req.query;
+            if (!minPrice || !maxPrice) {
+                res.status(400).json({
+                    message: 'Min price and max price is required',
+                });
+            } else if (!page && !category) {
+                const products = await Product.find({
+                    price: {
+                        $gte: minPrice.toString(),
+                        $lte: maxPrice.toString(),
+                    },
+                })
+                    .populate(
+                        'shop',
+                        'name address phone email image website product _id'
+                    )
+                    .sort({ createdAt: -1 });
+                const totalData = await Product.countDocuments();
+                res.status(200).json({
+                    message: 'Get all products success!',
+                    products,
+                    total: totalData,
+                });
+            } else {
+                const objectFind = category
+                    ? {
+                          $text: {
+                              $search: '"' + category.toString() + '"',
+                              $caseSensitive: false,
+                          },
+                          $meta:
+                              category.toString() +
+                              '="' +
+                              category.toString() +
+                              '"',
+                          price: { $gte: minPrice, $lte: maxPrice },
+                      }
+                    : {
+                          price: { $gte: minPrice, $lte: maxPrice },
+                      };
+                const products = await Product.find(objectFind)
+                    .populate(
+                        'shop',
+                        'name address phone email image website product _id'
+                    )
+                    .skip((page - 1) * limit)
+                    .limit(limit * 1)
+                    .sort({ createdAt: -1 });
+                const totalData = await Product.countDocuments();
+                res.status(200).json({
+                    message: 'Get all products success!',
+                    products,
+                    total: minPrice && maxPrice ? products.length : totalData,
+                });
+            }
+        } catch (err) {
+            res.status(500).json({ message: 'Server Error' });
+        }
+    },
 };
 
 module.exports = ProductController;
