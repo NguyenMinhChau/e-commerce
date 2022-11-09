@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import className from 'classnames/bind';
 import styles from './Livestream.module.css';
-import { FormInput, Icons } from '../../Components';
+import { FormInput, Icons, ModalConfirm } from '../../Components';
 import { useAppContext, requestRefreshToken, dates } from '../../utils';
-import { ACusers, ACgetalls, ACsearchs } from '../../app/';
+import { ACusers, ACgetalls } from '../../app/';
 import { SVaddLive, SVdeleteLive, SVgetAllLive } from '../../services/live';
+import routers from '../../Routers/routers';
 
 const cx = className.bind(styles);
 
@@ -18,8 +20,10 @@ function Livestream() {
     const [iframeURL, setIframeURL] = React.useState('');
     const [descVideo, setDescVideo] = React.useState('');
     const [search, setSearch] = useState(null);
+    const [toogleUser, setToogleUser] = useState(false);
     const refIframe = useRef();
     const refDesc = useRef();
+    const history = useNavigate();
     useEffect(() => {
         SVgetAllLive({
             dispatch,
@@ -32,6 +36,14 @@ function Livestream() {
             item.descVideo.toLowerCase().includes(search.toLowerCase())
         );
     }
+    const modalToogleUserTrue = (e) => {
+        e.stopPropagation();
+        setToogleUser(true);
+    };
+    const modalToogleUserFalse = (e) => {
+        e.stopPropagation();
+        setToogleUser(false);
+    };
     const addLiveAPI = (data) => {
         SVaddLive({
             token: data?.token,
@@ -70,14 +82,18 @@ function Livestream() {
     };
     const handleDelete = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                deleteAPI,
-                state,
-                dispatch,
-                ACusers,
-                id
-            );
+            if (!currentUser) {
+                setToogleUser(true);
+            } else {
+                requestRefreshToken(
+                    currentUser,
+                    deleteAPI,
+                    state,
+                    dispatch,
+                    ACusers,
+                    id
+                );
+            }
         } catch (err) {
             console.log(err);
         }
@@ -258,6 +274,20 @@ function Livestream() {
                     </div>
                 )}
             </div>
+            {toogleUser && (
+                <ModalConfirm
+                    titleModal='Thông báo'
+                    open={modalToogleUserTrue}
+                    close={modalToogleUserFalse}
+                    textActionMain='Đăng nhập'
+                    onClick={() => history(routers.login)}
+                >
+                    <p className='fz14'>
+                        Bạn cần đăng nhập dưới quyền quản trị để thực hiện chức
+                        năng này
+                    </p>
+                </ModalConfirm>
+            )}
         </div>
     );
 }

@@ -151,6 +151,15 @@ export const tkdoanhthuGet = async (path, options = {}, others = {}) => {
     const res = await tkdoanhthuInstance.get(path, options, others);
     return res.data;
 };
+// CHECKOUT HOME
+const checkoutHomeInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/checkoutHome/`,
+    withCredentials: true,
+});
+export const checkoutHomePost = async (path, options = {}, others = {}) => {
+    const res = await checkoutHomeInstance.post(path, options, others);
+    return res.data;
+};
 // LIVE
 const liveInstance = axios.create({
     baseURL: `${process.env.REACT_APP_URL_SERVER}/live/`,

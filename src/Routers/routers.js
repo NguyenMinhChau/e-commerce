@@ -6,6 +6,7 @@ const routers = {
     forgotPwd: '/forgotPwd',
     getOtp: '/getOTP',
     verifyAccount: '/user/activation_account',
+    SendMailReVerify: '/user/send_mail_re_verify',
     cart: '/cart',
     checkout: '/checkout',
     products: '/products',

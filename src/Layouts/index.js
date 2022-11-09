@@ -12,4 +12,5 @@ export { default as CartDetail } from './CartDetail/CartDetail';
 export { default as Checkout } from './Checkout/Checkout';
 export { default as Livestream } from './Livestream/Livestream';
 export { default as VerifyAccount } from './VerifyAccount/VerifyAccount';
+export { default as SendMailReVerify } from './SendMailReVerify/SendMailReVerify';
 export { default as Footer } from './Footer/Footer';

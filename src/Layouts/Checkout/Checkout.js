@@ -20,6 +20,7 @@ import {
     CheckoutZalo,
     ModalConfirm,
     FormInput,
+    CheckoutHome,
 } from '../../Components';
 import { ACforms, ACusers } from '../../app/';
 import { updateUser } from '../../services/user';
@@ -219,6 +220,9 @@ function Checkout() {
                 </TableData>
                 {dataCartList.length > 0 && (
                     <div className={`${cx('paypal-button-container')}`}>
+                        <div className={`${cx('paypal-button')}`}>
+                            <CheckoutHome dataCartList={dataCartList} />
+                        </div>
                         <div className={`${cx('paypal-button')}`}>
                             <CheckoutPaypal dataCartList={dataCartList} />
                         </div>

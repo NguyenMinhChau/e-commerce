@@ -10,6 +10,7 @@ import {
     Checkout,
     Livestream,
     VerifyAccount,
+    SendMailReVerify,
 } from '../Layouts';
 import {
     ThongkeDoanhthu,
@@ -25,6 +26,11 @@ const publicRouter = [
     { path: routers.register, component: Register, layout: null },
     { path: routers.forgotPwd, component: ForgotPwd, layout: null },
     { path: `${routers.getOtp}/:token`, component: GetOTP, layout: null },
+    {
+        path: `${routers.SendMailReVerify}`,
+        component: SendMailReVerify,
+        layout: null,
+    },
     {
         path: `${routers.verifyAccount}/:tokenActivation`,
         component: VerifyAccount,

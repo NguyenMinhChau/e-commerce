@@ -20,5 +20,6 @@ export { default as CheckoutStripe } from './CheckoutStripe/CheckoutStripe';
 export { default as CheckoutVnpay } from './CheckoutVnpay/CheckoutVnpay';
 export { default as CheckoutZalo } from './CheckoutZalo/CheckoutZalo';
 export { default as CheckoutBaoKim } from './CheckoutBaoKim/CheckoutBaoKim';
+export { default as CheckoutHome } from './CheckoutHome/CheckoutHome';
 export { default as PageNotFound } from './PageNotFound/PageNotFound';
 export * as Icons from './Icons';

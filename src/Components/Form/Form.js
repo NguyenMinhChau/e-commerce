@@ -187,6 +187,19 @@ function Form({
                                 </Link>
                             </span>
                         )}
+                        {login && (
+                            <span className={`${cx('form-desc')} mt12`}>
+                                <span className={`${cx('form-text')}`}>
+                                    Xác thực tài khoản
+                                </span>
+                                <Link
+                                    to={routers.SendMailReVerify}
+                                    className={`${cx('form-link')}`}
+                                >
+                                    tại đây
+                                </Link>
+                            </span>
+                        )}
                     </>
                 )}
                 {bolForgotPwd && (
