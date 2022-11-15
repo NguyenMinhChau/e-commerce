@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
 const router = require('./Routers');
-const db = require('./Utils/connectDB');
+const db = require('./utils/connectDB');
 const PORT = process.env.PORT || 8000;
 const app = express();
 
@@ -27,7 +27,7 @@ app.use(
     })
 );
 app.use(express.static(path.join(__dirname, '/uploads/')));
-app.use(morgan('common'));
+//app.use(morgan('common'));
 router(app);
 
 app.listen(PORT, () => {

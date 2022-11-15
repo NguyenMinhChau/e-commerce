@@ -105,7 +105,7 @@ const CheckoutHomeController = {
             await sendMailFunc(
                 user?.email,
                 mailContent,
-                `MEGAMART - Thông báo thanh toán đơn hàng thành công`
+                `MEGAMART - Thông báo mua  đơn hàng thành công`
             );
         } catch (err) {
             return res.status(500).json({ message: err.message });

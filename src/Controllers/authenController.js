@@ -133,7 +133,7 @@ const authenController = {
                             <p><i>Chúng tôi, bộ phận tiếp nhận thông tin khách hàng <span><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'><u><strong>MEGAMART</strong></u></a></span>. Chúc mừng bạn đã đăng kí tài khoản thành công.</i></p>
                             <p>Mã OTP xác thực tài khoản: <u><i><b>${otp}</b></i></u></p>
                             <p><b>Mã OTP có hiệu lực trong 3 phút (tính từ khi email này được gửi đi).</b></p>
-                            <p>Để thực hiện xác thực tài khoản. Vui lòng truy cập tại <a href='http://localhost:3001/user/activation_account/${activation_token}'><strong>here</strong></a></p>
+                            <p>Để thực hiện xác thực tài khoản. Vui lòng truy cập tại <a href='https://nguyenminhchau.site/user/activation_account/${activation_token}'><strong>here</strong></a></p>
                             <p><i>Đây là email tự động, vui lòng không trả lời email này.</i></p>
 
                             <p><strong><i>Trân trọng.</i></strong></p>
@@ -226,7 +226,7 @@ const authenController = {
                             <p><i>Chúng tôi, bộ phận tiếp nhận thông tin khách hàng <span><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'><u><strong>MEGAMART</strong></u></a></span>. Chúng tôi đã gửi cho bạn mã xác thực tài khoản.</i></p>
                             <p>Mã OTP xác thực tài khoản: <u><i><b>${otp}</b></i></u></p>
                             <p><b>Mã OTP có hiệu lực trong 3 phút (tính từ khi email này được gửi đi).</b></p>
-                            <p>Để thực hiện xác thực tài khoản. Vui lòng truy cập tại <a href='http://localhost:3001/user/activation_account/${activation_token}'><strong>here</strong></a></p>
+                            <p>Để thực hiện xác thực tài khoản. Vui lòng truy cập tại <a href='https://nguyenminhchau.site/user/activation_account/${activation_token}'><strong>here</strong></a></p>
                             <p><i>Đây là email tự động, vui lòng không trả lời email này.</i></p>
 
                             <p><strong><i>Trân trọng.</i></strong></p>
@@ -318,7 +318,7 @@ const authenController = {
                                 <p><i>Chúng tôi, bộ phận tiếp nhận thông tin khách hàng <span><a style='color: #ee4d2d' href='https://nguyenminhchau.site/'><u><strong>MEGAMART</strong></u></a></span>. Chúng tôi gửi lại bạn mã xác thực cho tài khoản.</i></p>
                                 <p>Mã OTP xác thực tài khoản: <u><i><b>${otp}</b></i></u></p>
                                 <p><b>Mã OTP có hiệu lực trong 3 phút (tính từ khi email này được gửi đi).</b></p>
-                                <p>Để thực hiện xác thực tài khoản. Vui lòng truy cập tại <a href='http://localhost:3001/user/activation_account/${activation_token}'><strong>here</strong></a></p>
+                                <p>Để thực hiện xác thực tài khoản. Vui lòng truy cập tại <a href='https://nguyenminhchau.site/user/activation_account/${activation_token}'><strong>here</strong></a></p>
                                 <p><i>Đây là email tự động, vui lòng không trả lời email này.</i></p>
     
                                 <p><strong><i>Trân trọng.</i></strong></p>
