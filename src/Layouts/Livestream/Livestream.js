@@ -57,18 +57,22 @@ function Livestream() {
     };
     const handleSubmit = async () => {
         try {
-            if (!iframeURL) {
-                refIframe.current.focus();
-            } else if (!descVideo) {
-                refDesc.current.focus();
+            if (!currentUser || currentUser?.role !== 'admin') {
+                setToogleUser(true);
             } else {
-                requestRefreshToken(
-                    currentUser,
-                    addLiveAPI,
-                    state,
-                    dispatch,
-                    ACusers
-                );
+                if (!iframeURL) {
+                    refIframe.current.focus();
+                } else if (!descVideo) {
+                    refDesc.current.focus();
+                } else {
+                    requestRefreshToken(
+                        currentUser,
+                        addLiveAPI,
+                        state,
+                        dispatch,
+                        ACusers
+                    );
+                }
             }
         } catch (err) {
             console.log(err);
@@ -82,7 +86,7 @@ function Livestream() {
     };
     const handleDelete = async (id) => {
         try {
-            if (!currentUser) {
+            if (!currentUser || currentUser?.role !== 'admin') {
                 setToogleUser(true);
             } else {
                 requestRefreshToken(
@@ -111,7 +115,7 @@ function Livestream() {
     const otherVideos = data.slice(0, data.length - 1);
     return (
         <div className={`${cx('livestream-container')}`}>
-            {currentUser && (
+            {currentUser && currentUser?.role === 'admin' && (
                 <div className={`${cx('content-middle-middle')}`}>
                     <input
                         type='text'

@@ -45,8 +45,8 @@ function SendMailReVerify() {
     };
     return (
         <Form
-            titleForm='Gửi email xác thực'
-            btnText='Gửi'
+            titleForm='Send email verify account'
+            btnText='Send email'
             bolEmail
             isLoadingOTP={isLoading}
             bolForgotPwd

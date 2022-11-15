@@ -16,7 +16,7 @@ function ShareFB({ slug, name, desc }) {
             <FacebookShareButton
                 title={name}
                 summary='blabla'
-                url={`https://megamartnmc.netlify.app/products/detail/${slug}`}
+                url={`https://nguyenminhchau.site/products/detail/${slug}`}
             >
                 <FacebookIcon style={{ height: '25px', width: '25px' }} />
             </FacebookShareButton>

@@ -53,7 +53,7 @@ function Home() {
         <div className={`${cx('container')}`}>
             {currentUser?.role === 'admin' && <RoleAdmin />}
             <div className={`${cx('products-list')}`}>
-                {data.map((item, index) => {
+                {data.length > 0 ? data.map((item, index) => {
                     return (
                         <div className={`${cx('products-item')}`} key={index}>
                             <div className={`${cx('item-container')}`}>
@@ -204,9 +204,11 @@ function Home() {
                             </div>
                         </div>
                     );
-                })}
+                }): <div style={{width: '100%', textAlign: 'center'}}>
+			<div style={{fontSize: '16px', color: 'red', fontStyle: 'italic', fontWeight: 'bold'}}>Không có dữ liệu</div>
+		</div>}
             </div>
-            <div className={`${cx('item-pagination-container')}`}>
+	    {data.length > 0 && <div className={`${cx('item-pagination-container')}`}>
                 <Pagination
                     count={Math.ceil(
                         (dataProducts.total || dataProducts.totalData) / limit
@@ -218,7 +220,7 @@ function Home() {
                     showFirstButton
                     showLastButton
                 />
-            </div>
+            </div>}
         </div>
     );
 }

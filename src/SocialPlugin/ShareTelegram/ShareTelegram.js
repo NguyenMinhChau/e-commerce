@@ -11,7 +11,7 @@ function ShareTelegram({ slug, name, desc }) {
             <TelegramShareButton
                 title={name}
                 summary='blabla'
-                url={`https://megamartnmc.netlify.app/products/detail/${slug}`}
+                url={`https://nguyenminhchau.site/products/detail/${slug}`}
             >
                 <TelegramIcon style={{ height: '25px', width: '25px' }} />
             </TelegramShareButton>
